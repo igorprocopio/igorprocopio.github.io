@@ -9,10 +9,10 @@ main:
   - title: "Teaching"
     url: /teaching/    
     
-  - title: "Indicadores"
-    url: /indicadores/
+  #- title: "Indicadores"
+   # url: /indicadores/
     
-  - title: "Portfolio"
+  - title: "Indicadores"
     url: /portfolio/
         
   - title: "Blog Posts"
