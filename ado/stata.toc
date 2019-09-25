@@ -1,3 +1,3 @@
 v 1
 d igor.procopio repository
-p genmsp
+p spatial
