@@ -3,6 +3,8 @@
 
 cd "D:\Econometria Espacial\Georreferenciamento"
 
+copy "https://raw.githubusercontent.com/igorprocopio/igorprocopio.github.io/master/Datasets/Spatial/Georreferenciamento.zip" .
+unzipfile Georreferenciamento.zip, replace
 
 ***** Plotar pontos no mapa
 
