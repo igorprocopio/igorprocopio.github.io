@@ -1894,6 +1894,22 @@ df</code></pre>
   </script>
 </div>
 </div>
+<div id="fatores" class="section level3">
+<h3>2.4 - Fatores</h3>
+<pre class="r"><code># variable gender with 20 &quot;male&quot; entries and
+# 30 &quot;female&quot; entries
+gender &lt;- c(rep(&quot;male&quot;,20), rep(&quot;female&quot;, 30))
+summary(gender)</code></pre>
+<pre><code>##    Length     Class      Mode 
+##        50 character character</code></pre>
+<pre class="r"><code>gender &lt;- factor(gender)
+# stores gender as 20 1s and 30 2s and associates
+# 1=female, 2=male internally (alphabetically)
+# R now treats gender as a nominal variable
+summary(gender)</code></pre>
+<pre><code>## female   male 
+##     30     20</code></pre>
+</div>
 <div id="probabilidade" class="section level3">
 <h3>3 - Probabilidade</h3>
 <p>Variáveis Aleatórias Discreta</p>
@@ -1903,6 +1919,8 @@ df</code></pre>
 <h2>4 - Álgebra dos Mínimos Quadrados</h2>
 <p>Limpar o Workspace</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
+<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span></p>
+<p>Para evitar o uso de looping no momento de calcular os somatórios, vamos utilizar uma amostra com apenas dois indivíduos.</p>
 <p>Criar um amostra com apenas dois indivíduos e duas variáveis.</p>
 <pre class="r"><code>x1 = c(2,3) # vetor coluna - observação do indivíduo 1
 x1</code></pre>
@@ -1929,6 +1947,8 @@ x2 </code></pre>
 <pre class="r"><code>e1 = 5
 e2 = 7
 beta = c(3,9)</code></pre>
+<p>Dado os valores de <span class="math inline">\(X\)</span>, <span class="math inline">\(\beta\)</span> e dos erros, os valores de <span class="math inline">\(y_i\)</span> são obtidos diretamente.</p>
+<p>Para ajudar no entendimento da notação e álgebra matricial, vamos calcular <span class="math inline">\(y_i\)</span> de duas formas.</p>
 <p><span class="math inline">\(y_i = \beta_1 x1_{i} + \beta_2 x2_{i} + e_i\)</span></p>
 <pre class="r"><code>y1 = beta[1]* x1[1] + beta[2] * x1[2] +e1
 y1</code></pre>
@@ -1953,6 +1973,7 @@ beta_hat  </code></pre>
 <pre><code>##      [,1]
 ## [1,]  5.8
 ## [2,]  8.8</code></pre>
+<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela notação matricial <span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
 <p>Criar a matriz <span class="math inline">\(X\)</span>. Lembre-se que <span class="math display">\[X = \begin{bmatrix}x&#39;_{1}\\
 x&#39;_{2}
 \end{bmatrix}\]</span></p>
@@ -1993,7 +2014,7 @@ XX</code></pre>
 <pre><code>##      [,1]
 ## [1,]  313
 ## [2,]  667</code></pre>
-<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela notação matricial <span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
+<p><span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
 <pre class="r"><code>beta_hat = solve(t(X)%*%X) %*% (t(X)%*%y)
 beta_hat  </code></pre>
 <pre><code>##      [,1]
