@@ -1919,9 +1919,15 @@ summary(gender)</code></pre>
 <h2>4 - Álgebra dos Mínimos Quadrados</h2>
 <p>Limpar o Workspace</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
+<p>O objetivo é estimar <span class="math inline">\(\beta = (\mathbb{E} (xx&#39;))^{-1} \mathbb{E}(xy)\)</span></p>
+<p>Vamos estimar <span class="math inline">\(\beta\)</span> pelo método dos momentos, ou seja, utilzando o análogo amostral aos momentos do estimador populacional. Existem duas formas para obter <span class="math inline">\(\hat\beta\)</span>, fazendo uso de somatórios ou da álgebra matricial. A álgebra matricial, além de uma notação mais concisa, é computacionalmente mais eficiente. No entanto, para ajudar a fixar conceitos, vamos estimar das duas formas.</p>
 <p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span></p>
 <p>Para evitar o uso de looping no momento de calcular os somatórios, vamos utilizar uma amostra com apenas dois indivíduos.</p>
-<p>Criar um amostra com apenas dois indivíduos e duas variáveis.</p>
+<p>Criar um amostra com apenas dois indivíduos e duas variáveis. Para facilitar a exposição da álgebra, vamos estimar um modelo sem intercepto.<span class="math display">\[y_i = \beta_1 x_{1i} + \beta_2 x_{2i} + e_i\]</span></p>
+<p>ou <span class="math display">\[y_i = x_i&#39; \beta + e_i\]</span></p>
+<p>sendo que</p>
+<p><span class="math inline">\(\beta = (\beta_{1}, \beta_{2})\)</span></p>
+<p>e <span class="math inline">\(i = 1,2\)</span>.</p>
 <pre class="r"><code>x1 = c(2,3) # vetor coluna - observação do indivíduo 1
 x1</code></pre>
 <pre><code>## [1] 2 3</code></pre>
@@ -1967,8 +1973,16 @@ y2</code></pre>
 ## [1,]   79</code></pre>
 <p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span>, sendo que <span class="math inline">\(Q_{xx} = (\sum_{i=1}^n x_i x&#39;_i)\)</span> e <span class="math inline">\(Q_{xy} = (\sum_{i=1}^n x_i y_i)\)</span></p>
 <pre class="r"><code>Qxx = x1 %*% t(x1) + x2 %*% t(x2)  # Somatório xixi&#39;
-Qxy = x1 %*% y1 + x2 %*% y2  ## Somatório xiyi
-beta_hat = solve(Qxx) %*% Qxy
+Qxx</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   13   27
+## [2,]   27   58</code></pre>
+<pre class="r"><code>Qxy = x1 %*% y1 + x2 %*% y2  ## Somatório xiyi
+Qxy</code></pre>
+<pre><code>##      [,1]
+## [1,]  313
+## [2,]  667</code></pre>
+<pre class="r"><code>beta_hat = solve(Qxx) %*% Qxy
 beta_hat  </code></pre>
 <pre><code>##      [,1]
 ## [1,]  5.8
@@ -1990,7 +2004,7 @@ y</code></pre>
 <pre><code>##      [,1]
 ## [1,]   38
 ## [2,]   79</code></pre>
-<p>Mostrar que <span class="math inline">\(\sum_{i=1}^n x_i x&#39;_i\)</span> = <span class="math inline">\(X&#39;X\)</span></p>
+<p>Antes de estimar <span class="math inline">\(\beta\)</span>, vamos mostrar duas equivalências. Mostrar que <span class="math inline">\(\sum_{i=1}^n x_i x&#39;_i\)</span> = <span class="math inline">\(X&#39;X\)</span></p>
 <p><span class="math inline">\(\sum_{i=1}^n x_i x&#39;_i\)</span></p>
 <pre class="r"><code>soma = x1 %*% t(x1) + x2 %*% t(x2)
 soma</code></pre>
@@ -2020,10 +2034,10 @@ beta_hat  </code></pre>
 <pre><code>##      [,1]
 ## [1,]  5.8
 ## [2,]  8.8</code></pre>
-<p>Agora vamos estimar criar uma amostra com mais observações a partir de um modelo populacional pré determinado e calcular além dos coeficientes <span class="math inline">\(\beta\)</span>, outras medidas importantes do estimador de Mínimos Quadrados Ordinários. A partir desse momento só usaremos a notação matricial. Como estamos em um laboratório de estudo, poderemos</p>
+<p>Agora vamos estimar criar uma amostra com mais observações a partir de um modelo populacional pré determinado e calcular além dos coeficientes <span class="math inline">\(\beta\)</span>, outras medidas importantes do estimador de Mínimos Quadrados Ordinários. A partir desse momento só usaremos a notação matricial. Como estamos em um laboratório de estudo, poderemos controlar a distribuição das variáveis do modelo bem como dos parâmetros. Neste caso poderemos conferir se os estimadores produzem estimativas próximas aos verdadeiros parâmetros populacionais.</p>
 <pre class="r"><code>rm(list = ls())</code></pre>
 <p>Obtendo 1000 amostras aleatórias <span class="math inline">\({x_i}\)</span>, sendo que <span class="math inline">\(x1\)</span> possui uma distribuição normal com média 12 e desvio padrão 3 e <span class="math inline">\(x2\)</span> possui uma distribuição uniforme com parâmetros mínimo igual a 1 e máximo igual a 20. O termo de erro provém de uma distribuição normal padrão (média 0 e desvio padrão 1).</p>
-<pre class="r"><code>set.seed(16)
+<pre class="r"><code>set.seed(16)  ## definir semente para que os resultados sejam reprodutíveis
 n = 1000
 x1 = rnorm(n, mean = 12, sd = 3) # Variável X1
 x2 = runif(n, min = 1, max = 20) # Variável X2
@@ -2034,26 +2048,60 @@ e = rnorm(n)</code></pre>
 <pre><code>## [1] 12.12606</code></pre>
 <pre class="r"><code>sd(x1)</code></pre>
 <pre><code>## [1] 2.932318</code></pre>
-<pre class="r"><code>mean(x2)</code></pre>
-<pre><code>## [1] 10.65231</code></pre>
-<pre class="r"><code>sd(x2)</code></pre>
-<pre><code>## [1] 5.494729</code></pre>
+<pre class="r"><code>min(x2)</code></pre>
+<pre><code>## [1] 1.013482</code></pre>
+<pre class="r"><code>max(x2)</code></pre>
+<pre><code>## [1] 19.97247</code></pre>
 <p>Vamos criar um vetor de parâmetros <span class="math inline">\(\beta\)</span> pré determinados. Lembre-se que na vida real nunca conheceremos os verdadeiros parâmetros.</p>
 <pre class="r"><code>beta = matrix(c(3,9),nrow = 2)</code></pre>
+<p>Calcular <span class="math inline">\(y\)</span> a partir dos valores pré estabelecidos.</p>
 <pre class="r"><code>y = X%*%beta + e</code></pre>
-<pre class="r"><code>X = cbind(1,x1,x2)
-B = solve(t(X)%*%X)%*%(t(X)%*%y)
+<pre class="r"><code>X = cbind(1,x1,x2)</code></pre>
+<p>Estimar <span class="math inline">\(\hat\beta = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
 B</code></pre>
 <pre><code>##            [,1]
 ##    -0.004183326
 ## x1  2.997791134
 ## x2  9.003035270</code></pre>
+<p>Resíduos de Mínimos Quadrados <span class="math inline">\(\hat e = y - X\hat\beta\)</span></p>
 <pre class="r"><code>y_hat = X%*%B
 e_hat = y - y_hat</code></pre>
-<pre class="r"><code>sigma_hat = (1/(n-1)) * t(e_hat)%*%e_hat
+<p>Verificando que <span class="math inline">\(X&#39;\hat e = 0\)</span></p>
+<pre class="r"><code>t(X)%*%e_hat</code></pre>
+<pre><code>##             [,1]
+##    -8.802914e-11
+## x1  2.892264e-10
+## x2  1.756781e-10</code></pre>
+<p>Matriz de Projeção: <span class="math inline">\(P = X(X&#39;X)^{-1}X&#39;\)</span></p>
+<pre class="r"><code>P = X%*%(solve(t(X)%*%X))%*%t(X)
+dim(P)</code></pre>
+<pre><code>## [1] 1000 1000</code></pre>
+<p>Verificando que <span class="math inline">\(PX = X(X&#39;X)^{-1}X&#39;X = X\)</span></p>
+<pre class="r"><code>PX = P%*%X
+all(X == PX)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(X, digits = 2) == round(PX, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Propriedade Idempotente: <span class="math inline">\(PP = P\)</span></p>
+<pre class="r"><code>all(P%*%P == P)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(P%*%P, digits = 2) == round(P, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>y_hat1 = P%*%y</code></pre>
+<pre class="r"><code>all(y_hat == y_hat1)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(y_hat, digits = 2) == round(y_hat1, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Projeção Ortogonal</p>
+<p>Estimação da Variância do erro: <span class="math inline">\(\sigma^2 = \mathbb{E}(e_i^2)\)</span>. O estimador natural para <span class="math inline">\(\sigma^2\)</span> é o estimador de momentos <span class="math inline">\(\tilde\sigma = \frac{1}{n} \sum_{i=1}^n e_i^2\)</span>. No entanto, este estimador não é factível, pois não se conhece <span class="math inline">\(e_i\)</span>. A solução é adotar um estimador em dois estágios, substituindo <span class="math inline">\(e_i\)</span> por <span class="math inline">\(\hat e_i\)</span>. Portanto, o estimador de <span class="math inline">\(\sigma^2\)</span> é: <span class="math inline">\(\hat\sigma ^2 = \frac{1}{n} \sum_{i=1}^n \hat e_i^2\)</span></p>
+<p>Em notação matricial <span class="math inline">\(\hat\sigma^2 = n^{-1}\hat e&#39; \hat e\)</span></p>
+<pre class="r"><code>k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
 sigma_hat</code></pre>
 <pre><code>##          [,1]
-## [1,] 1.012705</code></pre>
+## [1,] 1.014736</code></pre>
+<p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i=1}^n \hat e_i^2}{\sum_{i=1}^n(y_i - \bar{y})}\)</span></p>
 <pre class="r"><code>y_barra = mean(y)
 desvio = y - y_barra
 
@@ -2061,6 +2109,33 @@ R2 = 1 - (( t(e_hat)%*%e_hat)/(t(desvio)%*%desvio))
 R2</code></pre>
 <pre><code>##           [,1]
 ## [1,] 0.9995928</code></pre>
+<p>Matriz de Variância Covariância Homocedástica</p>
+<p><span class="math display">\[V_{\hat\beta}=\hat\sigma ^2 (X&#39;X)^{-1}\]</span></p>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+V </code></pre>
+<pre><code>##                             x1            x2
+##     0.0229722105 -1.465321e-03 -3.932383e-04
+## x1 -0.0014653210  1.183668e-04  2.816107e-06
+## x2 -0.0003932383  2.816107e-06  3.371004e-05</code></pre>
+<pre class="r"><code>ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                      x1          x2 
+## 0.151565862 0.010879649 0.005806035</code></pre>
+<p>Matriz de Variância Covariância Homocedástica</p>
+<pre class="r"><code>e = c(e_hat)
+e = e*e
+D = diag(e)
+V_h = solve(t(X)%*%X)%*%(t(X)%*%D%*%X)%*%solve(t(X)%*%X)
+V_h = (n/(n-k)) * V_h
+V_h</code></pre>
+<pre><code>##                             x1            x2
+##     0.0209004837 -1.352671e-03 -3.364705e-04
+## x1 -0.0013526709  1.123094e-04 -5.335789e-07
+## x2 -0.0003364705 -5.335789e-07  3.270841e-05</code></pre>
+<pre class="r"><code>ep_h = sqrt(diag(V_h))
+ep_h</code></pre>
+<pre><code>##                      x1          x2 
+## 0.144569996 0.010597615 0.005719127</code></pre>
 <pre class="r"><code>df = data.frame(y,x1,x2)
 ols = lm(y~x1 + x2)
 summary(ols)</code></pre>
@@ -2083,6 +2158,25 @@ summary(ols)</code></pre>
 ## Residual standard error: 1.007 on 997 degrees of freedom
 ## Multiple R-squared:  0.9996, Adjusted R-squared:  0.9996 
 ## F-statistic: 1.224e+06 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#install.packages(&quot;AER&quot;)
+library(AER)</code></pre>
+<pre><code>## Loading required package: car</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## Loading required package: lmtest</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: sandwich</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre class="r"><code>vcov &lt;- vcovHC(ols, type = &quot;HC1&quot;)
+vcov</code></pre>
+<pre><code>##               (Intercept)            x1            x2
+## (Intercept)  0.0209004837 -1.352671e-03 -3.364705e-04
+## x1          -0.0013526709  1.123094e-04 -5.335789e-07
+## x2          -0.0003364705 -5.335789e-07  3.270841e-05</code></pre>
 <pre class="r"><code>#install.packages(&quot;psych&quot;)
 #library(psych)
 #tr(XX)</code></pre>
