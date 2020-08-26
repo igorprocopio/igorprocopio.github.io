@@ -193,6 +193,7 @@ summary {
 <li><a href="#álgebra-dos-mínimos-quadrados">4 - Álgebra dos Mínimos Quadrados</a></li>
 <li><a href="#um-pouco-sobre-funções-de-distribuições">Um pouco sobre funções de distribuições</a></li>
 <li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
+<li><a href="#simulações">Simulações</a></li>
 </ul>
 </div>
 
@@ -962,6 +963,369 @@ F</code></pre>
 <pre><code>## [1] 7249721</code></pre>
 <pre class="r"><code>pf(F,2,497,lower.tail = FALSE)</code></pre>
 <pre><code>## [1] 0</code></pre>
+</div>
+</div>
+<div id="simulações" class="section level2">
+<h2>Simulações</h2>
+<p>Para executar esta lista de exercícios é importante enteder como funciona a estrutura para a realização de looping dentro do R</p>
+<p>Uma das formas de utilizar looping é com o uso do <code>for</code></p>
+<pre class="r"><code>for (i in 1:5){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
+<pre class="r"><code>for (i in c(1,5,3,8)){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 5
+## [1] 3
+## [1] 8</code></pre>
+<pre class="r"><code>v = c(1,4,5,10)
+for (n in 1:length(v)){
+  print(v[n])
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 4
+## [1] 5
+## [1] 10</code></pre>
+<p>Criar</p>
+<pre class="r"><code>A = matrix(rep(NA, 25), nrow = 5 )
+for (j in 1:dim(A)[2]){
+  A[,j] = rnorm(5)
+}
+A</code></pre>
+<pre><code>##             [,1]        [,2]       [,3]         [,4]       [,5]
+## [1,]  0.06526642 -0.50313004 -0.4265299 -0.005667893  0.9938664
+## [2,]  1.03532642  0.60745556 -0.9264042  0.633448919  0.6968459
+## [3,]  2.26021579 -0.01004142 -0.9285579 -0.509180774  1.6999707
+## [4,]  1.31469628  0.27533030 -0.7189006 -0.857008619 -0.9777419
+## [5,] -0.87002335 -1.31229878 -0.4147906  1.616167577  2.0488176</code></pre>
+<pre class="r"><code>A = matrix(rep(NA, 25), nrow = 5 )
+for (i in 1:dim(A)[1]){
+  for (j in 1:dim(A)[2]){
+    A[i,j] = rnorm(1)
+  }
+}
+A</code></pre>
+<pre><code>##            [,1]        [,2]      [,3]        [,4]       [,5]
+## [1,]  1.2264493  0.30702301 0.6243330  0.06134144 -0.1108258
+## [2,] -1.5762336  0.74258985 2.1423234  2.08977296  0.1697943
+## [3,] -0.1078778  0.18199449 1.1459282  1.47729882  0.4079442
+## [4,]  1.1142787 -0.02707584 0.4977222  1.18564001  3.6395736
+## [5,] -0.0540026 -0.66814732 0.4458080 -0.40582525  0.6352831</code></pre>
+<pre class="r"><code>v = c()
+for (i in 1:10){
+  v[i] = mean(rnorm(5))
+}
+v</code></pre>
+<pre><code>##  [1]  0.21192739 -0.34655883  0.24775529  0.08784537 -0.13465661 -0.59670709
+##  [7] -0.52832124 -0.02325222 -0.13099934 -0.36546438</code></pre>
+<p>#<code>{r} v = c() for (n in c(5,10,50,100,1000)){   for (i in 1:5){     v[i] = mean(rnorm(n))   } } v #</code></p>
+<p>Comando <code>replicate</code></p>
+<pre class="r"><code>set.seed(1)
+x = replicate(n = 10, expr = rnorm(1))
+x1 =c()
+
+set.seed(1)
+for (i in 1:10){
+  x1[i] = rnorm(1)
+}
+x == x1</code></pre>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<div id="gráficos" class="section level4">
+<h4>Gráficos</h4>
+<p>Histograma</p>
+<pre class="r"><code>x = c(rnorm(500))
+
+hist(x, 
+      col = &quot;steelblue&quot;, 
+       freq = FALSE, 
+       breaks = 40,
+       xlim = c(-3, 3), 
+       ylim = c(0, 0.5), 
+       xlab = paste(&quot;Histograma&quot;), 
+       main = &quot;&quot;)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-108-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dnorm(x), xlim = c(-1,1))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-109-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dunif(x,0,10))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-110-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dt(x,10),xlim = c(-1,1))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-111-1.png" /><!-- --></p>
+<pre class="r"><code>curve(pnorm(x),
+xlim = c(-3.5, 3.5),
+ylab = &quot;Density&quot;,
+main = &quot;Standard Normal Cumulative Distribution Function&quot;)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-112-1.png" /><!-- --></p>
+<pre class="r"><code>x = rnorm(500)
+plot(density(x))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-113-1.png" /><!-- --></p>
+<pre class="r"><code>x = c(rnorm(500))
+hist(x, 
+      col = &quot;steelblue&quot;, 
+       freq = FALSE, 
+       breaks = 40,
+       xlim = c(-3, 3), 
+       ylim = c(0, 0.5), 
+       xlab = paste(&quot;Histograma&quot;), 
+       main = &quot;&quot;)
+curve(dnorm(x), add = TRUE)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-114-1.png" /><!-- --></p>
+<pre class="r"><code>x = rnorm(500)
+plot(density(x), ylim = c(0,0.5), xlim = c(-4,4))
+curve(dnorm(x), col = &quot;red&quot;, add = TRUE)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-115-1.png" /><!-- --></p>
+<p>Lei dos Grandes Números</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+set.seed(1)
+X_bar &lt;- vector()
+#loop em n
+for (n in c(5, 10, 50, 100)) {
+  #loop para o monte carlo
+  for (iaux in 1:1000) {
+    X_bar[iaux] = mean(runif(n, 0, 5))
+  }
+  
+  #faço o histograma
+  hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-116-1.png" /><!-- --></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+set.seed(1)
+#loop em n
+for (n in c(5, 10, 50, 100)) {
+  #loop para o monte carlo
+  X_bar = replicate(1000, mean(runif(n,0,5)))
+  #faço o histograma
+  hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-117-1.png" /><!-- --></p>
+<p>Teorema Central do Limite</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)
+set.seed(123)
+
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- rbinom(n, 1, 0.5)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x) - 0.5)/0.5
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-118-1.png" /><!-- --></p>
+</div>
+<div id="viés-x-consistência" class="section level4">
+<h4>Viés x consistência</h4>
+<pre class="r"><code>set.seed(16)
+
+
+par(mfrow = c(2, 2))
+
+pop = 1000
+for (i in c(20,100,1000,10000)){
+  
+  fo = replicate(n = pop, expr = rnorm(i)[1])
+
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       ylim = c(0, 2),
+       xlab = &#39;estimates&#39;,
+       main = &#39;Estimador Não viesado e Não Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-119-1.png" /><!-- --></p>
+<pre class="r"><code>set.seed(16)
+par(mfrow = c(2, 2))
+
+pop = 100
+for (i in c(20,100,1000,10000)){
+
+  fo = replicate(n = pop, expr = mean(rnorm(i)) - 0.99^i )
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       xlab = &#39;estimates&#39;,
+       xlim = c(-1,1),
+       main = &#39;Estimador Viesado e Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-120-1.png" /><!-- --></p>
+<pre class="r"><code>set.seed(16)
+par(mfrow = c(2, 2))
+
+pop = 1000
+for (i in c(20,100,1000,10000)){
+  
+  fo = replicate(n = pop, expr = mean(rnorm(i)))
+  
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       xlab = &#39;estimates&#39;,
+       xlim = c(-1,1),
+       main = &#39;Estimador Não viesado e Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-121-1.png" /><!-- --></p>
+<p>Verificação de consistência no modelo linear estimado por OLS</p>
+<p>Modelo não consistente</p>
+<pre class="r"><code>set.seed(1)
+n = 1000
+x1 = rnorm(n, 200, 20)
+x2 = runif(n, 0,20)
+e = rnorm(n) + 0.7* x1
+X = cbind(1,x1,x2)
+beta = c(3,7,2)
+y = X%*%beta + e</code></pre>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##        [,1]
+##    2.771486
+## x1 7.700914
+## x2 2.003643</code></pre>
+<pre class="r"><code>e_hat = y - X%*%B
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.111484</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                      x1          x2 
+## 0.326740307 0.001612503 0.005730891</code></pre>
+<pre class="r"><code>t = (B-beta) / ep
+t</code></pre>
+<pre><code>##           [,1]
+##     -0.6993735
+## x1 434.6745806
+## x2   0.6356392</code></pre>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.962346</code></pre>
+<pre class="r"><code>lower = B[1,1] - c * ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##          
+## 2.130309</code></pre>
+<pre><code>##          
+## 3.412664</code></pre>
+<pre class="r"><code>lower = B[2,1] - c * ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##      x1 
+## 7.69775</code></pre>
+<pre><code>##       x1 
+## 7.704078</code></pre>
+<pre class="r"><code>lower = B[3,1] - c * ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 1.992397</code></pre>
+<pre><code>##       x2 
+## 2.014889</code></pre>
+<pre class="r"><code>p0 = 2 * pt(-abs(t[1,1]), df = n-k)
+p0</code></pre>
+<pre><code>##           
+## 0.4844818</code></pre>
+<pre class="r"><code>p1 = 2 * pt(-t[2,1], df = n-k)
+p1</code></pre>
+<pre><code>## x1 
+##  0</code></pre>
+<pre class="r"><code>p2 = 2 * pt(-t[3,1], df = n-k)
+p2</code></pre>
+<pre><code>##        x2 
+## 0.5251575</code></pre>
+<p>Modelo consistente</p>
+<pre class="r"><code>set.seed(1)
+n = 1000
+x1 = rnorm(n, 200, 20)
+x2 = runif(n, 0,20)
+e = rnorm(n) * x1
+X = cbind(1,x1,x2)
+beta = c(3,7,2)
+y = X%*%beta + e</code></pre>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##          [,1]
+##    -39.393089
+## x1   7.168769
+## x2   2.719188</code></pre>
+<pre class="r"><code>e_hat = y - X%*%B
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 44840.47</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                x1       x2 
+## 65.62755  0.32388  1.15108</code></pre>
+<pre class="r"><code>t = (B-beta) / ep
+t</code></pre>
+<pre><code>##          [,1]
+##    -0.6459648
+## x1  0.5210845
+## x2  0.6247940</code></pre>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.962346</code></pre>
+<pre class="r"><code>lower = B[1,1] - c * ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##           
+## -168.1771</code></pre>
+<pre><code>##         
+## 89.3909</code></pre>
+<pre class="r"><code>lower = B[2,1] - c * ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x1 
+## 6.533204</code></pre>
+<pre><code>##       x1 
+## 7.804333</code></pre>
+<pre class="r"><code>lower = B[3,1] - c * ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##        x2 
+## 0.4603697</code></pre>
+<pre><code>##       x2 
+## 4.978006</code></pre>
+<pre class="r"><code>p0 = 2 * pt(-abs(t[1,1]), df = n-k)
+p0</code></pre>
+<pre><code>##           
+## 0.5184508</code></pre>
+<pre class="r"><code>p1 = 2 * pt(-t[2,1], df = n-k)
+p1</code></pre>
+<pre><code>##        x1 
+## 0.6024236</code></pre>
+<pre class="r"><code>p2 = 2 * pt(-t[3,1], df = n-k)
+p2</code></pre>
+<pre><code>##        x2 
+## 0.5322493</code></pre>
 </div>
 </div>
 
