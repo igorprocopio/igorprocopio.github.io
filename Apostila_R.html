@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Monitoria Métodos Quantitativos II (Em construção)</title>
+
+<script src="Apostila_R_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Apostila_R_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Apostila_R_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Apostila_R_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Apostila_R_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Apostila_R_files/navigation-1.1/tabsets.js"></script>
+<link href="Apostila_R_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Apostila_R_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Monitoria Métodos Quantitativos II (Em construção)</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introdução">1 - Introdução</a></li>
+<li><a href="#principais-objetos">2 - Principais Objetos</a><ul>
+<li><a href="#vetores">2.1 - Vetores</a></li>
+<li><a href="#matrizes">2.2 - Matrizes</a></li>
+<li><a href="#dataframe">2.3 - Dataframe</a></li>
+<li><a href="#fatores">2.4 - Fatores</a></li>
+<li><a href="#probabilidade">3 - Probabilidade</a></li>
+</ul></li>
+<li><a href="#álgebra-dos-mínimos-quadrados">4 - Álgebra dos Mínimos Quadrados</a></li>
+<li><a href="#um-pouco-sobre-funções-de-distribuições">Um pouco sobre funções de distribuições</a></li>
+<li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
+<li><a href="#simulações">Simulações</a></li>
+</ul>
+</div>
+
+<div id="introdução" class="section level2">
+<h2>1 - Introdução</h2>
+</div>
+<div id="principais-objetos" class="section level2">
+<h2>2 - Principais Objetos</h2>
+<div id="vetores" class="section level3">
+<h3>2.1 - Vetores</h3>
+<p><a href="http://www.r-tutor.com/r-introduction/vector" class="uri">http://www.r-tutor.com/r-introduction/vector</a></p>
+<p>Para criar vetores as duas principais funções no R são a função <code>c</code> e a função <code>seq</code></p>
+<pre class="r"><code>c(2,4,3)</code></pre>
+<pre><code>## [1] 2 4 3</code></pre>
+<pre class="r"><code>seq(1:5)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>seq(from = 1, to =10,by=2)</code></pre>
+<pre><code>## [1] 1 3 5 7 9</code></pre>
+<p>Armazenar o vetor criado em um objeto <span class="math inline">\(x\)</span>:</p>
+<pre class="r"><code>x &lt;- c(seq(1:10))
+x</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<p>Combinando dois vetores</p>
+<pre class="r"><code>y = seq(from =11, to = 20)
+z = c(x,y)
+z</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<p>O comando <code>length</code> permite obter o número de elementos de um vetor.</p>
+<pre class="r"><code>length(x)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>Álgebra vetorial</p>
+<pre class="r"><code>3*x</code></pre>
+<pre><code>##  [1]  3  6  9 12 15 18 21 24 27 30</code></pre>
+<pre class="r"><code>x + y</code></pre>
+<pre><code>##  [1] 12 14 16 18 20 22 24 26 28 30</code></pre>
+<pre class="r"><code>x-y</code></pre>
+<pre><code>##  [1] -10 -10 -10 -10 -10 -10 -10 -10 -10 -10</code></pre>
+<pre class="r"><code>x * y</code></pre>
+<pre><code>##  [1]  11  24  39  56  75  96 119 144 171 200</code></pre>
+<pre class="r"><code>x / y </code></pre>
+<pre><code>##  [1] 0.09090909 0.16666667 0.23076923 0.28571429 0.33333333 0.37500000
+##  [7] 0.41176471 0.44444444 0.47368421 0.50000000</code></pre>
+<pre class="r"><code>log(x)</code></pre>
+<pre><code>##  [1] 0.0000000 0.6931472 1.0986123 1.3862944 1.6094379 1.7917595 1.9459101
+##  [8] 2.0794415 2.1972246 2.3025851</code></pre>
+<pre class="r"><code>exp(x)</code></pre>
+<pre><code>##  [1]     2.718282     7.389056    20.085537    54.598150   148.413159
+##  [6]   403.428793  1096.633158  2980.957987  8103.083928 22026.465795</code></pre>
+<pre class="r"><code>sqrt(x)</code></pre>
+<pre><code>##  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
+##  [9] 3.000000 3.162278</code></pre>
+<pre class="r"><code>-1*x</code></pre>
+<pre><code>##  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10</code></pre>
+<pre class="r"><code>abs(-1*x)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>min(x)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>max(x)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<p>Regra da “reciclagem”</p>
+<pre class="r"><code>u = c(10, 20, 30) 
+v = c(1, 2, 3, 4, 5, 6, 7, 8, 9) 
+u + v </code></pre>
+<pre><code>## [1] 11 22 33 14 25 36 17 28 39</code></pre>
+<p>Indexação vetorial</p>
+<pre class="r"><code>y[2]</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>y[-2]</code></pre>
+<pre><code>## [1] 11 13 14 15 16 17 18 19 20</code></pre>
+</div>
+<div id="matrizes" class="section level3">
+<h3>2.2 - Matrizes</h3>
+<p><a href="http://www.r-tutor.com/r-introduction/matrix" class="uri">http://www.r-tutor.com/r-introduction/matrix</a></p>
+<p>Usa-se a função <code>matrix</code></p>
+<p><code>matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)</code></p>
+<p>Vamos ver alguns exemplos</p>
+<pre class="r"><code>A = matrix( 
+  c(2, 4, 3, 1, 5, 7), # Elementos 
+  nrow=2,              # Número de linhas 
+  ncol=3,)              # Número de colunas 
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    3    5
+## [2,]    4    1    7</code></pre>
+<pre class="r"><code>A = matrix( 
+  c(2, 4, 3, 1, 5, 7), # Elementos 
+  nrow=2,              # Número de linhas 
+  ncol=3,              # Número de colunas 
+  byrow = TRUE)        # Preencher a matriz pelas linhas 
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    4    3
+## [2,]    1    5    7</code></pre>
+<p>Indexação matricial</p>
+<pre class="r"><code>A[2,3]  # elemento da 2ª linha e 3ª coluna</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>A[2,]   # 2ª linha</code></pre>
+<pre><code>## [1] 1 5 7</code></pre>
+<pre class="r"><code>A[,3]   # 3ª coluna</code></pre>
+<pre><code>## [1] 3 7</code></pre>
+<pre class="r"><code>A[ ,c(1,3)]  # the 1st and 3rd columns </code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    2    3
+## [2,]    1    7</code></pre>
+<p>Verificar as dimensões da matriz <span class="math inline">\(A\)</span>.</p>
+<pre class="r"><code>dim(A)</code></pre>
+<pre><code>## [1] 2 3</code></pre>
+<pre class="r"><code>nrow(A)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>ncol(A)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Álgebra matricial</p>
+<table>
+<colgroup>
+<col width="41%" />
+<col width="58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operador ou Função</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A * B</td>
+<td>Multiplicação elemento por elemento</td>
+</tr>
+<tr class="even">
+<td>A%*%B</td>
+<td>Multiplicação matricial</td>
+</tr>
+<tr class="odd">
+<td>t(A)</td>
+<td>Transposta</td>
+</tr>
+<tr class="even">
+<td>diag(x)</td>
+<td>Cria uma matriz com os elementos do vetor x formando a diagonal principal</td>
+</tr>
+<tr class="odd">
+<td>diag(A)</td>
+<td>Retorna um vetor contendo os elementos da diagonal principal da matriz A</td>
+</tr>
+<tr class="even">
+<td>diag(k)</td>
+<td>Se k for um escalar, o comando cria uma matriz identidade kxk</td>
+</tr>
+<tr class="odd">
+<td>solve(A)</td>
+<td>Retorna a inversa da matriz A se A for uma matriz quadrada</td>
+</tr>
+<tr class="even">
+<td>cbind(A,B,..)</td>
+<td>Combina matrizes (vetores) horizontalmente</td>
+</tr>
+<tr class="odd">
+<td>rbind(A,B,..)</td>
+<td>Combina matrizes (vetores) verticalmente</td>
+</tr>
+<tr class="even">
+<td>rowMeans(A)</td>
+<td>Retorna um vetor com as médias das linhas de A</td>
+</tr>
+<tr class="odd">
+<td>colMeans(A)</td>
+<td>Retorna um vetor com as médias das colunas de A</td>
+</tr>
+<tr class="even">
+<td>rowSumns(A)</td>
+<td>Retorna um vetor com as somas das linhas de A</td>
+</tr>
+<tr class="odd">
+<td>ColSumns(A)</td>
+<td>Retorna um vetor com as somas das colunas de A</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>A = diag(c(1,2,3))
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    2    0
+## [3,]    0    0    3</code></pre>
+<p>Transposta</p>
+<pre class="r"><code>t(A)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    2    0
+## [3,]    0    0    3</code></pre>
+<pre class="r"><code>A %*% A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    0
+## [2,]    0    4    0
+## [3,]    0    0    9</code></pre>
+<pre class="r"><code>solve(A)</code></pre>
+<pre><code>##      [,1] [,2]      [,3]
+## [1,]    1  0.0 0.0000000
+## [2,]    0  0.5 0.0000000
+## [3,]    0  0.0 0.3333333</code></pre>
+<p>Combinando matrizes</p>
+<pre class="r"><code>B = matrix( 
+  c(2, 4, 3, 1, 5, 7), 
+  nrow=3, 
+  ncol=2) 
+
+B             # B possui 3 linhas e 2 colunas</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    2    1
+## [2,]    4    5
+## [3,]    3    7</code></pre>
+<pre class="r"><code>C = matrix( 
+  c(7, 4, 2), 
+  nrow=3, 
+  ncol=1) 
+
+C             # C possui 3 linhas </code></pre>
+<pre><code>##      [,1]
+## [1,]    7
+## [2,]    4
+## [3,]    2</code></pre>
+<p>Combinando por coluna</p>
+<pre class="r"><code>cbind(B,C)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    1    7
+## [2,]    4    5    4
+## [3,]    3    7    2</code></pre>
+<pre class="r"><code>D = matrix(c(6,2),nrow = 1, ncol = 2)
+D</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    6    2</code></pre>
+<p>Combinando por linha</p>
+<pre class="r"><code>rbind(B,D)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    2    1
+## [2,]    4    5
+## [3,]    3    7
+## [4,]    6    2</code></pre>
+</div>
+<div id="dataframe" class="section level3">
+<h3>2.3 - Dataframe</h3>
+<p>Um data frame é similar a um banco de dados no Stata, por exemplo.É mais geral do que matrizes, cada coluna pode ser composta por tipos diferentes (numérico, caracteres, fatores,..).</p>
+<pre class="r"><code>a = c(1,2)
+b = c(&quot;a&quot;,&quot;b&quot;)
+df = data.frame(a,b)
+df</code></pre>
+<pre><code>##   a b
+## 1 1 a
+## 2 2 b</code></pre>
+<p>Adicionando nomes às colunas (variáveis)</p>
+<pre class="r"><code>names(df) = c(&quot;Variável 1&quot;, &quot;Variável 2&quot;)
+df</code></pre>
+<pre><code>##   Variável 1 Variável 2
+## 1          1          a
+## 2          2          b</code></pre>
+</div>
+<div id="fatores" class="section level3">
+<h3>2.4 - Fatores</h3>
+<pre class="r"><code># variable gender with 20 &quot;male&quot; entries and
+# 30 &quot;female&quot; entries
+gender &lt;- c(rep(&quot;male&quot;,20), rep(&quot;female&quot;, 30))
+summary(gender)</code></pre>
+<pre><code>##    Length     Class      Mode 
+##        50 character character</code></pre>
+<pre class="r"><code>gender &lt;- factor(gender)
+# stores gender as 20 1s and 30 2s and associates
+# 1=female, 2=male internally (alphabetically)
+# R now treats gender as a nominal variable
+summary(gender)</code></pre>
+<pre><code>## female   male 
+##     30     20</code></pre>
+</div>
+<div id="probabilidade" class="section level3">
+<h3>3 - Probabilidade</h3>
+</div>
+</div>
+<div id="álgebra-dos-mínimos-quadrados" class="section level2">
+<h2>4 - Álgebra dos Mínimos Quadrados</h2>
+<p>Limpar o Workspace</p>
+<pre class="r"><code>rm(list = ls())</code></pre>
+<p>O objetivo é estimar <span class="math inline">\(\beta = (\mathbb{E} (xx&#39;))^{-1} \mathbb{E}(xy)\)</span></p>
+<p>Vamos estimar <span class="math inline">\(\beta\)</span> pelo método dos momentos, ou seja, utilzando o análogo amostral aos momentos do estimador populacional. Existem duas formas para obter <span class="math inline">\(\hat\beta\)</span>, fazendo uso de somatórios ou da álgebra matricial. A álgebra matricial, além de uma notação mais concisa, é computacionalmente mais eficiente. No entanto, para ajudar a fixar conceitos, vamos estimar das duas formas.</p>
+<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span> Para evitar o uso de looping no momento de calcular os somatórios, vamos utilizar uma amostra com apenas dois indivíduos.</p>
+<p>Criar um amostra com apenas dois indivíduos e duas variáveis. Para facilitar a exposição da álgebra, vamos estimar um modelo sem intercepto.<span class="math display">\[y_i = \beta_1 x_{1i} + \beta_2 x_{2i} + e_i\]</span></p>
+<pre><code>                              ou $$y_i = x_i&#39; \beta + e_i$$</code></pre>
+<p>sendo que</p>
+<p><span class="math inline">\(\beta = (\beta_{1}, \beta_{2})\)</span></p>
+<p>e <span class="math inline">\(i = 1,2\)</span>.</p>
+<pre class="r"><code>x1 = c(2,3) # vetor coluna - observação do indivíduo 1
+x1</code></pre>
+<pre><code>## [1] 2 3</code></pre>
+<pre class="r"><code>x2 = c(3,7) # vetor coluna - observação do indivíduo 2
+x2</code></pre>
+<pre><code>## [1] 3 7</code></pre>
+<p>Repare que apesar dos vetores terem sido apresentados como vetores linhas, eles são armazenados como vetores colunas. Para verificar, vamos calcular a transposta do vetor <span class="math inline">\(x_1\)</span></p>
+<p>Como pode ser visto, a transposta do vetor <span class="math inline">\(x_1\)</span> é um vetor linha. No entanto, para algumas operações os vetores se comportam como se fossem vetores linhas. Para evitar este tipo de problema, em um primeiro momento vamos utilizar a função <code>matrix</code> para criarmos os vetores também.</p>
+<pre class="r"><code>x1 = matrix(c(2,3), nrow = 2)
+x1</code></pre>
+<pre><code>##      [,1]
+## [1,]    2
+## [2,]    3</code></pre>
+<pre class="r"><code>x2 = matrix(c(3,7), nrow = 2)
+x2 </code></pre>
+<pre><code>##      [,1]
+## [1,]    3
+## [2,]    7</code></pre>
+<p>Para completar as informações do modelo vamos criar os erros individuais e o vetor <span class="math inline">\(\beta\)</span>.</p>
+<pre class="r"><code>e1 = 5
+e2 = 7
+beta = c(3,9)</code></pre>
+<p>Dado os valores de <span class="math inline">\(X\)</span>, <span class="math inline">\(\beta\)</span> e dos erros, os valores de <span class="math inline">\(y_i\)</span> são obtidos diretamente.</p>
+<p>Para ajudar no entendimento da notação e álgebra matricial, vamos calcular <span class="math inline">\(y_i\)</span> de duas formas.</p>
+<p><span class="math inline">\(y_i = \beta_1 x1_{i} + \beta_2 x2_{i} + e_i\)</span></p>
+<pre class="r"><code>y1 = beta[1]* x1[1] + beta[2] * x1[2] +e1
+y1</code></pre>
+<pre><code>## [1] 38</code></pre>
+<pre class="r"><code>y2 = beta[1]* x2[1] + beta[2] * x2[2] + e2
+y2</code></pre>
+<pre><code>## [1] 79</code></pre>
+<pre class="r"><code>t(x1)</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    2    3</code></pre>
+<p><span class="math inline">\(y_i = x&#39;_i\beta + e_i\)</span></p>
+<pre class="r"><code>y1 = t(x1) %*% beta +e1
+y1</code></pre>
+<pre><code>##      [,1]
+## [1,]   38</code></pre>
+<pre class="r"><code>y2 = t(x2) %*% beta +e2
+y2</code></pre>
+<pre><code>##      [,1]
+## [1,]   79</code></pre>
+<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span>, sendo que <span class="math inline">\(Q_{xx} = (\sum_{i=1}^n x_i x&#39;_i)\)</span> e <span class="math inline">\(Q_{xy} = (\sum_{i=1}^n x_i y_i)\)</span></p>
+<pre class="r"><code>Qxx = x1 %*% t(x1) + x2 %*% t(x2)  # Somatório xixi&#39;
+Qxx</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   13   27
+## [2,]   27   58</code></pre>
+<pre class="r"><code>Qxy = x1 %*% y1 + x2 %*% y2  ## Somatório xiyi
+Qxy</code></pre>
+<pre><code>##      [,1]
+## [1,]  313
+## [2,]  667</code></pre>
+<pre class="r"><code>beta_hat = solve(Qxx) %*% Qxy
+beta_hat  </code></pre>
+<pre><code>##      [,1]
+## [1,]  5.8
+## [2,]  8.8</code></pre>
+<p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela notação matricial <span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
+<p>Criar a matriz <span class="math inline">\(X\)</span>. Lembre-se que <span class="math display">\[X = \begin{bmatrix}x&#39;_{1}\\
+x&#39;_{2}
+                                \end{bmatrix}\]</span></p>
+<pre class="r"><code>X = rbind(t(x1),t(x2)) # Matriz nxk
+X</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    2    3
+## [2,]    3    7</code></pre>
+<p>Criar o vetor <span class="math inline">\(y\)</span>. Lembre-se que <span class="math display">\[y = \begin{bmatrix}y_{1}\\
+                                y_{2}
+                                \end{bmatrix}\]</span></p>
+<pre class="r"><code>y = rbind(y1,y2)
+y</code></pre>
+<pre><code>##      [,1]
+## [1,]   38
+## [2,]   79</code></pre>
+<p>Antes de estimar <span class="math inline">\(\beta\)</span>, vamos mostrar duas equivalências. Mostrar que <span class="math inline">\(\sum_{i=1}^n x_i x&#39;_i\)</span> = <span class="math inline">\(X&#39;X\)</span></p>
+<p><span class="math inline">\(\sum_{i=1}^n x_i x&#39;_i\)</span></p>
+<pre class="r"><code>soma = x1 %*% t(x1) + x2 %*% t(x2)
+soma</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   13   27
+## [2,]   27   58</code></pre>
+<p><span class="math inline">\(X&#39;X\)</span></p>
+<pre class="r"><code>XX = t(X) %*%  X
+XX</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   13   27
+## [2,]   27   58</code></pre>
+<p>Mostrar que <span class="math inline">\(\sum_{i=1}^n x_i y_i\)</span> = <span class="math inline">\(X&#39;y\)</span>.</p>
+<p><span class="math inline">\(\sum_{i=1}^n x_i y_i\)</span></p>
+<pre class="r"><code>x1 %*% y1 + x2 %*% y2</code></pre>
+<pre><code>##      [,1]
+## [1,]  313
+## [2,]  667</code></pre>
+<p><span class="math inline">\(X&#39;y\)</span></p>
+<pre class="r"><code>t(X)%*%y</code></pre>
+<pre><code>##      [,1]
+## [1,]  313
+## [2,]  667</code></pre>
+<p><span class="math inline">\(\hat{\beta} = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
+<pre class="r"><code>beta_hat = solve(t(X)%*%X) %*% (t(X)%*%y)
+beta_hat  </code></pre>
+<pre><code>##      [,1]
+## [1,]  5.8
+## [2,]  8.8</code></pre>
+<p>Agora vamos estimar criar uma amostra com mais observações a partir de um modelo populacional conhecido e calcular além dos coeficientes <span class="math inline">\(\beta\)</span>, outras medidas importantes do estimador de Mínimos Quadrados Ordinários. A partir desse momento só usaremos a notação matricial. Como estamos em um laboratório de estudo, poderemos controlar a distribuição das variáveis do modelo bem como dos parâmetros. Neste caso poderemos conferir se os estimadores produzem estimativas próximas aos verdadeiros parâmetros populacionais.</p>
+<pre class="r"><code>rm(list = ls())</code></pre>
+<p>Obtendo 1000 amostras aleatórias <span class="math inline">\({x_i}\)</span>, sendo que <span class="math inline">\(x1\)</span> possui uma distribuição normal com média 12 e desvio padrão 3 e <span class="math inline">\(x2\)</span> possui uma distribuição uniforme com parâmetros mínimo igual a 1 e máximo igual a 20. O termo de erro provém de uma distribuição normal padrão (média 0 e desvio padrão 1).</p>
+<pre class="r"><code>set.seed(16)  
+n = 1000</code></pre>
+<pre class="r"><code>x1 = rnorm(1000, mean = 12, sd = 3) # Variável X1
+x2 = runif(1000, min = 1, max = 20) # Variável X2
+X = cbind(x1,x2)
+e = rnorm(1000)</code></pre>
+<p>Para enfatizar os conceitos de população e amostra, repare que mesmo ao controlar o tipo e os parâmetros da dsitribuição, os momentos amostrais não são idênticos aos parâmtros populacionais.</p>
+<pre class="r"><code>mean(x1)</code></pre>
+<pre><code>## [1] 12.12606</code></pre>
+<pre class="r"><code>sd(x1)</code></pre>
+<pre><code>## [1] 2.932318</code></pre>
+<pre class="r"><code>min(x2)</code></pre>
+<pre><code>## [1] 1.013482</code></pre>
+<pre class="r"><code>max(x2)</code></pre>
+<pre><code>## [1] 19.97247</code></pre>
+<p>Vamos criar um vetor de parâmetros <span class="math inline">\(\beta\)</span> pré determinados. Lembre-se que na vida real nunca conheceremos os verdadeiros parâmetros.</p>
+<pre class="r"><code>beta = matrix(c(3,9),nrow = 2)</code></pre>
+<p>Calcular <span class="math inline">\(y\)</span> a partir dos valores pré estabelecidos.</p>
+<pre class="r"><code>y = X%*%beta + e</code></pre>
+<pre class="r"><code>X = cbind(1,x1,x2)</code></pre>
+<p>Estimar <span class="math inline">\(\hat\beta = (X&#39;X)^{-1}(X&#39;y)\)</span></p>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##            [,1]
+##    -0.004183326
+## x1  2.997791134
+## x2  9.003035270</code></pre>
+<p>Resíduos de Mínimos Quadrados <span class="math inline">\(\hat e = y - X\hat\beta\)</span></p>
+<pre class="r"><code>y_hat = X%*%B
+e_hat = y - y_hat</code></pre>
+<p>Verificando que <span class="math inline">\(X&#39;\hat e = 0\)</span></p>
+<pre class="r"><code>t(X)%*%e_hat</code></pre>
+<pre><code>##             [,1]
+##    -8.802914e-11
+## x1  2.892264e-10
+## x2  1.756781e-10</code></pre>
+<p>Matriz de Projeção: <span class="math inline">\(P = X(X&#39;X)^{-1}X&#39;\)</span></p>
+<pre class="r"><code>P = X%*%(solve(t(X)%*%X))%*%t(X)
+dim(P)</code></pre>
+<pre><code>## [1] 1000 1000</code></pre>
+<p>Verificando que <span class="math inline">\(PX = X(X&#39;X)^{-1}X&#39;X = X\)</span></p>
+<pre class="r"><code>PX = P%*%X
+all(X == PX)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(X, digits = 2) == round(PX, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Propriedade Idempotente: <span class="math inline">\(PP = P\)</span></p>
+<pre class="r"><code>all(P%*%P == P)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(P%*%P, digits = 2) == round(P, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Calcular <span class="math inline">\(Py = \hat y\)</span>.</p>
+<pre class="r"><code>y_hat1 = P%*%y</code></pre>
+<pre class="r"><code>all(y_hat == y_hat1)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>all(round(y_hat, digits = 2) == round(y_hat1, digits = 2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Estimação da Variância do erro: <span class="math inline">\(\sigma^2 = \mathbb{E}(e_i^2)\)</span>. O estimador natural para <span class="math inline">\(\sigma^2\)</span> é o estimador de momentos <span class="math inline">\(\tilde\sigma = \frac{1}{n} \sum_{i=1}^n e_i^2\)</span>. No entanto, este estimador não é factível, pois não se conhece <span class="math inline">\(e_i\)</span>. A solução é adotar um estimador em dois estágios, substituindo <span class="math inline">\(e_i\)</span> por <span class="math inline">\(\hat e_i\)</span>. Portanto, o estimador de <span class="math inline">\(\sigma^2\)</span> é: <span class="math inline">\(\hat\sigma ^2 = \frac{1}{n} \sum_{i=1}^n \hat e_i^2\)</span></p>
+<p>Em notação matricial <span class="math inline">\(\hat\sigma^2 = n^{-1}\hat e&#39; \hat e\)</span></p>
+<pre class="r"><code>k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.014736</code></pre>
+<p><span class="math inline">\(R^2 = 1 - \frac{\sum_{i=1}^n \hat e_i^2}{\sum_{i=1}^n(y_i - \bar{y})}\)</span></p>
+<pre class="r"><code>y_barra = mean(y)
+desvio = y - y_barra
+
+R2 = 1 - (( t(e_hat)%*%e_hat)/(t(desvio)%*%desvio))
+R2</code></pre>
+<pre><code>##           [,1]
+## [1,] 0.9995928</code></pre>
+<p>Matriz de Variância Covariância Homocedástica</p>
+<p><span class="math display">\[V_{\hat\beta}=\hat\sigma ^2 (X&#39;X)^{-1}\]</span></p>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+V </code></pre>
+<pre><code>##                             x1            x2
+##     0.0229722105 -1.465321e-03 -3.932383e-04
+## x1 -0.0014653210  1.183668e-04  2.816107e-06
+## x2 -0.0003932383  2.816107e-06  3.371004e-05</code></pre>
+<pre class="r"><code>ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                      x1          x2 
+## 0.151565862 0.010879649 0.005806035</code></pre>
+<p>Matriz de Variância Covariância Heterocedástica</p>
+<pre class="r"><code>e = c(e_hat)
+e = e*e
+D = diag(e)
+V_h = solve(t(X)%*%X)%*%(t(X)%*%D%*%X)%*%solve(t(X)%*%X)
+V_h = (n/(n-k)) * V_h
+V_h</code></pre>
+<pre><code>##                             x1            x2
+##     0.0209004837 -1.352671e-03 -3.364705e-04
+## x1 -0.0013526709  1.123094e-04 -5.335789e-07
+## x2 -0.0003364705 -5.335789e-07  3.270841e-05</code></pre>
+<pre class="r"><code>ep_h = sqrt(diag(V_h))
+ep_h</code></pre>
+<pre><code>##                      x1          x2 
+## 0.144569996 0.010597615 0.005719127</code></pre>
+<pre class="r"><code>df = data.frame(y,x1,x2)
+ols = lm(y~x1 + x2)
+summary(ols)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x1 + x2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.3423 -0.6863 -0.0020  0.6477  3.4863 
+## 
+## Coefficients:
+##              Estimate Std. Error  t value Pr(&gt;|t|)    
+## (Intercept) -0.004183   0.151566   -0.028    0.978    
+## x1           2.997791   0.010880  275.541   &lt;2e-16 ***
+## x2           9.003035   0.005806 1550.634   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.007 on 997 degrees of freedom
+## Multiple R-squared:  0.9996, Adjusted R-squared:  0.9996 
+## F-statistic: 1.224e+06 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#install.packages(&quot;AER&quot;)
+library(AER)</code></pre>
+<pre><code>## Loading required package: car</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## Loading required package: lmtest</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: sandwich</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre class="r"><code>vcov &lt;- vcovHC(ols, type = &quot;HC1&quot;)
+vcov</code></pre>
+<pre><code>##               (Intercept)            x1            x2
+## (Intercept)  0.0209004837 -1.352671e-03 -3.364705e-04
+## x1          -0.0013526709  1.123094e-04 -5.335789e-07
+## x2          -0.0003364705 -5.335789e-07  3.270841e-05</code></pre>
+<pre class="r"><code>#install.packages(&quot;psych&quot;)
+#library(psych)
+#tr(XX)</code></pre>
+</div>
+<div id="um-pouco-sobre-funções-de-distribuições" class="section level2">
+<h2>Um pouco sobre funções de distribuições</h2>
+<p>Distribuição Normal</p>
+<p>Função de distribuição (Função densidade)</p>
+<pre class="r"><code>curve(dnorm(x), xlim = c(-5,5))
+abline(v=1)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-75-1.png" /><!-- --></p>
+<pre class="r"><code>dnorm(1)</code></pre>
+<pre><code>## [1] 0.2419707</code></pre>
+<p>Função de probabilidade (Função cumulativa)</p>
+<pre class="r"><code>curve(pnorm(x), xlim = c(-4,4))
+abline(v=0)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-77-1.png" /><!-- --></p>
+<pre class="r"><code>pnorm(0)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>Função quantílica (inversa da função de distribuição cumulativa)</p>
+<pre class="r"><code>curve(qnorm(x), xlim = c(0,1))
+abline(v=0.5)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-79-1.png" /><!-- --></p>
+<pre class="r"><code>qnorm(0.5)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>Gerador de variáveis</p>
+<pre class="r"><code>rnorm(2)</code></pre>
+<pre><code>## [1] -1.6528987 -0.4617237</code></pre>
+<p>Mostrar que a ditribuição t converge para a normal padrão</p>
+<pre class="r"><code># plot the standard normal density
+curve(dnorm(x), 
+      xlim = c(-4, 4), 
+      xlab = &quot;x&quot;, 
+      lty = 2, 
+      ylab = &quot;Density&quot;, 
+      main = &quot;Densities of t Distributions&quot;)
+
+# plot the t density for M=2
+curve(dt(x, df = 2), 
+      xlim = c(-4, 4), 
+      col = 2, 
+      add = T)
+
+# plot the t density for M=4
+curve(dt(x, df = 4), 
+      xlim = c(-4, 4), 
+      col = 3, 
+      add = T)
+
+# plot the t density for M=25
+curve(dt(x, df = 25), 
+      xlim = c(-4, 4), 
+      col = 4, 
+      add = T)
+
+# add a legend
+legend(&quot;topright&quot;, 
+       c(&quot;N(0, 1)&quot;, &quot;M=2&quot;, &quot;M=4&quot;, &quot;M=25&quot;), 
+       col = 1:4, 
+       lty = c(2, 1, 1, 1))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-82-1.png" /><!-- --></p>
+</div>
+<div id="um-pouco-de-inferência" class="section level2">
+<h2>5- Um pouco de Inferência</h2>
+<p>Primeiro passo é criar um banco de dados hipotético</p>
+<pre class="r"><code>set.seed(1)
+n = 500
+x1 = rnorm(n, mean = 500, sd = 50)
+x2 = rpois(n, lambda = 5)
+e = rnorm(n)
+
+beta = c(3.5,5)
+y = 10 + beta[1]*x1 + beta[2]*x2 + e
+X = cbind(1,x1,x2) </code></pre>
+<pre class="r"><code>ols = lm(y~ x1 + x2)
+summary(ols)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x1 + x2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.15798 -0.71935  0.00887  0.70818  3.11361 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 9.6940067  0.4721931   20.53   &lt;2e-16 ***
+## x1          3.5002971  0.0009249 3784.62   &lt;2e-16 ***
+## x2          5.0274460  0.0212557  236.52   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.044 on 497 degrees of freedom
+## Multiple R-squared:      1,  Adjusted R-squared:      1 
+## F-statistic: 7.25e+06 on 2 and 497 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>confint(ols,level = 0.95)</code></pre>
+<pre><code>##                2.5 %    97.5 %
+## (Intercept) 8.766266 10.621748
+## x1          3.498480  3.502114
+## x2          4.985684  5.069208</code></pre>
+<pre class="r"><code>confint(ols,&quot;Intercept&quot;,level = 0.95)</code></pre>
+<pre><code>##           2.5 % 97.5 %
+## Intercept    NA     NA</code></pre>
+<pre class="r"><code>confint(ols,&quot;x1&quot;,level = 0.95)</code></pre>
+<pre><code>##      2.5 %   97.5 %
+## x1 3.49848 3.502114</code></pre>
+<pre class="r"><code>confint(ols,&quot;x2&quot;,level = 0.95)</code></pre>
+<pre><code>##       2.5 %   97.5 %
+## x2 4.985684 5.069208</code></pre>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##        [,1]
+##    9.694007
+## x1 3.500297
+## x2 5.027446</code></pre>
+<p>Calcular a estatística <span class="math inline">\(T\)</span>: <span class="math display">\[t_n(\theta) = \frac{\hat \theta - \theta}{s(\hat \theta)}\]</span></p>
+<p>Considerar <span class="math inline">\(\theta = 0\)</span></p>
+<p>É preciso calcular <span class="math inline">\(s(\hat\theta)\)</span></p>
+<pre class="r"><code>#y_hat = X%*%B
+e_hat = y - X%*%B
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.090167</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                      x1          x2 
+## 0.472193136 0.000924874 0.021255675</code></pre>
+<pre class="r"><code>t = B / ep
+t</code></pre>
+<pre><code>##          [,1]
+##      20.52975
+## x1 3784.62042
+## x2  236.52253</code></pre>
+<div id="intervalos-de-confiança" class="section level4">
+<h4>Intervalos de Confiança</h4>
+<p><span class="math display">\[C_n = [\hat \theta - c .s(\hat \theta), \hat\theta + c. s(\hat\theta)]\]</span></p>
+<p>Definir c para nível de significância de <span class="math inline">\(5\%\)</span></p>
+<pre class="r"><code>c = qnorm(0.975)
+c</code></pre>
+<pre><code>## [1] 1.959964</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
+<pre class="r"><code>lower = B[1,1] - c*  ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##          
+## 8.768525</code></pre>
+<pre><code>##          
+## 10.61949</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
+<pre class="r"><code>lower = B[2,1] - c*  ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x1 
+## 3.498484</code></pre>
+<pre><code>##      x1 
+## 3.50211</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
+<pre class="r"><code>lower = B[3,1] - c*  ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 4.985786</code></pre>
+<pre><code>##       x2 
+## 5.069106</code></pre>
+<p>Definir c para nível de significância de <span class="math inline">\(1\%\)</span></p>
+<pre class="r"><code>c = qnorm(0.995)
+c</code></pre>
+<pre><code>## [1] 2.575829</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
+<pre class="r"><code>lower = B[1,1] - c*  ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##          
+## 8.477718</code></pre>
+<pre><code>##         
+## 10.9103</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
+<pre class="r"><code>lower = B[2,1] - c*  ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x1 
+## 3.497915</code></pre>
+<pre><code>##       x1 
+## 3.502679</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
+<pre class="r"><code>lower = B[3,1] - c*  ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 4.972695</code></pre>
+<pre><code>##       x2 
+## 5.082197</code></pre>
+<p>Utilizando a estatística t</p>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.964749</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
+<pre class="r"><code>lower = B[3,1] - c * ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 4.985684</code></pre>
+<pre><code>##       x2 
+## 5.069208</code></pre>
+</div>
+<div id="p-valor" class="section level4">
+<h4>P-valor</h4>
+<p>Assumindo que <span class="math inline">\(\beta \sim t_{n-k}\)</span></p>
+<pre class="r"><code>2 * pt(-t[1,1], df = n-k)</code></pre>
+<pre><code>##              
+## 2.783023e-68</code></pre>
+<pre class="r"><code>2 * (1 - pt(t[1,1], df = n-k))</code></pre>
+<pre><code>##   
+## 0</code></pre>
+<p>Assumindo que <span class="math inline">\(\beta \sim N(0,1)\)</span></p>
+<pre class="r"><code> 2 * pnorm(-t[1,1])</code></pre>
+<pre><code>##              
+## 1.167757e-93</code></pre>
+<p>Estatística F</p>
+<pre class="r"><code>RSS0 &lt;- sum((y - mean(y))^2) #20181.97, this is same as TSS really
+RSS &lt;- sum(ols$residuals^2) #20181.64
+p &lt;-  2 #predictors whos coefficient we are testing.
+n &lt;- length(y) #number of observations
+ 
+F &lt;- ( (RSS0-RSS)/p ) / (RSS/(n-p-1))
+F</code></pre>
+<pre><code>## [1] 7249721</code></pre>
+<pre class="r"><code>pf(F,2,497,lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0</code></pre>
+</div>
+</div>
+<div id="simulações" class="section level2">
+<h2>Simulações</h2>
+<p>Para executar esta lista de exercícios é importante enteder como funciona a estrutura para a realização de looping dentro do R</p>
+<p>Uma das formas de utilizar looping é com o uso do <code>for</code></p>
+<pre class="r"><code>for (i in 1:5){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
+<pre class="r"><code>for (i in c(1,5,3,8)){
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 5
+## [1] 3
+## [1] 8</code></pre>
+<pre class="r"><code>v = c(1,4,5,10)
+for (n in 1:length(v)){
+  print(v[n])
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 4
+## [1] 5
+## [1] 10</code></pre>
+<p>Criar</p>
+<pre class="r"><code>A = matrix(rep(NA, 25), nrow = 5 )
+for (j in 1:dim(A)[2]){
+  A[,j] = rnorm(5)
+}
+A</code></pre>
+<pre><code>##             [,1]        [,2]       [,3]         [,4]       [,5]
+## [1,]  0.06526642 -0.50313004 -0.4265299 -0.005667893  0.9938664
+## [2,]  1.03532642  0.60745556 -0.9264042  0.633448919  0.6968459
+## [3,]  2.26021579 -0.01004142 -0.9285579 -0.509180774  1.6999707
+## [4,]  1.31469628  0.27533030 -0.7189006 -0.857008619 -0.9777419
+## [5,] -0.87002335 -1.31229878 -0.4147906  1.616167577  2.0488176</code></pre>
+<pre class="r"><code>A = matrix(rep(NA, 25), nrow = 5 )
+for (i in 1:dim(A)[1]){
+  for (j in 1:dim(A)[2]){
+    A[i,j] = rnorm(1)
+  }
+}
+A</code></pre>
+<pre><code>##            [,1]        [,2]      [,3]        [,4]       [,5]
+## [1,]  1.2264493  0.30702301 0.6243330  0.06134144 -0.1108258
+## [2,] -1.5762336  0.74258985 2.1423234  2.08977296  0.1697943
+## [3,] -0.1078778  0.18199449 1.1459282  1.47729882  0.4079442
+## [4,]  1.1142787 -0.02707584 0.4977222  1.18564001  3.6395736
+## [5,] -0.0540026 -0.66814732 0.4458080 -0.40582525  0.6352831</code></pre>
+<pre class="r"><code>v = c()
+for (i in 1:10){
+  v[i] = mean(rnorm(5))
+}
+v</code></pre>
+<pre><code>##  [1]  0.21192739 -0.34655883  0.24775529  0.08784537 -0.13465661 -0.59670709
+##  [7] -0.52832124 -0.02325222 -0.13099934 -0.36546438</code></pre>
+<p>#<code>{r} v = c() for (n in c(5,10,50,100,1000)){   for (i in 1:5){     v[i] = mean(rnorm(n))   } } v #</code></p>
+<p>Comando <code>replicate</code></p>
+<pre class="r"><code>set.seed(1)
+x = replicate(n = 10, expr = rnorm(1))
+x1 =c()
+
+set.seed(1)
+for (i in 1:10){
+  x1[i] = rnorm(1)
+}
+x == x1</code></pre>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<div id="gráficos" class="section level4">
+<h4>Gráficos</h4>
+<p>Histograma</p>
+<pre class="r"><code>x = c(rnorm(500))
+
+hist(x, 
+      col = &quot;steelblue&quot;, 
+       freq = FALSE, 
+       breaks = 40,
+       xlim = c(-3, 3), 
+       ylim = c(0, 0.5), 
+       xlab = paste(&quot;Histograma&quot;), 
+       main = &quot;&quot;)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-108-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dnorm(x), xlim = c(-1,1))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-109-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dunif(x,0,10))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-110-1.png" /><!-- --></p>
+<pre class="r"><code>curve(dt(x,10),xlim = c(-1,1))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-111-1.png" /><!-- --></p>
+<pre class="r"><code>curve(pnorm(x),
+xlim = c(-3.5, 3.5),
+ylab = &quot;Density&quot;,
+main = &quot;Standard Normal Cumulative Distribution Function&quot;)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-112-1.png" /><!-- --></p>
+<pre class="r"><code>x = rnorm(500)
+plot(density(x))</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-113-1.png" /><!-- --></p>
+<pre class="r"><code>x = c(rnorm(500))
+hist(x, 
+      col = &quot;steelblue&quot;, 
+       freq = FALSE, 
+       breaks = 40,
+       xlim = c(-3, 3), 
+       ylim = c(0, 0.5), 
+       xlab = paste(&quot;Histograma&quot;), 
+       main = &quot;&quot;)
+curve(dnorm(x), add = TRUE)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-114-1.png" /><!-- --></p>
+<pre class="r"><code>x = rnorm(500)
+plot(density(x), ylim = c(0,0.5), xlim = c(-4,4))
+curve(dnorm(x), col = &quot;red&quot;, add = TRUE)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-115-1.png" /><!-- --></p>
+<p>Lei dos Grandes Números</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+set.seed(1)
+X_bar &lt;- vector()
+#loop em n
+for (n in c(5, 10, 50, 100)) {
+  #loop para o monte carlo
+  for (iaux in 1:1000) {
+    X_bar[iaux] = mean(runif(n, 0, 5))
+  }
+  
+  #faço o histograma
+  hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-116-1.png" /><!-- --></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+set.seed(1)
+#loop em n
+for (n in c(5, 10, 50, 100)) {
+  #loop para o monte carlo
+  X_bar = replicate(1000, mean(runif(n,0,5)))
+  #faço o histograma
+  hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-117-1.png" /><!-- --></p>
+<p>Teorema Central do Limite</p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)
+set.seed(123)
+
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- rbinom(n, 1, 0.5)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x) - 0.5)/0.5
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-118-1.png" /><!-- --></p>
+</div>
+<div id="viés-x-consistência" class="section level4">
+<h4>Viés x consistência</h4>
+<pre class="r"><code>set.seed(16)
+
+
+par(mfrow = c(2, 2))
+
+pop = 1000
+for (i in c(20,100,1000,10000)){
+  
+  fo = replicate(n = pop, expr = rnorm(i)[1])
+
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       ylim = c(0, 2),
+       xlab = &#39;estimates&#39;,
+       main = &#39;Estimador Não viesado e Não Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-119-1.png" /><!-- --></p>
+<pre class="r"><code>set.seed(16)
+par(mfrow = c(2, 2))
+
+pop = 100
+for (i in c(20,100,1000,10000)){
+
+  fo = replicate(n = pop, expr = mean(rnorm(i)) - 0.99^i )
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       xlab = &#39;estimates&#39;,
+       xlim = c(-1,1),
+       main = &#39;Estimador Viesado e Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-120-1.png" /><!-- --></p>
+<pre class="r"><code>set.seed(16)
+par(mfrow = c(2, 2))
+
+pop = 1000
+for (i in c(20,100,1000,10000)){
+  
+  fo = replicate(n = pop, expr = mean(rnorm(i)))
+  
+  plot(density(fo),
+       col = &#39;green&#39;,
+       lwd = 2,
+       xlab = &#39;estimates&#39;,
+       xlim = c(-1,1),
+       main = &#39;Estimador Não viesado e Consistente&#39;)
+  abline(v=0)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-121-1.png" /><!-- --></p>
+<p>Verificação de consistência no modelo linear estimado por OLS</p>
+<p>Modelo não consistente</p>
+<pre class="r"><code>set.seed(1)
+n = 1000
+x1 = rnorm(n, 200, 20)
+x2 = runif(n, 0,20)
+e = rnorm(n) + 0.7* x1
+X = cbind(1,x1,x2)
+beta = c(3,7,2)
+y = X%*%beta + e</code></pre>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##        [,1]
+##    2.771486
+## x1 7.700914
+## x2 2.003643</code></pre>
+<pre class="r"><code>e_hat = y - X%*%B
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.111484</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                      x1          x2 
+## 0.326740307 0.001612503 0.005730891</code></pre>
+<pre class="r"><code>t = (B-beta) / ep
+t</code></pre>
+<pre><code>##           [,1]
+##     -0.6993735
+## x1 434.6745806
+## x2   0.6356392</code></pre>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.962346</code></pre>
+<pre class="r"><code>lower = B[1,1] - c * ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##          
+## 2.130309</code></pre>
+<pre><code>##          
+## 3.412664</code></pre>
+<pre class="r"><code>lower = B[2,1] - c * ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##      x1 
+## 7.69775</code></pre>
+<pre><code>##       x1 
+## 7.704078</code></pre>
+<pre class="r"><code>lower = B[3,1] - c * ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 1.992397</code></pre>
+<pre><code>##       x2 
+## 2.014889</code></pre>
+<pre class="r"><code>p0 = 2 * pt(-abs(t[1,1]), df = n-k)
+p0</code></pre>
+<pre><code>##           
+## 0.4844818</code></pre>
+<pre class="r"><code>p1 = 2 * pt(-t[2,1], df = n-k)
+p1</code></pre>
+<pre><code>## x1 
+##  0</code></pre>
+<pre class="r"><code>p2 = 2 * pt(-t[3,1], df = n-k)
+p2</code></pre>
+<pre><code>##        x2 
+## 0.5251575</code></pre>
+<p>Modelo consistente</p>
+<pre class="r"><code>set.seed(1)
+n = 1000
+x1 = rnorm(n, 200, 20)
+x2 = runif(n, 0,20)
+e = rnorm(n) * x1
+X = cbind(1,x1,x2)
+beta = c(3,7,2)
+y = X%*%beta + e</code></pre>
+<pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
+B</code></pre>
+<pre><code>##          [,1]
+##    -39.393089
+## x1   7.168769
+## x2   2.719188</code></pre>
+<pre class="r"><code>e_hat = y - X%*%B
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 44840.47</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                x1       x2 
+## 65.62755  0.32388  1.15108</code></pre>
+<pre class="r"><code>t = (B-beta) / ep
+t</code></pre>
+<pre><code>##          [,1]
+##    -0.6459648
+## x1  0.5210845
+## x2  0.6247940</code></pre>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.962346</code></pre>
+<pre class="r"><code>lower = B[1,1] - c * ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##           
+## -168.1771</code></pre>
+<pre><code>##         
+## 89.3909</code></pre>
+<pre class="r"><code>lower = B[2,1] - c * ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x1 
+## 6.533204</code></pre>
+<pre><code>##       x1 
+## 7.804333</code></pre>
+<pre class="r"><code>lower = B[3,1] - c * ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##        x2 
+## 0.4603697</code></pre>
+<pre><code>##       x2 
+## 4.978006</code></pre>
+<pre class="r"><code>p0 = 2 * pt(-abs(t[1,1]), df = n-k)
+p0</code></pre>
+<pre><code>##           
+## 0.5184508</code></pre>
+<pre class="r"><code>p1 = 2 * pt(-t[2,1], df = n-k)
+p1</code></pre>
+<pre><code>##        x1 
+## 0.6024236</code></pre>
+<pre class="r"><code>p2 = 2 * pt(-t[3,1], df = n-k)
+p2</code></pre>
+<pre><code>##        x2 
+## 0.5322493</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
