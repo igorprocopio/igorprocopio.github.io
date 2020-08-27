@@ -194,6 +194,7 @@ summary {
 <li><a href="#um-pouco-sobre-funções-de-distribuições">Um pouco sobre funções de distribuições</a></li>
 <li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
 <li><a href="#simulações">Simulações</a></li>
+<li><a href="#variáveis-instrumentais">6 - Variáveis Instrumentais</a></li>
 </ul>
 </div>
 
@@ -1028,8 +1029,8 @@ v</code></pre>
 <p>Comando <code>replicate</code></p>
 <pre class="r"><code>set.seed(1)
 x = replicate(n = 10, expr = rnorm(1))
-x1 =c()
 
+x1 =c()
 set.seed(1)
 for (i in 1:10){
   x1[i] = rnorm(1)
@@ -1048,11 +1049,11 @@ hist(x,
        xlim = c(-3, 3), 
        ylim = c(0, 0.5), 
        xlab = paste(&quot;Histograma&quot;), 
-       main = &quot;&quot;)</code></pre>
+       main = &quot;Teste&quot;)</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-108-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dnorm(x), xlim = c(-1,1))</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-109-1.png" /><!-- --></p>
-<pre class="r"><code>curve(dunif(x,0,10))</code></pre>
+<pre class="r"><code>curve(dunif(x,0,10), xlim = c(0,10))</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-110-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dt(x,10),xlim = c(-1,1))</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-111-1.png" /><!-- --></p>
@@ -1061,10 +1062,11 @@ xlim = c(-3.5, 3.5),
 ylab = &quot;Density&quot;,
 main = &quot;Standard Normal Cumulative Distribution Function&quot;)</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-112-1.png" /><!-- --></p>
-<pre class="r"><code>x = rnorm(500)
+<pre class="r"><code>x = rnorm(5000)
 plot(density(x))</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-113-1.png" /><!-- --></p>
 <pre class="r"><code>x = c(rnorm(500))
+
 hist(x, 
       col = &quot;steelblue&quot;, 
        freq = FALSE, 
@@ -1073,6 +1075,7 @@ hist(x,
        ylim = c(0, 0.5), 
        xlab = paste(&quot;Histograma&quot;), 
        main = &quot;&quot;)
+
 curve(dnorm(x), add = TRUE)</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-114-1.png" /><!-- --></p>
 <pre class="r"><code>x = rnorm(500)
@@ -1190,6 +1193,7 @@ for (i in c(20,100,1000,10000)){
 }</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-121-1.png" /><!-- --></p>
 <p>Verificação de consistência no modelo linear estimado por OLS</p>
+<p><span class="math display">\[\mathbb{E}(xe) = \mathbb{E}(x)\mathbb{E}(e) + Cov(x,e)\]</span></p>
 <p>Modelo não consistente</p>
 <pre class="r"><code>set.seed(1)
 n = 1000
@@ -1327,6 +1331,299 @@ p2</code></pre>
 <pre><code>##        x2 
 ## 0.5322493</code></pre>
 </div>
+</div>
+<div id="variáveis-instrumentais" class="section level2">
+<h2>6 - Variáveis Instrumentais</h2>
+<p>Motivação para usar Variáveis Instrumentais: <span class="math inline">\(\mathbb{E}(xe) \neq 0\)</span></p>
+<p>Vamos montar um modelo com endogeneidade entre <span class="math inline">\(x2\)</span> e o termo de erro <span class="math inline">\(u\)</span>. Para resolver o problema de endogeneidade temos dois instrumentos <span class="math inline">\(z1\)</span> e <span class="math inline">\(z2\)</span>.</p>
+<pre class="r"><code>set.seed(1)
+n= 1000
+
+z1 = rnorm(n)
+z2 = runif(n,0,1)
+u = rnorm(n)
+
+x1 = rnorm(n)
+x2 = u + 1.5*z2 + 0.7*z1 + rnorm(n)
+X = cbind(1,x1,x2)
+Z = cbind(1,x1,z1)
+beta = c(2,5,2)
+y = X%*%beta + u</code></pre>
+<p>Para se verificar a quebra da hipóteses de identificação de OLS vamos verificar que realmente <span class="math inline">\(x2\)</span> e o termo de erro são correlacionados.</p>
+<pre class="r"><code>cor(x2,u)</code></pre>
+<pre><code>## [1] 0.6290406</code></pre>
+<p>Para se ter uma ideia se os instrumentos <span class="math inline">\(z1\)</span> e <span class="math inline">\(z2\)</span> são bons instrumentos vamos olhar as correlações entre os instrumentos o termo de erro e a variável endógena. Lembre-se que isto não é um teste formal para verificar bons instrumentos. Na prática nunca poderemos verificar a exogeneidade do instrumento em relação ao termo de erro (hipótese de exclusão) e a hipótese de inclusão não é apenas verificar a correlação.</p>
+<pre class="r"><code>cor(z1,u)</code></pre>
+<pre><code>## [1] 0.01866414</code></pre>
+<pre class="r"><code>cor(z1,x2)</code></pre>
+<pre><code>## [1] 0.4387025</code></pre>
+<pre class="r"><code>cor(z2,u)</code></pre>
+<pre><code>## [1] 0.02076497</code></pre>
+<pre class="r"><code>cor(z2,x2)</code></pre>
+<pre><code>## [1] 0.2871934</code></pre>
+<p>Transformar nossas matrizes em um <code>data frame</code> para poder usar comandos prontos do R para estimar os parâmetros do modelo.</p>
+<pre class="r"><code>df = data.frame(y,x1,x2,z1,z2)</code></pre>
+<p>Primeiro passo, vamos verificar se o estimador de Mínimos Quadrados produz estimativas consistentes.</p>
+<pre class="r"><code>Bols = solve(t(X)%*%X)%*%t(X)%*%y
+Bols</code></pre>
+<pre><code>##        [,1]
+##    1.718877
+## x1 4.982925
+## x2 2.396982</code></pre>
+<pre class="r"><code>e_hat = y - X%*%Bols
+k = ncol(X)
+sigma_hat = (1/(n-k)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 0.671866</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(X)%*%X)
+ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                    x1         x2 
+## 0.02803539 0.02482633 0.01552800</code></pre>
+<pre class="r"><code>t = (Bols-beta) / ep
+t</code></pre>
+<pre><code>##           [,1]
+##    -10.0274202
+## x1  -0.6877739
+## x2  25.5655930</code></pre>
+<pre class="r"><code>p0 = 2 * pt(-abs(t[1,1]), df = n-k)
+p0</code></pre>
+<pre><code>##              
+## 1.304608e-22</code></pre>
+<pre class="r"><code>p1 = 2 * pt(-abs(t[2,1]), df = n-k)
+p1</code></pre>
+<pre><code>##        x1 
+## 0.4917551</code></pre>
+<pre class="r"><code>p2 = 2 * pt(-abs(t[3,1]), df = n-k)
+p2</code></pre>
+<pre><code>##            x2 
+## 2.871617e-111</code></pre>
+<p>Como pode ser visto, <span class="math inline">\(\hat \beta_2\)</span> não é um bom estimador para <span class="math inline">\(\beta_2\)</span>.</p>
+<p>Dados que o estimador de Mínimos Quadrados não é um bom estimador para o modelo apresentados acima, vamos usar o Estimador de Variáveis Instrumentais e verificar se ele é um bom estimador. O estimador abaixo é o estimador IV, considerando apenas um instrumento, <span class="math inline">\(z1\)</span>.</p>
+<pre class="r"><code>Biv = solve(t(Z)%*%X)%*%t(Z)%*%y 
+Biv</code></pre>
+<pre><code>##        [,1]
+##    1.971384
+## x1 5.000386
+## x2 2.026832</code></pre>
+<pre class="r"><code>e_hat_iv = y - X%*%Biv
+k = ncol(X)
+sigma_hat_iv = (1/(n-k)) * t(e_hat_iv)%*%e_hat_iv  ## O R faz a correção do viés dividindo por (n-k) o Stata só divide por n
+sigma_hat_iv</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.054791</code></pre>
+<pre class="r"><code>V_iv = sigma_hat_iv[1,1] * solve((t(X)%*%Z)%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)
+ep_iv = sqrt(diag(V_iv))
+ep_iv</code></pre>
+<pre><code>##                    x1         x2 
+## 0.04439952 0.03116335 0.04430637</code></pre>
+<pre class="r"><code>z_iv = (Biv) / ep_iv
+z_iv</code></pre>
+<pre><code>##         [,1]
+##     44.40102
+## x1 160.45727
+## x2  45.74583</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-t[1,1])
+p0</code></pre>
+<pre><code>##   
+## 2</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-t[2,1])
+p1</code></pre>
+<pre><code>##       x1 
+## 1.508405</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-t[3,1])
+p2</code></pre>
+<pre><code>##            x2 
+## 3.683701e-144</code></pre>
+<pre class="r"><code>z_iv = (Biv-beta) / ep_iv
+z_iv</code></pre>
+<pre><code>##           [,1]
+##    -0.64450672
+## x1  0.01237549
+## x2  0.60560060</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-abs(z_iv[1,1]))
+p0</code></pre>
+<pre><code>##           
+## 0.5192469</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-abs(z_iv[2,1]))
+p1</code></pre>
+<pre><code>##       x1 
+## 0.990126</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-abs(z_iv[3,1]))
+p2</code></pre>
+<pre><code>##      x2 
+## 0.54478</code></pre>
+<p>Verificar o resultado encontrado utilizando o comando <code>ivreg</code> do <span class="math inline">\(R\)</span>.</p>
+<pre class="r"><code>iv = ivreg(y ~ x1 + x2 | x1 + z1, data = df)
+summary(iv)</code></pre>
+<pre><code>## 
+## Call:
+## ivreg(formula = y ~ x1 + x2 | x1 + z1, data = df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.35439 -0.65777 -0.01778  0.72615  3.10752 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.97138    0.04440   44.40   &lt;2e-16 ***
+## x1           5.00039    0.03116  160.46   &lt;2e-16 ***
+## x2           2.02683    0.04431   45.75   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.027 on 997 degrees of freedom
+## Multiple R-Squared: 0.9766,  Adjusted R-squared: 0.9766 
+## Wald test: 1.448e+04 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Estimador de Variáveis Instrumentais de dois Estágios - 2SLS</p>
+<p>Utilizando apenas um instrumento</p>
+<p><span class="math inline">\(\hat \beta_{2sls} = (X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}X&#39;Z(Z&#39;Z)^{-1}Z&#39;y\)</span></p>
+<pre class="r"><code>B2sls = solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%y
+B2sls</code></pre>
+<pre><code>##        [,1]
+##    1.971384
+## x1 5.000386
+## x2 2.026832</code></pre>
+<p>Por que o nome de dois estágios? Pois é possível obter as mesmas estimativas realizando um procedimento em dois estágios conforme pode ser observado abaixo.</p>
+<pre class="r"><code>B1 = solve(t(Z)%*%Z)%*%t(Z)%*%x2
+x_hat = Z%*%B1
+
+X_hat = cbind(1,x1,x_hat)</code></pre>
+<p>Antes de estimar o 2º estágio, repare que o 1º estágio “limpou” a endogeneidade que existia em <span class="math inline">\(x2\)</span>.</p>
+<pre class="r"><code>cor(x_hat,u)</code></pre>
+<pre><code>##            [,1]
+## [1,] 0.01874478</code></pre>
+<p>2º estágio:</p>
+<pre class="r"><code>B2sls = solve(t(X_hat)%*%X_hat)%*%t(X_hat)%*%y
+B2sls</code></pre>
+<pre><code>##        [,1]
+##    1.971384
+## x1 5.000386
+##    2.026832</code></pre>
+<p>Comparar os resultados obtidos pelo estimador IV com o estimador 2SLS:</p>
+<pre class="r"><code>round(B2sls, 6) == round(Biv,6)</code></pre>
+<pre><code>##    [,1]
+##    TRUE
+## x1 TRUE
+##    TRUE</code></pre>
+<pre class="r"><code>e_hat_2sls = y - X%*%B2sls
+k = ncol(X)
+sigma_hat_2sls = (1/(n)) * t(e_hat_2sls)%*%e_hat_2sls   # n-k correção de viés
+sigma_hat_2sls</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.051626</code></pre>
+<pre class="r"><code>V_2sls = sigma_hat_2sls[1,1] * solve((t(X)%*%Z)%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)
+ep_2sls = sqrt(diag(V_2sls))
+ep_2sls</code></pre>
+<pre><code>##                    x1         x2 
+## 0.04433287 0.03111657 0.04423986</code></pre>
+<pre class="r"><code>z_2sls = (B2sls) / ep_2sls
+z_2sls</code></pre>
+<pre><code>##         [,1]
+##     44.46778
+## x1 160.69850
+##     45.81461</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-abs(z_2sls[1,1]))
+p0</code></pre>
+<pre><code>##   
+## 0</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-abs(z_2sls[2,1]))
+p1</code></pre>
+<pre><code>## x1 
+##  0</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-abs(z_2sls[3,1]))
+p2</code></pre>
+<pre><code>##   
+## 0</code></pre>
+<pre class="r"><code>z_2sls = (B2sls - beta) / ep_2sls
+z_2sls</code></pre>
+<pre><code>##           [,1]
+##    -0.64547567
+## x1  0.01239409
+##     0.60651105</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-abs(z_2sls[1,1]))
+p0</code></pre>
+<pre><code>##          
+## 0.518619</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-abs(z_2sls[2,1]))
+p1</code></pre>
+<pre><code>##        x1 
+## 0.9901112</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-abs(z_2sls[3,1]))
+p2</code></pre>
+<pre><code>##           
+## 0.5441754</code></pre>
+<p>Utilizando dois instrumentos</p>
+<pre class="r"><code>Z = cbind(1,x1,z1,z2)
+B2 = solve(t(Z)%*%Z)%*%t(Z)%*%x2
+x_hat = Z%*%B2
+
+X_hat = cbind(1,x1,x_hat)
+
+B2sls2 = solve(t(X_hat)%*%X_hat)%*%t(X_hat)%*%y
+B2sls2</code></pre>
+<pre><code>##        [,1]
+##    1.967624
+## x1 5.000126
+##    2.032344</code></pre>
+<pre class="r"><code>B2sls2 = solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%y
+B2sls2</code></pre>
+<pre><code>##        [,1]
+##    1.967624
+## x1 5.000126
+## x2 2.032344</code></pre>
+<pre class="r"><code>e_hat_2sls2 = y - X%*%B2sls2
+k = ncol(X)
+sigma_hat_2sls2 = (1/(n)) * t(e_hat_2sls2)%*%e_hat_2sls2   # n-k correção de viés
+sigma_hat_2sls2</code></pre>
+<pre><code>##          [,1]
+## [1,] 1.040341</code></pre>
+<pre class="r"><code>V_2sls2 = sigma_hat_2sls2[1,1] * solve((t(X)%*%Z)%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)
+ep_2sls2 = sqrt(diag(V_2sls2))
+ep_2sls2</code></pre>
+<pre><code>##                    x1         x2 
+## 0.04115102 0.03092977 0.03737644</code></pre>
+<p>Usar mais de um instrumento (caso exista mais de um bom instrumento) faz com que o estimador seja mais eficiente.</p>
+<pre class="r"><code>ep_2sls2 &lt; ep_2sls</code></pre>
+<pre><code>##        x1   x2 
+## TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>z_2sls2 = (B2sls2) / ep_2sls2
+z_2sls2</code></pre>
+<pre><code>##         [,1]
+##     47.81471
+## x1 161.66063
+## x2  54.37500</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-abs(z_2sls2[1,1]))
+p0</code></pre>
+<pre><code>##   
+## 0</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-abs(z_2sls2[2,1]))
+p1</code></pre>
+<pre><code>## x1 
+##  0</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-abs(z_2sls2[3,1]))
+p2</code></pre>
+<pre><code>## x2 
+##  0</code></pre>
+<pre class="r"><code>z_2sls2 = (B2sls2 - beta) / ep_2sls2
+z_2sls2</code></pre>
+<pre><code>##            [,1]
+##    -0.786757106
+## x1  0.004062665
+## x2  0.865354116</code></pre>
+<pre class="r"><code>p0 =  2 * pnorm(-abs(z_2sls2[1,1]))
+p0</code></pre>
+<pre><code>##           
+## 0.4314241</code></pre>
+<pre class="r"><code>p1 = 2 * pnorm(-abs(z_2sls2[2,1]))
+p1</code></pre>
+<pre><code>##        x1 
+## 0.9967585</code></pre>
+<pre class="r"><code>p2 = 2 * pnorm(-abs(z_2sls2[3,1]))
+p2</code></pre>
+<pre><code>##        x2 
+## 0.3868445</code></pre>
 </div>
 
 
