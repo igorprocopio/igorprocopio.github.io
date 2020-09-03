@@ -188,13 +188,14 @@ summary {
 <li><a href="#matrizes">2.2 - Matrizes</a></li>
 <li><a href="#dataframe">2.3 - Dataframe</a></li>
 <li><a href="#fatores">2.4 - Fatores</a></li>
-<li><a href="#probabilidade">3 - Probabilidade</a></li>
 </ul></li>
+<li><a href="#probabilidade">3 - Probabilidade</a></li>
 <li><a href="#álgebra-dos-mínimos-quadrados">4 - Álgebra dos Mínimos Quadrados</a></li>
 <li><a href="#um-pouco-sobre-funções-de-distribuições">Um pouco sobre funções de distribuições</a></li>
 <li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
 <li><a href="#simulações">Simulações</a></li>
 <li><a href="#variáveis-instrumentais">6 - Variáveis Instrumentais</a></li>
+<li><a href="#sistemas-de-equações">7 - sistemas de Equações</a></li>
 </ul>
 </div>
 
@@ -467,9 +468,9 @@ summary(gender)</code></pre>
 <pre><code>## female   male 
 ##     30     20</code></pre>
 </div>
-<div id="probabilidade" class="section level3">
-<h3>3 - Probabilidade</h3>
 </div>
+<div id="probabilidade" class="section level2">
+<h2>3 - Probabilidade</h2>
 </div>
 <div id="álgebra-dos-mínimos-quadrados" class="section level2">
 <h2>4 - Álgebra dos Mínimos Quadrados</h2>
@@ -1494,6 +1495,10 @@ X_hat = cbind(1,x1,x_hat)</code></pre>
 <pre class="r"><code>cor(x_hat,u)</code></pre>
 <pre><code>##            [,1]
 ## [1,] 0.01874478</code></pre>
+<pre class="r"><code>res =x2 - x_hat
+cor(res,u)</code></pre>
+<pre><code>##           [,1]
+## [1,] 0.6912819</code></pre>
 <p>2º estágio:</p>
 <pre class="r"><code>B2sls = solve(t(X_hat)%*%X_hat)%*%t(X_hat)%*%y
 B2sls</code></pre>
@@ -1507,16 +1512,30 @@ B2sls</code></pre>
 ##    TRUE
 ## x1 TRUE
 ##    TRUE</code></pre>
+<p>Apesar da estimação utilizando um procedimento em dois estágios produzir estimativas idênticas para os parâmetros <span class="math inline">\(\beta\)</span> do modelo, as estimativas dos erros padrão precisam ser corrigidas.</p>
+<p><span class="math inline">\(V_{ols} = \sigma^2 * (\hat X&#39; \hat X)^{-1}\)</span></p>
+<pre class="r"><code>e_hat_2 = y - X_hat%*%B2sls
+k = ncol(X)
+sigma_hat_2 = (1/(n-k)) * t(e_hat_2)%*%e_hat_2   # n-k correção de viés
+sigma_hat_2</code></pre>
+<pre><code>##         [,1]
+## [1,] 14.5157</code></pre>
+<pre class="r"><code>V_ols = sigma_hat_2[1,1] * solve((t(X_hat)%*%X_hat))
+ep_ols = sqrt(diag(V_ols))
+ep_ols</code></pre>
+<pre><code>##                  x1           
+## 0.1647078 0.1156059 0.1643622</code></pre>
+<p><span class="math inline">\(V_{2sls} = \sigma^2 (X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}\)</span></p>
 <pre class="r"><code>e_hat_2sls = y - X%*%B2sls
 k = ncol(X)
 sigma_hat_2sls = (1/(n)) * t(e_hat_2sls)%*%e_hat_2sls   # n-k correção de viés
 sigma_hat_2sls</code></pre>
 <pre><code>##          [,1]
 ## [1,] 1.051626</code></pre>
-<pre class="r"><code>V_2sls = sigma_hat_2sls[1,1] * solve((t(X)%*%Z)%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)
+<pre class="r"><code>V_2sls = sigma_hat_2sls[1,1] * solve((t(X_hat)%*%X_hat))
 ep_2sls = sqrt(diag(V_2sls))
 ep_2sls</code></pre>
-<pre><code>##                    x1         x2 
+<pre><code>##                    x1            
 ## 0.04433287 0.03111657 0.04423986</code></pre>
 <pre class="r"><code>z_2sls = (B2sls) / ep_2sls
 z_2sls</code></pre>
@@ -1624,6 +1643,263 @@ p1</code></pre>
 p2</code></pre>
 <pre><code>##        x2 
 ## 0.3868445</code></pre>
+</div>
+<div id="sistemas-de-equações" class="section level2">
+<h2>7 - sistemas de Equações</h2>
+<pre class="r"><code># Specify a variable to hold number of observations
+obs = 10000
+
+# Create independent variables
+z1 = rnorm(obs)
+z2 = rnorm(obs)
+
+# Create error
+u1 = rnorm(obs)
+u2 = rnorm(obs)
+
+# Create endogenous variable
+x1 = .5*z1  -   z2 + u1 + rnorm(obs)
+x2 = 1.5*z1 - 2*z2 - u2 + rnorm(obs)
+x3 = rnorm(obs)
+
+# Create dependent variable
+y1 =  5 + 2*x1 - x2 +   x3 + u1*5 - u2*2
+y2 = -5 - 2*x1 + x2 - 2*x3 + u2*5 - u1*1</code></pre>
+<pre class="r"><code>X = cbind(x1,x2,x3,1)
+Y = cbind(y1,y2)</code></pre>
+<pre class="r"><code>SOLS =  solve(t(X)%*%X)%*%t(X)%*%Y
+SOLS</code></pre>
+<pre><code>##           y1         y2
+## x1  3.850396 -1.7283734
+## x2 -1.363058  0.2821534
+## x3  1.045975 -2.0799644
+##     5.077809 -5.0765309</code></pre>
+<pre class="r"><code>X1 = cbind(x1,x2,x3,1)
+X2 = cbind(x1,x2,x3,1)
+X = rbind(cbind(X1,0,0,0,0),cbind(0,0,0,0,X2))
+Y = matrix(c(y1,y2),ncol=1)</code></pre>
+<pre class="r"><code>SUR = solve(t(X)%*%X)%*%t(X)%*%Y
+SUR</code></pre>
+<pre><code>##          [,1]
+## x1  3.8503964
+## x2 -1.3630578
+## x3  1.0459747
+##     5.0778093
+##    -1.7283734
+##     0.2821534
+##    -2.0799644
+##    -5.0765309</code></pre>
+<pre class="r"><code>df = data.frame(y1,y2,x1,x2,x3,z1,z2)</code></pre>
+<pre class="r"><code>eq1 &lt;- y1 ~ x1 + x2 + x3
+eq2 &lt;- y2 ~ x1 + x2 + x3
+system &lt;- list (eq1 = eq1, eq2 = eq2)</code></pre>
+<pre class="r"><code># OLS regression
+olsreg1 &lt;- lm(y1 ~ X1)
+summary(olsreg1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y1 ~ X1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -18.6249  -3.1458   0.0304   3.1251  16.5527 
+## 
+## Coefficients: (1 not defined because of singularities)
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.07781    0.04589  110.64   &lt;2e-16 ***
+## X1x1         3.85040    0.02963  129.95   &lt;2e-16 ***
+## X1x2        -1.36306    0.01894  -71.96   &lt;2e-16 ***
+## X1x3         1.04597    0.04610   22.69   &lt;2e-16 ***
+## X1                NA         NA      NA       NA    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.588 on 9996 degrees of freedom
+## Multiple R-squared:  0.6362, Adjusted R-squared:  0.6361 
+## F-statistic:  5827 on 3 and 9996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>olsreg2 &lt;- lm(y2 ~ X2)
+summary(olsreg2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y2 ~ X2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -18.5107  -3.2407  -0.0232   3.1955  17.9632 
+## 
+## Coefficients: (1 not defined because of singularities)
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -5.07653    0.04796 -105.85   &lt;2e-16 ***
+## X2x1        -1.72837    0.03096  -55.82   &lt;2e-16 ***
+## X2x2         0.28215    0.01980   14.25   &lt;2e-16 ***
+## X2x3        -2.07996    0.04818  -43.17   &lt;2e-16 ***
+## X2                NA         NA      NA       NA    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.795 on 9996 degrees of freedom
+## Multiple R-squared:  0.3478, Adjusted R-squared:  0.3476 
+## F-statistic:  1777 on 3 and 9996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code># SUR
+#install.packages(&quot;systemfit&quot;)
+library(systemfit)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Please cite the &#39;systemfit&#39; package as:
+## Arne Henningsen and Jeff D. Hamann (2007). systemfit: A Package for Estimating Systems of Simultaneous Equations in R. Journal of Statistical Software 23(4), 1-40. http://www.jstatsoft.org/v23/i04/.
+## 
+## If you have questions, suggestions, or comments regarding the &#39;systemfit&#39; package, please use a forum or &#39;tracker&#39; at systemfit&#39;s R-Forge site:
+## https://r-forge.r-project.org/projects/systemfit/</code></pre>
+<pre class="r"><code>sur &lt;- systemfit(system, method = &quot;SUR&quot;, data = df)
+summary(sur)</code></pre>
+<pre><code>## 
+## systemfit results 
+## method: SUR 
+## 
+##            N    DF    SSR detRCov   OLS-R2 McElroy-R2
+## system 20000 19992 440273  249.28 0.527035   0.524224
+## 
+##         N   DF    SSR     MSE    RMSE       R2   Adj R2
+## eq1 10000 9996 210451 21.0535 4.58841 0.636204 0.636095
+## eq2 10000 9996 229822 22.9914 4.79494 0.347823 0.347627
+## 
+## The covariance matrix of the residuals used for estimation
+##          eq1      eq2
+## eq1  21.0535 -15.3222
+## eq2 -15.3222  22.9914
+## 
+## The covariance matrix of the residuals
+##          eq1      eq2
+## eq1  21.0535 -15.3222
+## eq2 -15.3222  22.9914
+## 
+## The correlations of the residuals
+##           eq1       eq2
+## eq1  1.000000 -0.696427
+## eq2 -0.696427  1.000000
+## 
+## 
+## SUR estimates for &#39;eq1&#39; (equation 1)
+## Model Formula: y1 ~ x1 + x2 + x3
+## 
+##               Estimate Std. Error  t value   Pr(&gt;|t|)    
+## (Intercept)  5.0778093  0.0458927 110.6452 &lt; 2.22e-16 ***
+## x1           3.8503964  0.0296298 129.9500 &lt; 2.22e-16 ***
+## x2          -1.3630578  0.0189426 -71.9572 &lt; 2.22e-16 ***
+## x3           1.0459747  0.0461016  22.6885 &lt; 2.22e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.588406 on 9996 degrees of freedom
+## Number of observations: 10000 Degrees of Freedom: 9996 
+## SSR: 210450.500457 MSE: 21.053471 Root MSE: 4.588406 
+## Multiple R-Squared: 0.636204 Adjusted R-Squared: 0.636095 
+## 
+## 
+## SUR estimates for &#39;eq2&#39; (equation 2)
+## Model Formula: y2 ~ x1 + x2 + x3
+## 
+##               Estimate Std. Error   t value   Pr(&gt;|t|)    
+## (Intercept) -5.0765309  0.0479584 -105.8528 &lt; 2.22e-16 ***
+## x1          -1.7283734  0.0309635  -55.8197 &lt; 2.22e-16 ***
+## x2           0.2821534  0.0197952   14.2536 &lt; 2.22e-16 ***
+## x3          -2.0799644  0.0481767  -43.1737 &lt; 2.22e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.794937 on 9996 degrees of freedom
+## Number of observations: 10000 Degrees of Freedom: 9996 
+## SSR: 229822.217381 MSE: 22.991418 Root MSE: 4.794937 
+## Multiple R-Squared: 0.347823 Adjusted R-Squared: 0.347627</code></pre>
+<p>SIV</p>
+<pre class="r"><code>X = cbind(x1, x2, x3, 1)
+Y = cbind(y1,y2)
+Z = cbind(x3, z1, z2, 1)</code></pre>
+<pre class="r"><code>SIV = solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%Y
+SIV</code></pre>
+<pre><code>##           y1        y2
+## x1  2.323989 -2.093188
+## x2 -1.142112  1.037718
+## x3  1.057396 -2.046468
+##     5.036751 -5.057870</code></pre>
+<p>Equção por equação</p>
+<pre class="r"><code>IV1 = solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%y1
+IV1</code></pre>
+<pre><code>##         [,1]
+## x1  2.323989
+## x2 -1.142112
+## x3  1.057396
+##     5.036751</code></pre>
+<pre class="r"><code>IV2 = solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%y2
+IV2</code></pre>
+<pre><code>##         [,1]
+## x1 -2.093188
+## x2  1.037718
+## x3 -2.046468
+##    -5.057870</code></pre>
+<pre class="r"><code>siv &lt;- systemfit(system, method = &quot;3SLS&quot;, inst = ~ x3 + z1 + z2, data = df)
+summary(siv)</code></pre>
+<pre><code>## 
+## systemfit results 
+## method: 3SLS 
+## 
+##            N    DF    SSR detRCov   OLS-R2 McElroy-R2
+## system 20000 19992 539029 486.251 0.420945   0.335967
+## 
+##         N   DF    SSR     MSE    RMSE       R2   Adj R2
+## eq1 10000 9996 273446 27.3555 5.23025 0.527307 0.527165
+## eq2 10000 9996 265583 26.5689 5.15451 0.246343 0.246116
+## 
+## The covariance matrix of the residuals used for estimation
+##          eq1      eq2
+## eq1  27.3555 -15.5099
+## eq2 -15.5099  26.5689
+## 
+## The covariance matrix of the residuals
+##          eq1      eq2
+## eq1  27.3555 -15.5099
+## eq2 -15.5099  26.5689
+## 
+## The correlations of the residuals
+##           eq1       eq2
+## eq1  1.000000 -0.575306
+## eq2 -0.575306  1.000000
+## 
+## 
+## 3SLS estimates for &#39;eq1&#39; (equation 1)
+## Model Formula: y1 ~ x1 + x2 + x3
+## Instruments: ~x3 + z1 + z2
+## 
+##               Estimate Std. Error  t value   Pr(&gt;|t|)    
+## (Intercept)  5.0367515  0.0524124  96.0985 &lt; 2.22e-16 ***
+## x1           2.3239888  0.2227733  10.4321 &lt; 2.22e-16 ***
+## x2          -1.1421121  0.1015902 -11.2423 &lt; 2.22e-16 ***
+## x3           1.0573965  0.0527512  20.0450 &lt; 2.22e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.230253 on 9996 degrees of freedom
+## Number of observations: 10000 Degrees of Freedom: 9996 
+## SSR: 273446.02145 MSE: 27.355544 Root MSE: 5.230253 
+## Multiple R-Squared: 0.527307 Adjusted R-Squared: 0.527165 
+## 
+## 
+## 3SLS estimates for &#39;eq2&#39; (equation 2)
+## Model Formula: y2 ~ x1 + x2 + x3
+## Instruments: ~x3 + z1 + z2
+## 
+##               Estimate Std. Error   t value   Pr(&gt;|t|)    
+## (Intercept) -5.0578696  0.0516533 -97.91951 &lt; 2.22e-16 ***
+## x1          -2.0931881  0.2195470  -9.53412 &lt; 2.22e-16 ***
+## x2           1.0377181  0.1001190  10.36485 &lt; 2.22e-16 ***
+## x3          -2.0464675  0.0519872 -39.36483 &lt; 2.22e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.154506 on 9996 degrees of freedom
+## Number of observations: 10000 Degrees of Freedom: 9996 
+## SSR: 265583.095816 MSE: 26.568937 Root MSE: 5.154506 
+## Multiple R-Squared: 0.246343 Adjusted R-Squared: 0.246116</code></pre>
 </div>
 
 
