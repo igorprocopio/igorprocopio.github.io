@@ -350,11 +350,11 @@ A</code></pre>
 </tr>
 <tr class="even">
 <td>cbind(A,B,..)</td>
-<td>Combina matrizes (vetores) horizontalmente</td>
+<td>Combina matrizes (vetores) adicionando colunas</td>
 </tr>
 <tr class="odd">
 <td>rbind(A,B,..)</td>
-<td>Combina matrizes (vetores) verticalmente</td>
+<td>Combina matrizes (vetores) adicionando linhas</td>
 </tr>
 <tr class="even">
 <td>rowMeans(A)</td>
@@ -1525,7 +1525,7 @@ ep_ols = sqrt(diag(V_ols))
 ep_ols</code></pre>
 <pre><code>##                  x1           
 ## 0.1647078 0.1156059 0.1643622</code></pre>
-<p><span class="math inline">\(V_{2sls} = \sigma^2 (X&#39;Z(Z&#39;Z)^{-1}Z&#39;X)^{-1}\)</span></p>
+<p><span class="math inline">\(V_{2sls} = \sigma^2 * (\hat X&#39; \hat X)^{-1}\)</span></p>
 <pre class="r"><code>e_hat_2sls = y - X%*%B2sls
 k = ncol(X)
 sigma_hat_2sls = (1/(n)) * t(e_hat_2sls)%*%e_hat_2sls   # n-k correção de viés
