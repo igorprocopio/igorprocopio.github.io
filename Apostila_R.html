@@ -189,7 +189,14 @@ summary {
 <li><a href="#dataframe">2.3 - Dataframe</a></li>
 <li><a href="#fatores">2.4 - Fatores</a></li>
 </ul></li>
-<li><a href="#probabilidade">3 - Probabilidade</a></li>
+<li><a href="#probabilidade">3 - Probabilidade</a><ul>
+<li><a href="#espaço-amostral">Espaço Amostral</a></li>
+<li><a href="#álgebra-de-conjuntos">Álgebra de conjuntos</a></li>
+<li><a href="#espaço-de-probabilidades">Espaço de Probabilidades</a></li>
+<li><a href="#função-de-probabilidades">Função de probabilidades</a></li>
+<li><a href="#amostragem">Amostragem</a></li>
+<li><a href="#variáveis-aleatórias">Variáveis Aleatórias</a></li>
+</ul></li>
 <li><a href="#álgebra-dos-mínimos-quadrados">4 - Álgebra dos Mínimos Quadrados</a></li>
 <li><a href="#um-pouco-sobre-funções-de-distribuições">Um pouco sobre funções de distribuições</a></li>
 <li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
@@ -471,6 +478,684 @@ summary(gender)</code></pre>
 </div>
 <div id="probabilidade" class="section level2">
 <h2>3 - Probabilidade</h2>
+<p>A Teoria da Probabilidade é a base para a economia e a econometria. Probabilidade é a linguagem matemática usada para lidar com a incerteza, que é central na moderna Teoria Econômica. A Teoria da Probabilidade é também a base da estatística matemática, que por sua vez é a base da econometria.</p>
+<div id="espaço-amostral" class="section level3">
+<h3>Espaço Amostral</h3>
+<p>Espaço amostral é o conjunto de todos os possíveis resultados de um experimento.</p>
+<p>O pacote <code>prob</code> é uma ferramenta interessante do <strong>R</strong> para o estudo de probabilidades. No pacote <code>prob</code>o espaço amostral é representado por um <em>dataframe</em>. Cada linha do <em>dataframe</em> corresponde a um resultado do experimento.</p>
+<pre class="r"><code>#install.packages(&quot;prob&quot;)
+library(prob)</code></pre>
+<div id="alguns-exemplos-de-espaços-amostrais" class="section level4">
+<h4>Alguns exemplos de espaços amostrais</h4>
+<p>Jogar uma moeda.</p>
+<pre class="r"><code>tosscoin(1)</code></pre>
+<pre><code>##   toss1
+## 1     H
+## 2     T</code></pre>
+<p>Jogar duas moedas</p>
+<pre class="r"><code>tosscoin(2)</code></pre>
+<pre><code>##   toss1 toss2
+## 1     H     H
+## 2     T     H
+## 3     H     T
+## 4     T     T</code></pre>
+<p>Jogar um dado de seis faces.</p>
+<pre class="r"><code>rolldie(1)</code></pre>
+<pre><code>##   X1
+## 1  1
+## 2  2
+## 3  3
+## 4  4
+## 5  5
+## 6  6</code></pre>
+<p>Jogar dois dados de seis faces.</p>
+<pre class="r"><code>rolldie(2)</code></pre>
+<pre><code>##    X1 X2
+## 1   1  1
+## 2   2  1
+## 3   3  1
+## 4   4  1
+## 5   5  1
+## 6   6  1
+## 7   1  2
+## 8   2  2
+## 9   3  2
+## 10  4  2
+## 11  5  2
+## 12  6  2
+## 13  1  3
+## 14  2  3
+## 15  3  3
+## 16  4  3
+## 17  5  3
+## 18  6  3
+## 19  1  4
+## 20  2  4
+## 21  3  4
+## 22  4  4
+## 23  5  4
+## 24  6  4
+## 25  1  5
+## 26  2  5
+## 27  3  5
+## 28  4  5
+## 29  5  5
+## 30  6  5
+## 31  1  6
+## 32  2  6
+## 33  3  6
+## 34  4  6
+## 35  5  6
+## 36  6  6</code></pre>
+<pre class="r"><code>cards()</code></pre>
+<pre><code>##    rank    suit
+## 1     2    Club
+## 2     3    Club
+## 3     4    Club
+## 4     5    Club
+## 5     6    Club
+## 6     7    Club
+## 7     8    Club
+## 8     9    Club
+## 9    10    Club
+## 10    J    Club
+## 11    Q    Club
+## 12    K    Club
+## 13    A    Club
+## 14    2 Diamond
+## 15    3 Diamond
+## 16    4 Diamond
+## 17    5 Diamond
+## 18    6 Diamond
+## 19    7 Diamond
+## 20    8 Diamond
+## 21    9 Diamond
+## 22   10 Diamond
+## 23    J Diamond
+## 24    Q Diamond
+## 25    K Diamond
+## 26    A Diamond
+## 27    2   Heart
+## 28    3   Heart
+## 29    4   Heart
+## 30    5   Heart
+## 31    6   Heart
+## 32    7   Heart
+## 33    8   Heart
+## 34    9   Heart
+## 35   10   Heart
+## 36    J   Heart
+## 37    Q   Heart
+## 38    K   Heart
+## 39    A   Heart
+## 40    2   Spade
+## 41    3   Spade
+## 42    4   Spade
+## 43    5   Spade
+## 44    6   Spade
+## 45    7   Spade
+## 46    8   Spade
+## 47    9   Spade
+## 48   10   Spade
+## 49    J   Spade
+## 50    Q   Spade
+## 51    K   Spade
+## 52    A   Spade</code></pre>
+</div>
+<div id="subespaços" class="section level4">
+<h4>Subespaços</h4>
+<pre class="r"><code>S = tosscoin(2)
+subset(S, toss2 == &quot;H&quot;)</code></pre>
+<pre><code>##   toss1 toss2
+## 1     H     H
+## 2     T     H</code></pre>
+<pre class="r"><code>S &lt;- cards()
+subset(S, suit == &quot;Heart&quot;)</code></pre>
+<pre><code>##    rank  suit
+## 27    2 Heart
+## 28    3 Heart
+## 29    4 Heart
+## 30    5 Heart
+## 31    6 Heart
+## 32    7 Heart
+## 33    8 Heart
+## 34    9 Heart
+## 35   10 Heart
+## 36    J Heart
+## 37    Q Heart
+## 38    K Heart
+## 39    A Heart</code></pre>
+<pre class="r"><code>subset(rolldie(2), X1+X2 &gt; 8)</code></pre>
+<pre><code>##    X1 X2
+## 18  6  3
+## 23  5  4
+## 24  6  4
+## 28  4  5
+## 29  5  5
+## 30  6  5
+## 33  3  6
+## 34  4  6
+## 35  5  6
+## 36  6  6</code></pre>
+</div>
+</div>
+<div id="álgebra-de-conjuntos" class="section level3">
+<h3>Álgebra de conjuntos</h3>
+<p><strong>União</strong></p>
+<pre class="r"><code>S = cards()
+A = subset(S, suit == &quot;Heart&quot;)
+B = subset(S, suit == &quot;Club&quot; )
+union(A,B)</code></pre>
+<pre><code>##    rank  suit
+## 1     2  Club
+## 2     3  Club
+## 3     4  Club
+## 4     5  Club
+## 5     6  Club
+## 6     7  Club
+## 7     8  Club
+## 8     9  Club
+## 9    10  Club
+## 10    J  Club
+## 11    Q  Club
+## 12    K  Club
+## 13    A  Club
+## 27    2 Heart
+## 28    3 Heart
+## 29    4 Heart
+## 30    5 Heart
+## 31    6 Heart
+## 32    7 Heart
+## 33    8 Heart
+## 34    9 Heart
+## 35   10 Heart
+## 36    J Heart
+## 37    Q Heart
+## 38    K Heart
+## 39    A Heart</code></pre>
+<p><strong>Interseção</strong></p>
+<pre class="r"><code>intersect(A,B)</code></pre>
+<pre><code>## [1] rank suit
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
+<pre class="r"><code>S = rolldie(2)
+A = subset(S, X1 == 5)
+B = subset(S, X1 + X2 &gt;= 10)</code></pre>
+<pre class="r"><code>A</code></pre>
+<pre><code>##    X1 X2
+## 5   5  1
+## 11  5  2
+## 17  5  3
+## 23  5  4
+## 29  5  5
+## 35  5  6</code></pre>
+<pre class="r"><code>B</code></pre>
+<pre><code>##    X1 X2
+## 24  6  4
+## 29  5  5
+## 30  6  5
+## 34  4  6
+## 35  5  6
+## 36  6  6</code></pre>
+<pre class="r"><code>intersect(A,B)</code></pre>
+<pre><code>##    X1 X2
+## 29  5  5
+## 35  5  6</code></pre>
+<p><strong>Diferença</strong></p>
+<p>A operação de diferença entre conjuntos, <span class="math inline">\(A-B\)</span>, forma um novo conjunto, contendo os elementos de <span class="math inline">\(A\)</span> que não pertencem ao conjunto <span class="math inline">\(B\)</span>.</p>
+<pre class="r"><code>setdiff(A,B)</code></pre>
+<pre><code>##    X1 X2
+## 5   5  1
+## 11  5  2
+## 17  5  3
+## 23  5  4</code></pre>
+<p>Note que a operação diferença não é simétrica.</p>
+<pre class="r"><code>setdiff(B,A)</code></pre>
+<pre><code>##    X1 X2
+## 24  6  4
+## 30  6  5
+## 34  4  6
+## 36  6  6</code></pre>
+<p>Com a função <code>setdiff</code> é possivel calcular o complemento de um conjunto. Por exemplo, o complemento de <em>A</em>, denotado por <em>A<sup>c</sup></em>, é definido pelos elementos de <em>S</em> que não estão em <em>A</em>.</p>
+<pre class="r"><code>setdiff(S,A)</code></pre>
+<pre><code>##    X1 X2
+## 1   1  1
+## 2   2  1
+## 3   3  1
+## 4   4  1
+## 6   6  1
+## 7   1  2
+## 8   2  2
+## 9   3  2
+## 10  4  2
+## 12  6  2
+## 13  1  3
+## 14  2  3
+## 15  3  3
+## 16  4  3
+## 18  6  3
+## 19  1  4
+## 20  2  4
+## 21  3  4
+## 22  4  4
+## 24  6  4
+## 25  1  5
+## 26  2  5
+## 27  3  5
+## 28  4  5
+## 30  6  5
+## 31  1  6
+## 32  2  6
+## 33  3  6
+## 34  4  6
+## 36  6  6</code></pre>
+</div>
+<div id="espaço-de-probabilidades" class="section level3">
+<h3>Espaço de Probabilidades</h3>
+<p>Até aqui os elementos dos conjuntos não possuiam uma probabilidade associada. A partir de agora, acrescenta-se probabilidade a cada elemento do espaço amostral, transformando-o em um espaço de probabilidades.</p>
+<pre class="r"><code>outcomes = rolldie(1)
+probability = rep(1/6, 6) 
+S = probspace(outcomes, probs = probability)
+S</code></pre>
+<pre><code>##   X1     probs
+## 1  1 0.1666667
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<pre class="r"><code>probspace(1:6, probs = probability)</code></pre>
+<pre><code>##   x     probs
+## 1 1 0.1666667
+## 2 2 0.1666667
+## 3 3 0.1666667
+## 4 4 0.1666667
+## 5 5 0.1666667
+## 6 6 0.1666667</code></pre>
+<pre class="r"><code>probspace(1:6)</code></pre>
+<pre><code>##   x     probs
+## 1 1 0.1666667
+## 2 2 0.1666667
+## 3 3 0.1666667
+## 4 4 0.1666667
+## 5 5 0.1666667
+## 6 6 0.1666667</code></pre>
+<pre class="r"><code>rolldie(1, makespace = TRUE)</code></pre>
+<pre><code>##   X1     probs
+## 1  1 0.1666667
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<p><strong>Probabilidades desiguais</strong></p>
+<p>As funções acima criaram espaços de probabilidade com probabilidades iguais para cada possível resultado. Em muitos casos os possíveis resultados possuem probabilidades difentes.</p>
+<p><strong>Moeda não balanceada</strong></p>
+<pre class="r"><code>probspace(tosscoin(1), probs = c(0.70, 0.30))</code></pre>
+<pre><code>##   toss1 probs
+## 1     H   0.7
+## 2     T   0.3</code></pre>
+<p><strong>Experimentos idênticos e independentes repetidos</strong></p>
+<p>Situação em que certo experimento é repetido múltiplas vezes sob condições idênticas e de maneira independente.</p>
+<pre class="r"><code>iidspace(c(&quot;H&quot;,&quot;T&quot;), ntrials = 3, probs = c(0.7, 0.3))</code></pre>
+<pre><code>##   X1 X2 X3 probs
+## 1  H  H  H 0.343
+## 2  T  H  H 0.147
+## 3  H  T  H 0.147
+## 4  T  T  H 0.063
+## 5  H  H  T 0.147
+## 6  T  H  T 0.063
+## 7  H  T  T 0.063
+## 8  T  T  T 0.027</code></pre>
+</div>
+<div id="função-de-probabilidades" class="section level3">
+<h3>Função de probabilidades</h3>
+<pre class="r"><code>S = cards(makespace = TRUE)
+A = subset(S, suit == &quot;Heart&quot;)
+B &lt;- subset(S, rank %in% 7:9)</code></pre>
+<pre class="r"><code>Prob(A)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(S, suit == &quot;Heart&quot;)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(B)</code></pre>
+<pre><code>## [1] 0.2307692</code></pre>
+<p><strong>Axiomas da Probabilidade</strong></p>
+<p>1 - <span class="math inline">\(P(A) \ge 0\)</span><br />
+2 - <span class="math inline">\(P(S) = 1\)</span><br />
+3 - Se <span class="math inline">\(A_1,A_2~,...\)</span> forem disjunto, então <span class="math inline">\(P[ \cup_{j=1}^{\infty} A_j] = \sum_{j=1}^{\infty} P(A_j)\)</span><br />
+</p>
+<p>Definir Espaço de Probabilidades</p>
+<pre class="r"><code>S = rolldie(1, makespace = TRUE)
+S</code></pre>
+<pre><code>##   X1     probs
+## 1  1 0.1666667
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<p>Criar partição de <span class="math inline">\(S\)</span>.</p>
+<pre class="r"><code>A1 = subset(S, X1 == 1)
+A2 = subset(S, X1 == 2 | X1 == 3)
+A3 = subset(S, X1 == 4 | X1 == 5)
+A4 = subset(S, X1 == 6)</code></pre>
+<p>1 - <span class="math inline">\(P(A) \ge 0\)</span><br />
+</p>
+<pre class="r"><code>Prob(A1)</code></pre>
+<pre><code>## [1] 0.1666667</code></pre>
+<p>2 - <span class="math inline">\(P(S) = 1\)</span><br />
+</p>
+<pre class="r"><code>Prob(S)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>3 - Se <span class="math inline">\(A_1,A_2~,...\)</span> forem disjunto, então <span class="math inline">\(P[ \cup_{j=1}^{\infty} A_j] = \sum_{j=1}^{\infty} P(A_j)\)</span><br />
+</p>
+<pre class="r"><code>Prob(union(A1,union(A2,A3)))</code></pre>
+<pre><code>## [1] 0.8333333</code></pre>
+<pre class="r"><code>Prob(A1) + Prob(A2) + Prob(A3)</code></pre>
+<pre><code>## [1] 0.8333333</code></pre>
+<p><strong>Propriedades da Função de Probabilidade</strong></p>
+<p>PAra verificar algums propriedades da Função de Probabilidade vamos criar três subconjuntos do espaço amostral <span class="math inline">\(S\)</span>.</p>
+<pre class="r"><code>A = subset(S, X1 &gt;3)
+A</code></pre>
+<pre><code>##   X1     probs
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<pre class="r"><code>B = subset(S, X1 == 3 | X1 == 4)
+B</code></pre>
+<pre><code>##   X1     probs
+## 3  3 0.1666667
+## 4  4 0.1666667</code></pre>
+<pre class="r"><code>C = subset(S,X1 == 4 | X1 == 5)
+C</code></pre>
+<pre><code>##   X1     probs
+## 4  4 0.1666667
+## 5  5 0.1666667</code></pre>
+<p>1 - <span class="math inline">\(P(A^c) = 1 - P(A)\)</span></p>
+<pre class="r"><code>Prob(setdiff(S,A))</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>1 - Prob(A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>2 - <span class="math inline">\(P(\emptyset) = 0\)</span></p>
+<pre class="r"><code>empty = subset(S, X1 == 7)
+Prob(empty)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>3 - <span class="math inline">\(P(A) \le 1\)</span></p>
+<pre class="r"><code>Prob(A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>4 - Se <span class="math inline">\(C \subset A\)</span>, então <span class="math inline">\(P(C) \le P(A)\)</span></p>
+<pre class="r"><code>isin(A[,1],C[,1])</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>Prob(C)</code></pre>
+<pre><code>## [1] 0.3333333</code></pre>
+<pre class="r"><code>Prob(A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p>5 - <span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></p>
+<pre class="r"><code>Prob(union(A,B))</code></pre>
+<pre><code>## [1] 0.6666667</code></pre>
+<pre class="r"><code>Prob(A) + Prob(B) - Prob(intersect(A,B))</code></pre>
+<pre><code>## [1] 0.6666667</code></pre>
+<p>6 - <span class="math inline">\(P(A \cup B) \le P(A) + P(B)\)</span></p>
+<pre class="r"><code>Prob(union(A,B))</code></pre>
+<pre><code>## [1] 0.6666667</code></pre>
+<pre class="r"><code>Prob(A) + Prob(B)</code></pre>
+<pre><code>## [1] 0.8333333</code></pre>
+<p><strong>Probabilidade Condicional</strong></p>
+<p><span class="math inline">\(P(A \mid B) = \frac{P(A \cap B)}{P(B)}, se P(B) &gt;0\)</span></p>
+<pre class="r"><code>S = cards(makespace = TRUE)
+A = subset(S, suit == &quot;Heart&quot;)
+B &lt;- subset(S, rank %in% 7:9)</code></pre>
+<p><span class="math inline">\(P(A \mid B)\)</span></p>
+<pre class="r"><code>Prob(A, given = B)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<p><span class="math inline">\(\frac{P(A \cap B)}{P(B)}\)</span></p>
+<pre class="r"><code>Prob(intersect(A,B) ) / Prob(B)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(S, suit==&quot;Heart&quot;, given = rank %in% 7:9)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(B, given = A) </code></pre>
+<pre><code>## [1] 0.2307692</code></pre>
+<p><strong>Regra da Adição</strong></p>
+<p><span class="math inline">\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</span></p>
+<pre class="r"><code>Prob(union(A,B))</code></pre>
+<pre><code>## [1] 0.4230769</code></pre>
+<pre class="r"><code>Prob(A) + Prob(B) - Prob(intersect(A,B))</code></pre>
+<pre><code>## [1] 0.4230769</code></pre>
+<p><strong>Regra da Multiplicação</strong></p>
+<p><span class="math inline">\(P(A \cap B)=P(A)*P(B \mid A)\)</span></p>
+<p><span class="math inline">\(P(A \cap B)=P(B)*P(A \mid B)\)</span></p>
+<pre class="r"><code>Prob(intersect(A,B))</code></pre>
+<pre><code>## [1] 0.05769231</code></pre>
+<pre class="r"><code>Prob(A) * Prob(B, given = A)</code></pre>
+<pre><code>## [1] 0.05769231</code></pre>
+<pre class="r"><code>Prob(B) * Prob(A, given = B)</code></pre>
+<pre><code>## [1] 0.05769231</code></pre>
+<p><strong>Eventos Independentes</strong></p>
+<p>Três formas de mostrar que dois eventos são independentes.</p>
+<p><span class="math inline">\(P(A \cap B) = P(A) * P(B)\)</span></p>
+<p><span class="math inline">\(P(A \mid B) = P(A)\)</span></p>
+<p><span class="math inline">\(P(B \mid A) = P(B)\)</span></p>
+<pre class="r"><code>S &lt;- tosscoin(2, makespace = TRUE)
+S</code></pre>
+<pre><code>##   toss1 toss2 probs
+## 1     H     H  0.25
+## 2     T     H  0.25
+## 3     H     T  0.25
+## 4     T     T  0.25</code></pre>
+<pre class="r"><code>A = subset(S, toss1 == &quot;H&quot;)
+B = subset(S, toss2 == &quot;H&quot;)</code></pre>
+<pre class="r"><code>Prob(intersect(A,B))</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(A)*Prob(B)</code></pre>
+<pre><code>## [1] 0.25</code></pre>
+<pre class="r"><code>Prob(A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>Prob(A, given = B)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>Prob(B)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>Prob(B, given = A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<p><strong>Lei da Probabilidade Total</strong></p>
+<p>Teorema da Partição</p>
+<p><span class="math inline">\(A = \cup_{i=1}^{\infty} (A \cap B_i)\)</span> , sendo <span class="math inline">\(B_i\)</span> uma partição do Espaço Amostral S.</p>
+<p>Como os eventos <span class="math inline">\((A \cap B_i)\)</span> são disjuntos:</p>
+<p><span class="math inline">\(P(A) = \sum_{i=1}^{\infty} p(A \cap B_ì) = \sum_{i=1}^{\infty} P(A \mid B_i)*P(B_i)\)</span></p>
+<pre class="r"><code>S = rolldie(1, makespace = T)
+B1 = subset(S, X1 == 1)
+B2 = subset(S, X1 == 2 | X1 == 3)
+B3 = subset(S, X1 == 4 | X1 == 5)
+B4 = subset(S, X1 == 6)
+
+A = subset(S, X1 &gt;1 &amp; X1 &lt;=4)
+A</code></pre>
+<pre><code>##   X1     probs
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667</code></pre>
+<p><span class="math inline">\(A = \cup_{i=1}^{\infty} (A \cap B_i)\)</span></p>
+<pre class="r"><code>union(intersect(A,B1),union(intersect(A,B2),union(intersect(A,B3),intersect(A,B4))))</code></pre>
+<pre><code>##   X1     probs
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667</code></pre>
+<pre class="r"><code>Prob(A)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>#Prob(union(intersect(A,B1),union(intersect(A,B2),union(intersect(A,B3),intersect(A,B4)))))
+
+sum(Prob(intersect(A,B1)),Prob(intersect(A,B2)),Prob(intersect(A,B3)),Prob(intersect(A,B4)),na.rm=T)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>sum(Prob(A, given = B1)*Prob(B1),Prob(A, given = B2)* Prob(B2),Prob(A,given = B3) * Prob(B3),Prob(A,given = B4)*Prob(B4),na.rm=T)</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+</div>
+<div id="amostragem" class="section level3">
+<h3>Amostragem</h3>
+<pre class="r"><code>sample(1:6, 1)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>sample(1:6,3)</code></pre>
+<pre><code>## [1] 2 1 3</code></pre>
+<pre class="r"><code>sample(1:6, 4, replace = T)</code></pre>
+<pre><code>## [1] 4 3 5 3</code></pre>
+<pre class="r"><code>coins = tosscoin(2)
+coins</code></pre>
+<pre><code>##   toss1 toss2
+## 1     H     H
+## 2     T     H
+## 3     H     T
+## 4     T     T</code></pre>
+<pre class="r"><code>coins[sample(nrow(coins),2),]</code></pre>
+<pre><code>##   toss1 toss2
+## 3     H     T
+## 1     H     H</code></pre>
+<pre class="r"><code>S = rolldie(3, nsides = 4, makespace = TRUE)
+S</code></pre>
+<pre><code>##    X1 X2 X3    probs
+## 1   1  1  1 0.015625
+## 2   2  1  1 0.015625
+## 3   3  1  1 0.015625
+## 4   4  1  1 0.015625
+## 5   1  2  1 0.015625
+## 6   2  2  1 0.015625
+## 7   3  2  1 0.015625
+## 8   4  2  1 0.015625
+## 9   1  3  1 0.015625
+## 10  2  3  1 0.015625
+## 11  3  3  1 0.015625
+## 12  4  3  1 0.015625
+## 13  1  4  1 0.015625
+## 14  2  4  1 0.015625
+## 15  3  4  1 0.015625
+## 16  4  4  1 0.015625
+## 17  1  1  2 0.015625
+## 18  2  1  2 0.015625
+## 19  3  1  2 0.015625
+## 20  4  1  2 0.015625
+## 21  1  2  2 0.015625
+## 22  2  2  2 0.015625
+## 23  3  2  2 0.015625
+## 24  4  2  2 0.015625
+## 25  1  3  2 0.015625
+## 26  2  3  2 0.015625
+## 27  3  3  2 0.015625
+## 28  4  3  2 0.015625
+## 29  1  4  2 0.015625
+## 30  2  4  2 0.015625
+## 31  3  4  2 0.015625
+## 32  4  4  2 0.015625
+## 33  1  1  3 0.015625
+## 34  2  1  3 0.015625
+## 35  3  1  3 0.015625
+## 36  4  1  3 0.015625
+## 37  1  2  3 0.015625
+## 38  2  2  3 0.015625
+## 39  3  2  3 0.015625
+## 40  4  2  3 0.015625
+## 41  1  3  3 0.015625
+## 42  2  3  3 0.015625
+## 43  3  3  3 0.015625
+## 44  4  3  3 0.015625
+## 45  1  4  3 0.015625
+## 46  2  4  3 0.015625
+## 47  3  4  3 0.015625
+## 48  4  4  3 0.015625
+## 49  1  1  4 0.015625
+## 50  2  1  4 0.015625
+## 51  3  1  4 0.015625
+## 52  4  1  4 0.015625
+## 53  1  2  4 0.015625
+## 54  2  2  4 0.015625
+## 55  3  2  4 0.015625
+## 56  4  2  4 0.015625
+## 57  1  3  4 0.015625
+## 58  2  3  4 0.015625
+## 59  3  3  4 0.015625
+## 60  4  3  4 0.015625
+## 61  1  4  4 0.015625
+## 62  2  4  4 0.015625
+## 63  3  4  4 0.015625
+## 64  4  4  4 0.015625</code></pre>
+<pre class="r"><code>S[sample(nrow(S),3),]</code></pre>
+<pre><code>##    X1 X2 X3    probs
+## 45  1  4  3 0.015625
+## 55  3  2  4 0.015625
+## 41  1  3  3 0.015625</code></pre>
+<p><strong>Amostragem sem repetição</strong></p>
+<p>A amostragem sem repetição implica em eventos não idênticamente distribuídos.</p>
+<pre class="r"><code>S = rolldie(1, makespace = TRUE)
+S</code></pre>
+<pre><code>##   X1     probs
+## 1  1 0.1666667
+## 2  2 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<pre class="r"><code>A = subset(S, X1 == 1)
+Prob(A)</code></pre>
+<pre><code>## [1] 0.1666667</code></pre>
+<pre class="r"><code>E = S[sample(nrow(S),1),]
+E</code></pre>
+<pre><code>##   X1     probs
+## 2  2 0.1666667</code></pre>
+<pre class="r"><code>S1 = subset(S, X1 != E$X1)
+S1</code></pre>
+<pre><code>##   X1     probs
+## 1  1 0.1666667
+## 3  3 0.1666667
+## 4  4 0.1666667
+## 5  5 0.1666667
+## 6  6 0.1666667</code></pre>
+<pre class="r"><code>S1 = probspace(S1)
+S1</code></pre>
+<pre><code>##   X1 probs
+## 1  1   0.2
+## 3  3   0.2
+## 4  4   0.2
+## 5  5   0.2
+## 6  6   0.2</code></pre>
+<pre class="r"><code>A = subset(S1, X1 == 1)
+Prob(A)</code></pre>
+<pre><code>## [1] 0.2</code></pre>
+</div>
+<div id="variáveis-aleatórias" class="section level3">
+<h3>Variáveis Aleatórias</h3>
+<p>Variável Aleatória é uma função do espaço amostral <span class="math inline">\(S\)</span> para a reta real <span class="math inline">\(R\)</span>.</p>
+<p><span class="math inline">\(X: S \rightarrow R\)</span></p>
+<div id="variáveis-aleatórias-discretas" class="section level4">
+<h4>Variáveis Aleatórias Discretas</h4>
+<p>A Função de probabilidade de uma variável aleatória discreta é <span class="math inline">\(\pi(x) = P(X=x)\)</span></p>
+<pre class="r"><code>  x = c(0,1,2,3)
+  f = c(1/8, 3/8 , 3/8, 1/8)</code></pre>
+<p><strong>Esperança</strong></p>
+<p>Para uma Variável Aleatória Discreta com suporte {x_j}, a esperança de X é:</p>
+<p>$ E(X) = _{j=1}^{}x_j _j$</p>
+<pre class="r"><code>  mu = sum(x * f)
+  mu</code></pre>
+<pre><code>## [1] 1.5</code></pre>
+<p>Transformação de <span class="math inline">\(X\)</span></p>
+<p><span class="math inline">\(E[g(x)] = \sum_{j=1}^{\infty} g(_j) \pi_j\)</span></p>
+<pre class="r"><code>  g = x*2 + 3
+  sum(g * f)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>Linearidade da Esperança</p>
+<p><span class="math inline">\(E(a+bX) = a + bE(X)\)</span></p>
+<pre class="r"><code>  3 + 2*mu</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p><strong>Função de Distribuição (Função de Distribuição Cumulativa)</strong></p>
+<p>A função de distribuição é <span class="math inline">\(F(x) = P(X \le x)\)</span>, que é a probabilidade do evento <span class="math inline">\({X \le x}\)</span>.</p>
+<p>Para uma Variável Aleatória Discreta, com pontos de suporte <span class="math inline">\({x_j}\)</span>, a função de distribuição nos pontos do suporte é igual à soma cumulativa das probabilidades.</p>
+<p><span class="math inline">\(F(x_j) = \sum_{k=1}^j \pi(x_j)\)</span></p>
+<pre class="r"><code>F = cumsum(f)
+F</code></pre>
+<pre><code>## [1] 0.125 0.500 0.875 1.000</code></pre>
+</div>
+<div id="variáveis-aleatórias-contínuas" class="section level4">
+<h4>Variáveis Aleatórias Contínuas</h4>
+<pre class="r"><code>  f &lt;- function(x) 3 * x^2</code></pre>
+<pre class="r"><code>F = integrate(f, lower = 0, upper = 0.7)
+F</code></pre>
+<pre><code>## 0.343 with absolute error &lt; 3.8e-15</code></pre>
+</div>
+</div>
 </div>
 <div id="álgebra-dos-mínimos-quadrados" class="section level2">
 <h2>4 - Álgebra dos Mínimos Quadrados</h2>
@@ -479,8 +1164,7 @@ summary(gender)</code></pre>
 <p>O objetivo é estimar <span class="math inline">\(\beta = (\mathbb{E} (xx&#39;))^{-1} \mathbb{E}(xy)\)</span></p>
 <p>Vamos estimar <span class="math inline">\(\beta\)</span> pelo método dos momentos, ou seja, utilzando o análogo amostral aos momentos do estimador populacional. Existem duas formas para obter <span class="math inline">\(\hat\beta\)</span>, fazendo uso de somatórios ou da álgebra matricial. A álgebra matricial, além de uma notação mais concisa, é computacionalmente mais eficiente. No entanto, para ajudar a fixar conceitos, vamos estimar das duas formas.</p>
 <p>Estimar <span class="math inline">\(\hat{\beta}\)</span> pela fórmula <span class="math inline">\(\hat{\beta} = (\sum_{i=1}^n x_i x&#39;_i)^{-1} (\sum_{i=1}^n x_i y_i)\)</span> Para evitar o uso de looping no momento de calcular os somatórios, vamos utilizar uma amostra com apenas dois indivíduos.</p>
-<p>Criar um amostra com apenas dois indivíduos e duas variáveis. Para facilitar a exposição da álgebra, vamos estimar um modelo sem intercepto.<span class="math display">\[y_i = \beta_1 x_{1i} + \beta_2 x_{2i} + e_i\]</span></p>
-<pre><code>                              ou $$y_i = x_i&#39; \beta + e_i$$</code></pre>
+<p>Criar um amostra com apenas dois indivíduos e duas variáveis. Para facilitar a exposição da álgebra, vamos estimar um modelo sem intercepto.<span class="math display">\[y_i = \beta_1 x_{1i} + \beta_2 x_{2i} + e_i\]</span> ou, <span class="math display">\[y_i = x_i&#39; \beta + e_i\]</span></p>
 <p>sendo que</p>
 <p><span class="math inline">\(\beta = (\beta_{1}, \beta_{2})\)</span></p>
 <p>e <span class="math inline">\(i = 1,2\)</span>.</p>
@@ -718,10 +1402,18 @@ summary(ols)</code></pre>
 library(AER)</code></pre>
 <pre><code>## Loading required package: car</code></pre>
 <pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:fBasics&#39;:
+## 
+##     densityPlot</code></pre>
 <pre><code>## Loading required package: lmtest</code></pre>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:timeSeries&#39;:
+## 
+##     time&lt;-</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     as.Date, as.Date.numeric</code></pre>
@@ -743,19 +1435,19 @@ vcov</code></pre>
 <p>Função de distribuição (Função densidade)</p>
 <pre class="r"><code>curve(dnorm(x), xlim = c(-5,5))
 abline(v=1)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-75-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-163-1.png" /><!-- --></p>
 <pre class="r"><code>dnorm(1)</code></pre>
 <pre><code>## [1] 0.2419707</code></pre>
 <p>Função de probabilidade (Função cumulativa)</p>
 <pre class="r"><code>curve(pnorm(x), xlim = c(-4,4))
 abline(v=0)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-77-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-165-1.png" /><!-- --></p>
 <pre class="r"><code>pnorm(0)</code></pre>
 <pre><code>## [1] 0.5</code></pre>
 <p>Função quantílica (inversa da função de distribuição cumulativa)</p>
 <pre class="r"><code>curve(qnorm(x), xlim = c(0,1))
 abline(v=0.5)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-79-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-167-1.png" /><!-- --></p>
 <pre class="r"><code>qnorm(0.5)</code></pre>
 <pre><code>## [1] 0</code></pre>
 <p>Gerador de variáveis</p>
@@ -793,7 +1485,7 @@ legend(&quot;topright&quot;,
        c(&quot;N(0, 1)&quot;, &quot;M=2&quot;, &quot;M=4&quot;, &quot;M=25&quot;), 
        col = 1:4, 
        lty = c(2, 1, 1, 1))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-82-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-170-1.png" /><!-- --></p>
 </div>
 <div id="um-pouco-de-inferência" class="section level2">
 <h2>5- Um pouco de Inferência</h2>
@@ -1051,21 +1743,21 @@ hist(x,
        ylim = c(0, 0.5), 
        xlab = paste(&quot;Histograma&quot;), 
        main = &quot;Teste&quot;)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-108-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-196-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dnorm(x), xlim = c(-1,1))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-109-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-197-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dunif(x,0,10), xlim = c(0,10))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-110-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-198-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dt(x,10),xlim = c(-1,1))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-111-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-199-1.png" /><!-- --></p>
 <pre class="r"><code>curve(pnorm(x),
 xlim = c(-3.5, 3.5),
 ylab = &quot;Density&quot;,
 main = &quot;Standard Normal Cumulative Distribution Function&quot;)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-112-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-200-1.png" /><!-- --></p>
 <pre class="r"><code>x = rnorm(5000)
 plot(density(x))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-113-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-201-1.png" /><!-- --></p>
 <pre class="r"><code>x = c(rnorm(500))
 
 hist(x, 
@@ -1078,11 +1770,11 @@ hist(x,
        main = &quot;&quot;)
 
 curve(dnorm(x), add = TRUE)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-114-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-202-1.png" /><!-- --></p>
 <pre class="r"><code>x = rnorm(500)
 plot(density(x), ylim = c(0,0.5), xlim = c(-4,4))
 curve(dnorm(x), col = &quot;red&quot;, add = TRUE)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-115-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-203-1.png" /><!-- --></p>
 <p>Lei dos Grandes Números</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 set.seed(1)
@@ -1097,7 +1789,7 @@ for (n in c(5, 10, 50, 100)) {
   #faço o histograma
   hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-116-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-204-1.png" /><!-- --></p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 set.seed(1)
 #loop em n
@@ -1107,7 +1799,7 @@ for (n in c(5, 10, 50, 100)) {
   #faço o histograma
   hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-117-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-205-1.png" /><!-- --></p>
 <p>Teorema Central do Limite</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 reps &lt;- 10000
@@ -1137,7 +1829,7 @@ for (n in sample.sizes) {
         col = &quot;darkred&quot;,
         add = TRUE)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-118-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-206-1.png" /><!-- --></p>
 </div>
 <div id="viés-x-consistência" class="section level4">
 <h4>Viés x consistência</h4>
@@ -1159,7 +1851,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Não Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-119-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-207-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -1175,7 +1867,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-120-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-208-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -1192,7 +1884,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-121-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-209-1.png" /><!-- --></p>
 <p>Verificação de consistência no modelo linear estimado por OLS</p>
 <p><span class="math display">\[\mathbb{E}(xe) = \mathbb{E}(x)\mathbb{E}(e) + Cov(x,e)\]</span></p>
 <p>Modelo não consistente</p>
