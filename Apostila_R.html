@@ -207,6 +207,9 @@ summary {
 <li><a href="#convergência-em-probabilidade-e-lei-fraca-dos-grandes-números">Convergência em Probabilidade e Lei Fraca dos Grandes Números</a></li>
 <li><a href="#consistência-de-mqo">Consistência de MQO</a></li>
 </ul></li>
+<li><a href="#teorema-central-do-limite">Teorema Central do Limite</a></li>
+<li><a href="#normalidade-assintótica-dos-estimadores-de-ols">Normalidade Assintótica dos Estimadores de OLS</a></li>
+<li><a href="#inferência-estatística">Inferência estatística</a></li>
 <li><a href="#um-pouco-de-inferência">5- Um pouco de Inferência</a></li>
 <li><a href="#simulações">Simulações</a></li>
 <li><a href="#variáveis-instrumentais">6 - Variáveis Instrumentais</a></li>
@@ -1000,9 +1003,9 @@ sum(Prob(intersect(A,B1)),Prob(intersect(A,B2)),Prob(intersect(A,B3)),Prob(inter
 <pre class="r"><code>sample(1:6, 1)</code></pre>
 <pre><code>## [1] 5</code></pre>
 <pre class="r"><code>sample(1:6,3)</code></pre>
-<pre><code>## [1] 2 5 3</code></pre>
+<pre><code>## [1] 4 3 1</code></pre>
 <pre class="r"><code>sample(1:6, 4, replace = T)</code></pre>
-<pre><code>## [1] 6 4 2 4</code></pre>
+<pre><code>## [1] 3 5 2 1</code></pre>
 <pre class="r"><code>coins = tosscoin(2)
 coins</code></pre>
 <pre><code>##   toss1 toss2
@@ -1013,7 +1016,7 @@ coins</code></pre>
 <pre class="r"><code>coins[sample(nrow(coins),2),]</code></pre>
 <pre><code>##   toss1 toss2
 ## 4     T     T
-## 3     H     T</code></pre>
+## 2     T     H</code></pre>
 <pre class="r"><code>S = rolldie(3, nsides = 4, makespace = TRUE)
 S</code></pre>
 <pre><code>##    X1 X2 X3    probs
@@ -1083,9 +1086,9 @@ S</code></pre>
 ## 64  4  4  4 0.015625</code></pre>
 <pre class="r"><code>S[sample(nrow(S),3),]</code></pre>
 <pre><code>##    X1 X2 X3    probs
-## 13  1  4  1 0.015625
-## 63  3  4  4 0.015625
-## 46  2  4  3 0.015625</code></pre>
+## 12  4  3  1 0.015625
+## 56  4  2  4 0.015625
+## 11  3  3  1 0.015625</code></pre>
 <p><strong>Amostragem sem repetição</strong></p>
 <p>A amostragem sem repetição implica em eventos não idênticamente distribuídos.</p>
 <pre class="r"><code>S = rolldie(1, makespace = TRUE)
@@ -1103,7 +1106,7 @@ Prob(A)</code></pre>
 <pre class="r"><code>E = S[sample(nrow(S),1),]
 E</code></pre>
 <pre><code>##   X1     probs
-## 5  5 0.1666667</code></pre>
+## 6  6 0.1666667</code></pre>
 <pre class="r"><code>S1 = subset(S, X1 != E$X1)
 S1</code></pre>
 <pre><code>##   X1     probs
@@ -1111,7 +1114,7 @@ S1</code></pre>
 ## 2  2 0.1666667
 ## 3  3 0.1666667
 ## 4  4 0.1666667
-## 6  6 0.1666667</code></pre>
+## 5  5 0.1666667</code></pre>
 <pre class="r"><code>S1 = probspace(S1)
 S1</code></pre>
 <pre><code>##   X1 probs
@@ -1119,7 +1122,7 @@ S1</code></pre>
 ## 2  2   0.2
 ## 3  3   0.2
 ## 4  4   0.2
-## 6  6   0.2</code></pre>
+## 5  5   0.2</code></pre>
 <pre class="r"><code>A = subset(S1, X1 == 1)
 Prob(A)</code></pre>
 <pre><code>## [1] 0.2</code></pre>
@@ -1685,10 +1688,7 @@ abline(h=pi-e3, lwd=2, col=rgb(.3,.6,1,.5))</code></pre>
 </div>
 <div id="convergência-em-probabilidade-e-lei-fraca-dos-grandes-números" class="section level3">
 <h3>Convergência em Probabilidade e Lei Fraca dos Grandes Números</h3>
-<p><span class="math inline">\(P(|\frac{S_n}{n}-\mu|) &lt; \epsilon) \to 1\)</span>, quando <span class="math inline">\(n \to \infty\)</span>.</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
-set.seed(1)
-X_bar &lt;- vector()
 #loop em n
 for (nn in c(5, 10, 50, 100)) {
 
@@ -1696,6 +1696,14 @@ for (nn in c(5, 10, 50, 100)) {
   hist(xbarra, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,nn))
 }</code></pre>
 <p><img src="Apostila_R_files/figure-html/unnamed-chunk-206-1.png" /><!-- --></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+#loop em n
+for (nn in c(50, 100, 500, 1000)) {
+
+  xbarra = replicate(n = 1000, expr = mean(runif(nn, 0, 5)))
+  hist(xbarra, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,nn))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-207-1.png" /><!-- --></p>
 <pre class="r"><code>m=100
 mean_samples=function(n=10){
    X=matrix(rnorm(n*m),nrow=m,ncol=n)
@@ -1712,7 +1720,7 @@ u=seq(0,21,by=.2)
 v=sqrt(u*10)
 lines(u,1.96/v,col=&quot;red&quot;)
 lines(u,-1.96/v,col=&quot;red&quot;)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-207-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-208-1.png" /><!-- --></p>
 <div id="viés-x-consistência" class="section level4">
 <h4>Viés x consistência</h4>
 <pre class="r"><code>set.seed(16)
@@ -1733,7 +1741,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Não Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-208-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-209-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -1749,7 +1757,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-209-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-210-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -1766,7 +1774,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-210-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-211-1.png" /><!-- --></p>
 </div>
 </div>
 <div id="consistência-de-mqo" class="section level3">
@@ -1800,15 +1808,278 @@ for (i in c(5,50,100,1000)){
   plot(density( x[2, 1, ]), xlim = c(0,10))
   abline(v=5)
  }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-214-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-215-1.png" /><!-- --></p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 for (i in c(1000,5000,10000,100000)){
   x = replicate(n = 100, expr = f(i))
   plot(density( x[2, 1, ]), xlim = c(0,10))
   abline(v=5)
  }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-215-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-216-1.png" /><!-- --></p>
 </div>
+</div>
+<div id="teorema-central-do-limite" class="section level2">
+<h2>Teorema Central do Limite</h2>
+<pre class="r"><code>reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)</code></pre>
+<p><strong>Distribuição Normal</strong></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- rnorm(n)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x))
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-218-1.png" /><!-- --></p>
+<p><strong>Distribuição Poison</strong></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)
+set.seed(123)
+lambda = 1
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- rpois(n, lambda)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x) - lambda) / sqrt(lambda)
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-219-1.png" /><!-- --></p>
+<p><strong>Distribuição Binomial</strong></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)
+set.seed(123)
+
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- rbinom(n, 1, 0.5)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x) - 0.5)/0.5
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-220-1.png" /><!-- --></p>
+<p><strong>Distribuição Uniforme</strong></p>
+<pre class="r"><code>par(mfrow = c(2, 2))
+reps &lt;- 10000
+sample.sizes &lt;- c(5, 20, 75, 100)
+set.seed(123)
+
+a = 0
+b = 10
+
+for (n in sample.sizes) {
+  samplemean &lt;- rep(0, reps) #initialize the vector of sample menas
+  stdsamplemean &lt;- rep(0, reps) #initialize the vector of standardized sample menas
+  # inner loop (loop over repetitions)
+  for (i in 1:reps) {
+    x &lt;- runif(n, a, b)
+    samplemean[i] &lt;- mean(x)
+    stdsamplemean[i] &lt;- sqrt(n)*(mean(x) - ((b-a)/2))/((b-a)/sqrt(12))
+  }
+  # plot histogram and overlay the N(0,1) density in every iteration
+  hist(stdsamplemean,
+       col = &quot;steelblue&quot;,
+       freq = FALSE,
+       breaks = 40,
+       xlim = c(-3, 3),
+       ylim = c(0, 0.8),
+       xlab = paste(&quot;n =&quot;, n),
+       main = &quot;&quot;)
+  curve(dnorm(x),
+        lwd = 2,
+        col = &quot;darkred&quot;,
+        add = TRUE)
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-221-1.png" /><!-- --></p>
+</div>
+<div id="normalidade-assintótica-dos-estimadores-de-ols" class="section level2">
+<h2>Normalidade Assintótica dos Estimadores de OLS</h2>
+<pre class="r"><code>#install.packages(&quot;ggplot2&quot;)
+library(ggplot2) </code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</code></pre>
+<p><strong>Distribuição Normal</strong></p>
+<pre class="r"><code>N = 10000
+beta = 5
+normal = function(n){
+  #x = rnorm(n)
+  #x = rexp(n = n, rate = 1)
+  x = rexp(n = n, rate = 0.5) + runif(n = n, min = -5, max = 50) + rpois(n = n, lambda = 0.5)
+  e_norm = rnorm(n)
+  X = cbind(1,x)
+  k = ncol(X)
+  y = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_norm
+  #y = 10 + beta * x + e_norm
+  B = solve(t(X)%*%X)%*%t(X)%*%y
+  B
+}</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (i in c(5,50,100,1000)){
+  x = replicate(n = N, expr = normal(i))
+  z = sqrt(i) *( (x[2, 1, ] - beta))
+  #hist(x[2, 1, ], breaks = 30)
+  hist(z, breaks = 30)
+  #plot(density((z)))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-224-1.png" /><!-- --></p>
+<p>** Distribuição Uniforme**</p>
+<pre class="r"><code>N = 10000
+beta = 5
+unif = function(n){
+ # x = runif(n, min = 0, max = 100)
+  x = rexp(n = n, rate = 0.5) + runif(n = n, min = -5, max = 50) + rpois(n = n, lambda = 0.5)
+  
+  e_unif = runif(n = n, min = -5, max = 5)
+  X = cbind(1,x)
+   y_unif = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_unif
+  #y_unif = 10 + beta * x + e_unif
+  B = solve(t(X)%*%X)%*%t(X)%*%y_unif
+  B
+}</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (i in c(10,50,100,1000)){
+  x = replicate(n = N, expr = unif(i))
+  z = sqrt(i) *( (x[2, 1, ] - beta))
+  #hist(x[2, 1, ], breaks = 30)
+  hist(z, breaks = 30)
+  #plot(density((z)))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-226-1.png" /><!-- --></p>
+<p><strong>Distribuição Exponencial</strong></p>
+<pre class="r"><code>pois = function(n){
+ # x = runif(n, min = 0, max = 100)
+  x = rexp(n = n, rate = 0.5) + runif(n = n, min = -5, max = 50) + rpois(n = n, lambda = 0.5)
+  
+  e_pois = 100 * rpois(n = n, lambda = 1) + 25
+  X = cbind(1,x)
+  #y_pois = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_pois
+  y_pois = 10 + beta * x + e_pois
+  y = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_pois
+  
+  B = solve(t(X)%*%X)%*%t(X)%*%y
+  B
+  
+}</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (i in c(5,50,100,1000)){
+  x = replicate(n = N, expr = pois(i))
+  z = sqrt(i) *( (x[2, 1, ] - beta))
+  #hist(x[2, 1, ], breaks = 30)
+  hist(z, breaks = 30)
+  #plot(density((z)))  
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-228-1.png" /><!-- --></p>
+<p><strong>Distribuição “Bigamma”</strong></p>
+<pre class="r"><code>rbigamma &lt;- function(n, prob = c(0.5, 0.5)) {
+  # Draw n samples of T or F (our &#39;coin flip&#39;) with replacement
+  
+  flips &lt;- base::sample(x = c(T, F), size = n,
+                        replace = T, prob = prob)
+  
+  # Draw n samples from Gamma with shape=5 and scale=1 (mean=7)
+  # substract the mean (7) from the draws
+  
+  gamma_7 &lt;- rgamma(n = n, shape = 7, scale = 1)
+  
+  # Draw n samples from Gamma with shape=1 and scale=1 (mean=1)
+  # substract the mean (1) from the draws
+  
+  gamma_1 &lt;- rgamma(n = n, shape = 1, scale = 1)
+  # Combine the flips and the two gammas&#39; draws
+  bi_gamma &lt;- flips * gamma_7 + (!flips) * gamma_1
+  # Demean the bimodal variables (weighting by &#39;prob&#39;)
+  bi_gamma &lt;- bi_gamma - 7 * prob[1] - 1 * prob[2]
+}</code></pre>
+<pre class="r"><code>bigamma = function(n){
+ # x = runif(n, min = 0, max = 100)
+  x = rexp(n = n, rate = 0.5) + runif(n = n, min = -5, max = 50) + rpois(n = n, lambda = 0.5)
+  
+  e_bg = rbigamma(n = n)
+  X = cbind(1,x)
+  y_bg = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_bg
+  B = solve(t(X)%*%X)%*%t(X)%*%y_bg
+  B
+}</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (i in c(5,50,100,1000)){
+  x = replicate(n = N, expr = bigamma(i))
+  z = sqrt(i) *( (x[2, 1, ] - beta))
+  #hist(x[2, 1, ], breaks = 30)
+  hist(z, breaks = 30)
+  #plot(density((z)))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-231-1.png" /><!-- --></p>
+<p><strong>Distribuição Exponencial</strong></p>
+<pre class="r"><code>expo = function(n){
+  #x = rexp(n = n, rate = 1)
+  x = rexp(n = n, rate = 0.5) + runif(n = n, min = -5, max = 50) + rpois(n = n, lambda = 0.5)
+  e_exp = rexp(n = n, rate = 1)
+  X = cbind(1,x)
+  #y_exp = 10 + beta * x +  e_exp
+  y = 10 + beta * x + rnorm(n,20,30) + runif(n,0,100) + rexp(n) + e_exp
+  B = solve(t(X)%*%X)%*%t(X)%*%y
+  B
+}</code></pre>
+<pre class="r"><code>par(mfrow = c(2, 2))
+for (i in c(5,50,100,1000)){
+  x = replicate(n = N, expr = expo(i))
+  z = sqrt(i) *( (x[2, 1, ] - beta))
+  hist(z, breaks = 30)
+  #plot(density((z)))
+}</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-233-1.png" /><!-- --></p>
+</div>
+<div id="inferência-estatística" class="section level2">
+<h2>Inferência estatística</h2>
 </div>
 <div id="um-pouco-de-inferência" class="section level2">
 <h2>5- Um pouco de Inferência</h2>
@@ -1848,15 +2119,6 @@ summary(ols)</code></pre>
 ## (Intercept) 8.766266 10.621748
 ## x1          3.498480  3.502114
 ## x2          4.985684  5.069208</code></pre>
-<pre class="r"><code>confint(ols,&quot;Intercept&quot;,level = 0.95)</code></pre>
-<pre><code>##           2.5 % 97.5 %
-## Intercept    NA     NA</code></pre>
-<pre class="r"><code>confint(ols,&quot;x1&quot;,level = 0.95)</code></pre>
-<pre><code>##      2.5 %   97.5 %
-## x1 3.49848 3.502114</code></pre>
-<pre class="r"><code>confint(ols,&quot;x2&quot;,level = 0.95)</code></pre>
-<pre><code>##       2.5 %   97.5 %
-## x2 4.985684 5.069208</code></pre>
 <pre class="r"><code>B = solve(t(X)%*%X)%*%(t(X)%*%y)
 B</code></pre>
 <pre><code>##        [,1]
@@ -1884,102 +2146,85 @@ t</code></pre>
 ##      20.52975
 ## x1 3784.62042
 ## x2  236.52253</code></pre>
+<p>Definir c para nível de significância de <span class="math inline">\(5\%\)</span></p>
+<pre class="r"><code>1 - (0.05/2)</code></pre>
+<pre><code>## [1] 0.975</code></pre>
+<pre class="r"><code>c = qt(.975,n-k)
+c</code></pre>
+<pre><code>## [1] 1.964749</code></pre>
+<p>Assumindo que <span class="math inline">\(\beta \sim t_{n-k}\)</span></p>
+<pre class="r"><code>2 * (1 - pt(t[1,1], df = n-k))</code></pre>
+<pre><code>##   
+## 0</code></pre>
+<p><strong>Comparando com o verdadeiro valor de Beta</strong></p>
+<pre class="r"><code>t = B[2,1] - beta[1] / ep[2]
+t</code></pre>
+<pre><code>##        x1 
+## -3780.799</code></pre>
+<p><strong>P-valor</strong></p>
+<p>Assumindo que <span class="math inline">\(\beta \sim t_{n-k}\)</span></p>
+<pre class="r"><code>2 * (1 - pt(t, df = n-k))</code></pre>
+<pre><code>## x1 
+##  2</code></pre>
 <div id="intervalos-de-confiança" class="section level4">
 <h4>Intervalos de Confiança</h4>
 <p><span class="math display">\[C_n = [\hat \theta - c .s(\hat \theta), \hat\theta + c. s(\hat\theta)]\]</span></p>
 <p>Definir c para nível de significância de <span class="math inline">\(5\%\)</span></p>
-<pre class="r"><code>c = qnorm(0.975)
-c</code></pre>
-<pre><code>## [1] 1.959964</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
-<pre class="r"><code>lower = B[1,1] - c*  ep[1]
-upper = B[1,1] + c * ep[1]
-print(lower);print(upper)</code></pre>
-<pre><code>##          
-## 8.768525</code></pre>
-<pre><code>##          
-## 10.61949</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
-<pre class="r"><code>lower = B[2,1] - c*  ep[2]
-upper = B[2,1] + c * ep[2]
-print(lower);print(upper)</code></pre>
-<pre><code>##       x1 
-## 3.498484</code></pre>
-<pre><code>##      x1 
-## 3.50211</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
-<pre class="r"><code>lower = B[3,1] - c*  ep[3]
-upper = B[3,1] + c * ep[3]
-print(lower);print(upper)</code></pre>
-<pre><code>##       x2 
-## 4.985786</code></pre>
-<pre><code>##       x2 
-## 5.069106</code></pre>
-<p>Definir c para nível de significância de <span class="math inline">\(1\%\)</span></p>
-<pre class="r"><code>c = qnorm(0.995)
-c</code></pre>
-<pre><code>## [1] 2.575829</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
-<pre class="r"><code>lower = B[1,1] - c*  ep[1]
-upper = B[1,1] + c * ep[1]
-print(lower);print(upper)</code></pre>
-<pre><code>##          
-## 8.477718</code></pre>
-<pre><code>##         
-## 10.9103</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
-<pre class="r"><code>lower = B[2,1] - c*  ep[2]
-upper = B[2,1] + c * ep[2]
-print(lower);print(upper)</code></pre>
-<pre><code>##       x1 
-## 3.497915</code></pre>
-<pre><code>##       x1 
-## 3.502679</code></pre>
-<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
-<pre class="r"><code>lower = B[3,1] - c*  ep[3]
-upper = B[3,1] + c * ep[3]
-print(lower);print(upper)</code></pre>
-<pre><code>##       x2 
-## 4.972695</code></pre>
-<pre><code>##       x2 
-## 5.082197</code></pre>
-<p>Utilizando a estatística t</p>
 <pre class="r"><code>c = qt(.975,n-k)
 c</code></pre>
 <pre><code>## [1] 1.964749</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
+<pre class="r"><code>lower = B[1,1] - c*  ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##          
+## 8.766266</code></pre>
+<pre><code>##          
+## 10.62175</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
+<pre class="r"><code>lower = B[2,1] - c*  ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##      x1 
+## 3.49848</code></pre>
+<pre><code>##       x1 
+## 3.502114</code></pre>
 <p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
-<pre class="r"><code>lower = B[3,1] - c * ep[3]
+<pre class="r"><code>lower = B[3,1] - c*  ep[3]
 upper = B[3,1] + c * ep[3]
 print(lower);print(upper)</code></pre>
 <pre><code>##       x2 
 ## 4.985684</code></pre>
 <pre><code>##       x2 
 ## 5.069208</code></pre>
-</div>
-<div id="p-valor" class="section level4">
-<h4>P-valor</h4>
-<p>Assumindo que <span class="math inline">\(\beta \sim t_{n-k}\)</span></p>
-<pre class="r"><code>2 * pt(-t[1,1], df = n-k)</code></pre>
-<pre><code>##              
-## 2.783023e-68</code></pre>
-<pre class="r"><code>2 * (1 - pt(t[1,1], df = n-k))</code></pre>
-<pre><code>##   
-## 0</code></pre>
-<p>Assumindo que <span class="math inline">\(\beta \sim N(0,1)\)</span></p>
-<pre class="r"><code> 2 * pnorm(-t[1,1])</code></pre>
-<pre><code>##              
-## 1.167757e-93</code></pre>
-<p>Estatística F</p>
-<pre class="r"><code>RSS0 &lt;- sum((y - mean(y))^2) #20181.97, this is same as TSS really
-RSS &lt;- sum(ols$residuals^2) #20181.64
-p &lt;-  2 #predictors whos coefficient we are testing.
-n &lt;- length(y) #number of observations
- 
-F &lt;- ( (RSS0-RSS)/p ) / (RSS/(n-p-1))
-F</code></pre>
-<pre><code>## [1] 7249721</code></pre>
-<pre class="r"><code>pf(F,2,497,lower.tail = FALSE)</code></pre>
-<pre><code>## [1] 0</code></pre>
+<p>Definir c para nível de significância de <span class="math inline">\(1\%\)</span></p>
+<pre class="r"><code>c = qt(.995,n-k)
+c</code></pre>
+<pre><code>## [1] 2.585758</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_0\)</span></p>
+<pre class="r"><code>lower = B[1,1] - c*  ep[1]
+upper = B[1,1] + c * ep[1]
+print(lower);print(upper)</code></pre>
+<pre><code>##         
+## 8.47303</code></pre>
+<pre><code>##          
+## 10.91498</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_1\)</span></p>
+<pre class="r"><code>lower = B[2,1] - c*  ep[2]
+upper = B[2,1] + c * ep[2]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x1 
+## 3.497906</code></pre>
+<pre><code>##       x1 
+## 3.502689</code></pre>
+<p>Intervalo de Confiança de <span class="math inline">\(\beta_2\)</span></p>
+<pre class="r"><code>lower = B[3,1] - c*  ep[3]
+upper = B[3,1] + c * ep[3]
+print(lower);print(upper)</code></pre>
+<pre><code>##       x2 
+## 4.972484</code></pre>
+<pre><code>##       x2 
+## 5.082408</code></pre>
 </div>
 </div>
 <div id="simulações" class="section level2">
@@ -2066,21 +2311,21 @@ hist(x,
        ylim = c(0, 0.5), 
        xlab = paste(&quot;Histograma&quot;), 
        main = &quot;Teste&quot;)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-241-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-259-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dnorm(x), xlim = c(-1,1))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-242-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-260-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dunif(x,0,10), xlim = c(0,10))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-243-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-261-1.png" /><!-- --></p>
 <pre class="r"><code>curve(dt(x,10),xlim = c(-1,1))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-244-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-262-1.png" /><!-- --></p>
 <pre class="r"><code>curve(pnorm(x),
 xlim = c(-3.5, 3.5),
 ylab = &quot;Density&quot;,
 main = &quot;Standard Normal Cumulative Distribution Function&quot;)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-245-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-263-1.png" /><!-- --></p>
 <pre class="r"><code>x = rnorm(5000)
 plot(density(x))</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-246-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-264-1.png" /><!-- --></p>
 <pre class="r"><code>x = c(rnorm(500))
 
 hist(x, 
@@ -2093,11 +2338,11 @@ hist(x,
        main = &quot;&quot;)
 
 curve(dnorm(x), add = TRUE)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-247-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-265-1.png" /><!-- --></p>
 <pre class="r"><code>x = rnorm(500)
 plot(density(x), ylim = c(0,0.5), xlim = c(-4,4))
 curve(dnorm(x), col = &quot;red&quot;, add = TRUE)</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-248-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-266-1.png" /><!-- --></p>
 <p>Lei dos Grandes Números</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 set.seed(1)
@@ -2112,7 +2357,7 @@ for (n in c(5, 10, 50, 100)) {
   #faço o histograma
   hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-249-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-267-1.png" /><!-- --></p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 set.seed(1)
 #loop em n
@@ -2122,7 +2367,7 @@ for (n in c(5, 10, 50, 100)) {
   #faço o histograma
   hist(X_bar, col=&quot;blue&quot;, breaks = 20, xlim = c(0,5), main = paste(&quot;n=&quot;,n))
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-250-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-268-1.png" /><!-- --></p>
 <p>Teorema Central do Limite</p>
 <pre class="r"><code>par(mfrow = c(2, 2))
 reps &lt;- 10000
@@ -2152,7 +2397,7 @@ for (n in sample.sizes) {
         col = &quot;darkred&quot;,
         add = TRUE)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-251-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-269-1.png" /><!-- --></p>
 </div>
 <div id="viés-x-consistência-1" class="section level4">
 <h4>Viés x consistência</h4>
@@ -2174,7 +2419,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Não Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-252-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-270-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -2190,7 +2435,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-253-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-271-1.png" /><!-- --></p>
 <pre class="r"><code>set.seed(16)
 par(mfrow = c(2, 2))
 
@@ -2207,7 +2452,7 @@ for (i in c(20,100,1000,10000)){
        main = &#39;Estimador Não viesado e Consistente&#39;)
   abline(v=0)
 }</code></pre>
-<p><img src="Apostila_R_files/figure-html/unnamed-chunk-254-1.png" /><!-- --></p>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-272-1.png" /><!-- --></p>
 <p>Verificação de consistência no modelo linear estimado por OLS</p>
 <p><span class="math display">\[\mathbb{E}(xe) = \mathbb{E}(x)\mathbb{E}(e) + Cov(x,e)\]</span></p>
 <p>Modelo não consistente</p>
