@@ -224,6 +224,10 @@ summary {
 <li><a href="#sur">SUR</a></li>
 <li><a href="#sistema-de-equações-com-variávies-instrumentais">8 - Sistema de Equações com Variávies Instrumentais</a></li>
 </ul></li>
+<li><a href="#dados-em-painel-com-efeitos-não-observados">Dados em Painel com efeitos não observados</a><ul>
+<li><a href="#efeitos-aleatórios">Efeitos Aleatórios</a></li>
+<li><a href="#efeitos-fixos">Efeitos Fixos</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -1011,11 +1015,11 @@ sum(Prob(intersect(A,B1)),Prob(intersect(A,B2)),Prob(intersect(A,B3)),Prob(inter
 <div id="amostragem" class="section level3">
 <h3>Amostragem</h3>
 <pre class="r"><code>sample(1:6, 1)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 5</code></pre>
 <pre class="r"><code>sample(1:6,3)</code></pre>
-<pre><code>## [1] 5 1 6</code></pre>
+<pre><code>## [1] 6 1 5</code></pre>
 <pre class="r"><code>sample(1:6, 4, replace = T)</code></pre>
-<pre><code>## [1] 3 5 5 3</code></pre>
+<pre><code>## [1] 2 6 2 1</code></pre>
 <pre class="r"><code>coins = tosscoin(2)
 coins</code></pre>
 <pre><code>##   toss1 toss2
@@ -1025,7 +1029,7 @@ coins</code></pre>
 ## 4     T     T</code></pre>
 <pre class="r"><code>coins[sample(nrow(coins),2),]</code></pre>
 <pre><code>##   toss1 toss2
-## 2     T     H
+## 1     H     H
 ## 3     H     T</code></pre>
 <pre class="r"><code>S = rolldie(3, nsides = 4, makespace = TRUE)
 S</code></pre>
@@ -1096,9 +1100,9 @@ S</code></pre>
 ## 64  4  4  4 0.015625</code></pre>
 <pre class="r"><code>S[sample(nrow(S),3),]</code></pre>
 <pre><code>##    X1 X2 X3    probs
-## 45  1  4  3 0.015625
-## 7   3  2  1 0.015625
-## 22  2  2  2 0.015625</code></pre>
+## 4   4  1  1 0.015625
+## 24  4  2  2 0.015625
+## 21  1  2  2 0.015625</code></pre>
 <p><strong>Amostragem sem repetição</strong></p>
 <p>A amostragem sem repetição implica em eventos não idênticamente distribuídos.</p>
 <pre class="r"><code>S = rolldie(1, makespace = TRUE)
@@ -1116,7 +1120,7 @@ Prob(A)</code></pre>
 <pre class="r"><code>E = S[sample(nrow(S),1),]
 E</code></pre>
 <pre><code>##   X1     probs
-## 5  5 0.1666667</code></pre>
+## 6  6 0.1666667</code></pre>
 <pre class="r"><code>S1 = subset(S, X1 != E$X1)
 S1</code></pre>
 <pre><code>##   X1     probs
@@ -1124,7 +1128,7 @@ S1</code></pre>
 ## 2  2 0.1666667
 ## 3  3 0.1666667
 ## 4  4 0.1666667
-## 6  6 0.1666667</code></pre>
+## 5  5 0.1666667</code></pre>
 <pre class="r"><code>S1 = probspace(S1)
 S1</code></pre>
 <pre><code>##   X1 probs
@@ -1132,7 +1136,7 @@ S1</code></pre>
 ## 2  2   0.2
 ## 3  3   0.2
 ## 4  4   0.2
-## 6  6   0.2</code></pre>
+## 5  5   0.2</code></pre>
 <pre class="r"><code>A = subset(S1, X1 == 1)
 Prob(A)</code></pre>
 <pre><code>## [1] 0.2</code></pre>
@@ -3666,13 +3670,13 @@ e = c(e_hat)
 e = e * e
 D = diag(e)
 V_h = solve(t(X)%*%X)%*%(t(X)%*%D%*%X)%*%solve(t(X)%*%X)
-V_h = (n/(n-4)) * V_h  ## Para comparar com a estimação equação por equação usa-se k = 4
+V_h = (n/(n-8)) * V_h  ## Para comparar com a estimação equação por equação usa-se k = 4
 ep_h = sqrt(diag(V_h))
 ep_h</code></pre>
 <pre><code>##                    x1         x2         x3                                  
-## 0.21197500 0.20707278 0.09625857 0.20719693 0.17429440 0.12228184 0.08253327 
+## 0.21240194 0.20748985 0.09645245 0.20761424 0.17464545 0.12252813 0.08269950 
 ##            
-## 0.17872592</code></pre>
+## 0.17908589</code></pre>
 <p><strong>Equção por equação</strong></p>
 <pre class="r"><code>X = cbind(1,x1, x2, x3)
 Y = cbind(y1,y2)
@@ -3718,14 +3722,14 @@ Bfgls1</code></pre>
 ##    -2.5418566
 ##     1.2379796
 ##    -1.8822475</code></pre>
-<pre class="r"><code>V_h = solve(t(X)%*%Z%*%solve(t(Z)%*%S1%*%Z)%*%t(Z)%*%X)
+<pre class="r"><code>S2 = kronecker(sigma,I)  ## Cameron and Trivedi - Stata
+
+V_h = solve(t(X)%*%Z%*%solve(t(Z)%*%S2%*%Z)%*%t(Z)%*%X)
 V_h = (1/(n)) * V_h
 ep_h = sqrt(diag(V_h))
 ep_h</code></pre>
-<pre><code>##                        x1           x2           x3                           
-## 4.922872e-06 2.972741e-05 1.320619e-05 4.746985e-06 5.968901e-06 3.604399e-05 
-##                           
-## 1.601229e-05 5.755641e-06</code></pre>
+<pre><code>##                  x1        x2        x3                                         
+## 0.2117386 1.2786112 0.5680140 0.2041734 0.1746321 1.0545390 0.4684716 0.1683928</code></pre>
 <div id="section" class="section level64">
 <p></p>
 <pre class="r"><code>df = data.frame(y1,y2,x1,x2,x3,z1,z2)
@@ -3856,6 +3860,437 @@ summary(siv)</code></pre>
 ## Multiple R-Squared: 0.100118 Adjusted R-Squared: 0.097408</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div id="dados-em-painel-com-efeitos-não-observados" class="section level2">
+<h2>Dados em Painel com efeitos não observados</h2>
+<div id="efeitos-aleatórios" class="section level3">
+<h3>Efeitos Aleatórios</h3>
+<pre class="r"><code>set.seed(1)
+n = 500
+id = seq(1:n)
+T = 2
+period = matrix(seq(1:T),ncol = 1)
+
+I = matrix(rep(1,n), ncol = 1)
+period = kronecker(period,I)
+
+
+sigmac=10
+c = rnorm(n,0,sigmac)
+
+sigmau = 5
+u1 = matrix(rnorm(n,0,sigmau),ncol=1)
+u2 = matrix(rnorm(n,0,sigmau),ncol = 1)
+u = rbind(u1,u2)
+
+J = matrix(rep(1,T), ncol = 1)</code></pre>
+<pre class="r"><code>It = diag(T)
+omega = sigmau^2*It + sigmac^2*(J%*%t(J))
+omega</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]  125  100
+## [2,]  100  125</code></pre>
+<pre class="r"><code>v = kronecker(J,c)  + u</code></pre>
+<pre class="r"><code>x11 = matrix(rnorm(n,10,10) , ncol = 1)
+x12 = 0.8*x11 + rnorm(n)
+
+x21 = matrix(rnorm(n,5,15), ncol = 1)
+x22 = 0.5*x21 + rnorm(n)
+
+beta = c(10,5,-3)
+
+X1 = cbind(1,x11,x21)
+X2 = cbind(1,x12,x22)
+
+y1 =  X1%*%beta + c + u1
+y2 =  X2%*%beta + c + u2
+
+X = rbind(X1,X2)
+
+y = X%*%beta + kronecker(J,c) + u</code></pre>
+<pre class="r"><code>modelo = cbind(y,X,id,kronecker(J,c),v,u,period)
+modelo= modelo[order(modelo[,5],modelo[,9],decreasing=FALSE),]
+head(modelo)</code></pre>
+<pre><code>##                                        id                                   
+## [1,] 162.87091 1 18.500435 -22.0822533  1 -6.264538  -5.8780225  0.3865156 1
+## [2,] 109.88731 1 13.914198 -10.3020117  1 -6.264538  -0.5897127  5.6748254 2
+## [3,]  29.59827 1  0.746870  -5.1706102  2  1.836433   0.3520900 -1.4843432 1
+## [4,]  17.36839 1 -1.324759  -2.1986964  2  1.836433   7.3960925  5.5596592 2
+## [5,]  96.70768 1 18.935812  -2.1003708  3 -8.356286 -14.2724973 -5.9162112 1
+## [6,]  80.39294 1 16.768350   0.2462118  3 -8.356286 -12.7101743 -4.3538882 2</code></pre>
+<pre class="r"><code>bpols = solve(t(X)%*%X)%*%t(X)%*%y
+bpols</code></pre>
+<pre><code>##           [,1]
+## [1,]  9.583563
+## [2,]  5.069931
+## [3,] -3.022429</code></pre>
+<pre class="r"><code>e_hat1 = y1 - X1%*%bpols
+e_hat2 = y2 - X2%*%bpols
+e_hat = cbind(e_hat1,e_hat2)</code></pre>
+<pre class="r"><code>sigma = t(e_hat)%*%e_hat
+sigma/n</code></pre>
+<pre><code>##           [,1]      [,2]
+## [1,] 125.05625  95.94474
+## [2,]  95.94474 124.32150</code></pre>
+<pre class="r"><code>I = diag(n)
+S = kronecker(solve(sigma),I)</code></pre>
+<pre class="r"><code>Bre = solve(t(X)%*%S%*%X)%*%t(X)%*%S%*%y
+Bre</code></pre>
+<pre><code>##           [,1]
+## [1,]  9.598763
+## [2,]  5.065440
+## [3,] -3.015998</code></pre>
+<pre class="r"><code>V_h = solve(t(X)%*%(S)%*%X)
+V_h = (1/n) * V_h
+ep_h = sqrt(diag(V_h))
+ep_h</code></pre>
+<pre><code>## [1] 0.61683692 0.04478039 0.02921716</code></pre>
+<pre class="r"><code>df = data.frame(y,X,v,period,id)
+library(plm)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plm&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:timeSeries&#39;:
+## 
+##     lag</code></pre>
+<pre class="r"><code>re = plm(y ~ X2 + X3, data = df, index=c(&quot;id&quot;,&quot;period&quot;), model = &quot;random&quot;)
+summary(re)</code></pre>
+<pre><code>## Oneway (individual) effect Random Effect Model 
+##    (Swamy-Arora&#39;s transformation)
+## 
+## Call:
+## plm(formula = y ~ X2 + X3, data = df, model = &quot;random&quot;, index = c(&quot;id&quot;, 
+##     &quot;period&quot;))
+## 
+## Balanced Panel: n = 500, T = 2, N = 1000
+## 
+## Effects:
+##                  var std.dev share
+## idiosyncratic 28.847   5.371  0.23
+## individual    96.559   9.826  0.77
+## theta: 0.6395
+## 
+## Residuals:
+##      Min.   1st Qu.    Median   3rd Qu.      Max. 
+## -16.71273  -3.73831  -0.18647   3.60295  19.22244 
+## 
+## Coefficients:
+##              Estimate Std. Error  z-value  Pr(&gt;|z|)    
+## (Intercept)  9.596588   0.618174   15.524 &lt; 2.2e-16 ***
+## X2           5.065452   0.044813  113.035 &lt; 2.2e-16 ***
+## X3          -3.015962   0.029198 -103.294 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Total Sum of Squares:    658530
+## Residual Sum of Squares: 28707
+## R-Squared:      0.95641
+## Adj. R-Squared: 0.95632
+## Chisq: 21873.7 on 2 DF, p-value: &lt; 2.22e-16</code></pre>
+<pre class="r"><code>pols = lm(y ~ X2 + X3, data = df)
+summary(pols)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ X2 + X3, data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -36.517  -7.125  -0.051   7.316  44.271 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  9.58356    0.48651    19.7   &lt;2e-16 ***
+## X2           5.06993    0.03627   139.8   &lt;2e-16 ***
+## X3          -3.02243    0.02888  -104.7   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 11.18 on 997 degrees of freedom
+## Multiple R-squared:  0.9674, Adjusted R-squared:  0.9673 
+## F-statistic: 1.477e+04 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><strong>Simulações</strong></p>
+<pre class="r"><code>re = function(n){
+  id = seq(1:n)
+  T = 2
+  period = matrix(seq(1:T),ncol = 1)
+  I = matrix(rep(1,n), ncol = 1)
+  period = kronecker(period,I)
+  sigmac=10
+  c = rnorm(n,0,sigmac)
+  sigmau = 5
+  u1 = matrix(rnorm(n,0,sigmau),ncol=1)
+  u2 = matrix(rnorm(n,0,sigmau),ncol = 1)
+  u = rbind(u1,u2)
+  J = matrix(rep(1,T), ncol = 1)
+  x11 = matrix(rnorm(n,10,10) , ncol = 1)
+  x12 = 0.8*x11 + rnorm(n)
+  x21 = matrix(rnorm(n,5,15), ncol = 1)
+  x22 = 0.5*x21 + rnorm(n)
+  beta = c(10,5,-3)
+  X1 = cbind(1,x11,x21)
+  X2 = cbind(1,x12,x22)
+  y1 =  X1%*%beta + c + u1
+  y2 =  X2%*%beta + c + u2
+  X = rbind(X1,X2)
+  y = X%*%beta + kronecker(J,c) + u
+  bpols = solve(t(X)%*%X)%*%t(X)%*%y
+  bpols
+  e_hat1 = y1 - X1%*%bpols
+  e_hat2 = y2 - X2%*%bpols
+  e_hat = cbind(e_hat1,e_hat2)
+  sigma = t(e_hat)%*%e_hat
+  I = diag(n)
+  S = kronecker(solve(sigma),I)
+  Bre = solve(t(X)%*%S%*%X)%*%t(X)%*%S%*%y
+  Bre
+  return(c(bpols,Bre))
+}</code></pre>
+<pre class="r"><code>z = replicate(1000, expr = re(100))
+par(mfrow = c(2, 2))
+
+plot(density(z[2, ]), xlim = c(4,6))
+abline(v = 5)
+
+plot(density(z[3, ]), xlim = c(-4,-2))
+abline(v = -3)
+
+
+plot(density(z[5, ]), xlim = c(4,6))
+abline(v = 5)
+
+plot(density(z[6, ]), xlim = c(-4,-2))
+abline(v = -3)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-401-1.png" /><!-- --></p>
+</div>
+<div id="efeitos-fixos" class="section level3">
+<h3>Efeitos Fixos</h3>
+<pre class="r"><code>set.seed(1)
+n = 500
+id = seq(1:n)
+T = 2
+period = matrix(seq(1:T),ncol = 1)
+
+I = matrix(rep(1,n), ncol = 1)
+period = kronecker(period,I)
+
+
+sigmac=10
+c = rnorm(n,0,sigmac)
+
+sigmau = 5
+u1 = matrix(rnorm(n,0,sigmau),ncol=1)
+u2 = matrix(rnorm(n,0,sigmau),ncol = 1)
+u = rbind(u1,u2)
+#u = rnorm(n*T,0,sigmau)
+
+J = matrix(rep(1,T), ncol = 1)
+#c = kronecker(J,c)
+
+
+
+It = diag(T)
+omega = sigmau^2*It + sigmac^2*(J%*%t(J))
+omega</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]  125  100
+## [2,]  100  125</code></pre>
+<pre class="r"><code>#ee = e%*%t(e)
+#ee[c(seq(1:10)),c(seq(1:10))]/n
+
+#uu = u%*%t(u)
+#uu[c(seq(1:10)),c(seq(1:10))]
+
+v = c  + u
+
+x11 = matrix(rnorm(n,10,10) , ncol = 1)
+x12 = 0.8*x11 + rnorm(n)
+
+x21 = matrix(rnorm(n,5,15) + 0.7*c, ncol = 1)
+x22 = 0.5*x21+ 1.5*c + rnorm(n)
+
+beta = c(10,5,-3)
+
+X1 = cbind(1,x11,x21)
+X2 = cbind(1,x12,x22)
+
+y1 =  X1%*%beta + 10*c + u1
+y2 =  X2%*%beta + 12*c + u2
+
+X = rbind(X1,X2)</code></pre>
+<pre class="r"><code>modelo = cbind(X,id,kronecker(J,c),v,u,period)
+modelo= modelo[order(modelo[,4],modelo[,8],decreasing=FALSE),]
+head(modelo)</code></pre>
+<pre><code>##                             id                                   
+## [1,] 1 18.500435 -26.467430  1 -6.264538  -5.8780225  0.3865156 1
+## [2,] 1 13.914198 -21.891407  1 -6.264538  -0.5897127  5.6748254 2
+## [3,] 1  0.746870  -3.885107  2  1.836433   0.3520900 -1.4843432 1
+## [4,] 1 -1.324759   1.198705  2  1.836433   7.3960925  5.5596592 2
+## [5,] 1 18.935812  -7.949771  3 -8.356286 -14.2724973 -5.9162112 1
+## [6,] 1 16.768350 -15.212918  3 -8.356286 -12.7101743 -4.3538882 2</code></pre>
+<pre class="r"><code>X = modelo[,c(1,2,3)]
+y = X%*%beta + kronecker(c,J) + u</code></pre>
+<pre class="r"><code>pols = solve(t(X)%*%X)%*%t(X)%*%X
+pols</code></pre>
+<pre><code>##                                           
+##   1.000000e+00 -1.098340e-14  2.623596e-14
+##  -2.469948e-17  1.000000e+00 -1.474407e-15
+##   2.587177e-17 -1.961864e-16  1.000000e+00</code></pre>
+<pre class="r"><code>#install.packages(&quot;simex&quot;)
+library(simex)</code></pre>
+<pre><code>## Warning: package &#39;simex&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>X = modelo[,c(2,3)]
+I = diag(n*T)
+D = diag.block(J,n)
+M = I -   (D%*%solve(t(D)%*%D)%*%t(D))           
+
+x_til = M%*%X
+y_til = M%*%y         </code></pre>
+<pre class="r"><code>fe = solve(t(x_til)%*%x_til)%*%t(x_til)%*%y_til
+fe</code></pre>
+<pre><code>##       [,1]
+##   5.015333
+##  -2.995034</code></pre>
+<pre class="r"><code>e_hat = y_til - x_til%*%fe
+
+sigma_hat = (1/(n*(T-1)-2)) * t(e_hat)%*%e_hat   # n-k correção de viés
+sigma_hat</code></pre>
+<pre><code>##          [,1]
+## [1,] 25.04948</code></pre>
+<pre class="r"><code>V = sigma_hat[1,1] * solve(t(x_til)%*%x_til)
+V</code></pre>
+<pre><code>##                             
+##   0.0107123404 -0.0001796613
+##  -0.0001796613  0.0004792666</code></pre>
+<pre class="r"><code>ep = sqrt(diag(V))
+ep</code></pre>
+<pre><code>##                       
+## 0.10350044 0.02189216</code></pre>
+<pre class="r"><code>df = data.frame(y,modelo)
+
+
+library(plm)
+fe = plm(y ~ V2 + V3, data = df, index=c(&quot;id&quot;,&quot;V8&quot;), model = &quot;within&quot;)
+summary(fe)</code></pre>
+<pre><code>## Oneway (individual) effect Within Model
+## 
+## Call:
+## plm(formula = y ~ V2 + V3, data = df, model = &quot;within&quot;, index = c(&quot;id&quot;, 
+##     &quot;V8&quot;))
+## 
+## Balanced Panel: n = 500, T = 2, N = 1000
+## 
+## Residuals:
+##        Min.     1st Qu.      Median     3rd Qu.        Max. 
+## -1.1917e+01 -2.4427e+00  4.4409e-16  2.4427e+00  1.1917e+01 
+## 
+## Coefficients:
+##     Estimate Std. Error  t-value  Pr(&gt;|t|)    
+## V2  5.015333   0.103500   48.457 &lt; 2.2e-16 ***
+## V3 -2.995034   0.021892 -136.809 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Total Sum of Squares:    516970
+## Residual Sum of Squares: 12475
+## R-Squared:      0.97587
+## Adj. R-Squared: 0.95159
+## F-statistic: 10070 on 2 and 498 DF, p-value: &lt; 2.22e-16</code></pre>
+<p><strong>Simulações</strong></p>
+<pre class="r"><code>fe = function(n){
+  id = seq(1:n)
+  T = 2
+  period = matrix(seq(1:T),ncol = 1)
+  
+  I = matrix(rep(1,n), ncol = 1)
+  period = kronecker(period,I)
+  
+  
+  sigmac=10
+  c = rnorm(n,0,sigmac)
+  
+  sigmau = 5
+  u1 = matrix(rnorm(n,0,sigmau),ncol=1)
+  u2 = matrix(rnorm(n,0,sigmau),ncol = 1)
+  u = rbind(u1,u2)
+  #u = rnorm(n*T,0,sigmau)
+  
+  J = matrix(rep(1,T), ncol = 1)
+  #c = kronecker(J,c)
+  
+  
+  
+  It = diag(T)
+  omega = sigmau^2*It + sigmac^2*(J%*%t(J))
+  omega
+  #ee = e%*%t(e)
+  #ee[c(seq(1:10)),c(seq(1:10))]/n
+  
+  #uu = u%*%t(u)
+  #uu[c(seq(1:10)),c(seq(1:10))]
+  
+  v = c  + u
+  
+  x11 = matrix(rnorm(n,10,10) , ncol = 1)
+  x12 = 0.8*x11 + rnorm(n)
+  
+  x21 = matrix(rnorm(n,5,15) + 0.7*c, ncol = 1)
+  x22 = 0.5*x21+ 1.5*c + rnorm(n)
+  
+  beta = c(10,5,-3)
+  
+  X1 = cbind(1,x11,x21)
+  X2 = cbind(1,x12,x22)
+  
+  y1 =  X1%*%beta + 10*c + u1
+  y2 =  X2%*%beta + 12*c + u2
+  
+  X = rbind(X1,X2)
+  #X = cbind(1,X)
+   
+
+  
+  modelo = cbind(X,id,kronecker(J,c),v,u,period)
+  modelo= modelo[order(modelo[,4],modelo[,8],decreasing=FALSE),]
+  head(modelo)
+  
+  X = modelo[,c(1,2,3)]
+  
+  #X = X[,c(1,2,3)]  
+
+  y = X%*%beta + kronecker(c,J) + u
+
+   bpols = solve(t(X)%*%X)%*%t(X)%*%y
+  bpols  
+  
+  X = modelo[,c(2,3)]
+  I = diag(n*T)
+  D = diag.block(J,n)
+  M = I -   (D%*%solve(t(D)%*%D)%*%t(D))           
+  
+  x_til = M%*%X
+    y_til = M%*%y
+  bfe = solve(t(x_til)%*%x_til)%*%t(x_til)%*%y_til
+  bfe
+  
+  
+  return(c(bpols,bfe))
+}</code></pre>
+<pre class="r"><code>z = replicate(1000, expr = fe(100))
+par(mfrow = c(2, 2))
+
+plot(density(z[2, ]), xlim = c(4,6))
+abline(v = 5)
+
+plot(density(z[3, ]), xlim = c(-4,-2))
+abline(v = -3)
+
+
+plot(density(z[4, ]), xlim = c(4,6))
+abline(v = 5)
+
+plot(density(z[5, ]), xlim = c(-4,-2))
+abline(v = -3)</code></pre>
+<p><img src="Apostila_R_files/figure-html/unnamed-chunk-411-1.png" /><!-- --></p>
 </div>
 </div>
 
