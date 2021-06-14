@@ -1,0 +1,286 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(dplyr)
+library(plotly)
+library(ggpubr)
+library(tidyr)
+library(stargazer)
+library(kableExtra)
+library(stringr)
+library(vtable)
+library(DT)
+```
+
+
+```{r data, include=FALSE}
+#load("D:/Projetos/2 - Febraban/99 - Dados Abertos/Shiny/scr_2012_2020.RData")
+#load("https://igorprocopio.github.io/Datasets/scr_2012_2020.RData")
+#load("scr_2012_2020.RData")
+#githubURL <- "https://igorprocopio.github.io/Datasets/scr_2012_2020.RData"
+githubURL <- "scr_2012_2020.RData"
+load(url(githubURL))
+```
+
+
+
+
+Tipo de Cliente
+==============================
+
+Column{.sidebar data-width=200}
+-----------------------------------------------------------------------
+
+```{r}
+#data <- ls()
+anos = c(2012:2020)
+selectInput("ano1", label = "Select Categorical Variable:", choices = anos)
+#selectInput("dataset", label = "Tipo", choices = data)
+```
+
+
+
+
+
+
+Economia Verde
+==============================
+
+
+Column{.sidebar data-width=200}
+-----------------------------------------------------------------------
+
+```{r}
+#data <- ls()
+anos = c(2012:2020)
+selectInput("ano", label = "Select Categorical Variable:", choices = anos)
+#selectInput("dataset", label = "Tipo", choices = data)
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+sum = reactive({
+  verde[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+
+})
+renderTable(
+  sum()
+)
+```
+
+
+### Chart B
+
+```{r}
+sum1 = reactive({
+  ev_categorias[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+
+})
+renderTable(
+  sum1()
+)
+```
+
+
+
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+
+### Chart C
+
+```{r}
+sum2 = reactive({
+  ev_divisao[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+})
+renderTable(
+  sum2()
+)
+```
+
+### Chart ALTA
+
+```{r}
+sum3 = reactive({
+  ev_alta[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+  #scr[scr$table == "ev_alta",c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+})
+renderTable(
+  sum3()
+)
+```
+
+
+
+### Chart Moderada
+
+```{r}
+sum4 = reactive({
+#a = data.frame(input$dataset)
+#anos = as.character(input$ano)
+#b  =a[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+#kable(b, col.names = c("Cliente","Valor","Percentual"), align='lcc',  format.args = list (decimal.mark = ',', big.mark = ".")) %>%
+ # kable_styling(latex_options = "striped", full_width = T, position = "center",  
+  #              stripe_color = "#F7FBFF",)
+ev_moderada[,c("Setores",(paste0("valor.",input$ano)),(paste0("Percentual.",input$ano)))]
+
+})
+renderTable(
+  sum4()
+)
+```
+
+
+
+
+
+Risco Ambiental
+==============================
+
+Column{.sidebar data-width=200}
+-----------------------------------------------------------------------
+
+```{r}
+#data <- ls()
+anos = c(2012:2020)
+selectInput("ano2", label = "Select Categorical Variable:", choices = anos)
+#selectInput("dataset", label = "Tipo", choices = data)
+```
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart A
+
+  
+```{r}
+risco1 = reactive({
+  risco[,c("Setores",(paste0("valor.",input$ano2)),(paste0("Percentual.",input$ano2)))]
+
+})
+renderTable(
+  risco1()
+)
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+risco2 = reactive({
+  risco_divisao[,c("Setores",(paste0("valor.",input$ano2)),(paste0("Percentual.",input$ano2)))]
+
+})
+renderTable(
+  risco2()
+)
+```
+
+
+
+
+Exposição à Mudanças Climáticas
+==============================
+
+
+Column{.sidebar data-width=200}
+-----------------------------------------------------------------------
+
+```{r}
+#data <- ls()
+selectInput("ano3", label = "Select Categorical Variable:", choices = anos)
+#selectInput("dataset", label = "Tipo", choices = data)
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+tcfd = reactive({
+  exposicao[,c("Setores",(paste0("valor.",input$ano3)),(paste0("Percentual.",input$ano3)))]
+
+})
+renderTable(
+  tcfd()
+)
+```
+
+
+### Chart B
+
+```{r}
+tcfd1 = reactive({
+  exposicao_categoria[,c("Setores",(paste0("valor.",input$ano3)),(paste0("Percentual.",input$ano3)))]
+})
+renderTable(
+  tcfd1()
+)
+```
+
+
+
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+
+### Chart C
+
+```{r}
+tcfd2 = reactive({
+  exposicao_divisao[,c("Setores",(paste0("valor.",input$ano3)),(paste0("Percentual.",input$ano3)))]
+})
+renderTable(
+  tcfd2()
+)
+```
+
+### Chart ALTA
+
+```{r}
+tcfd3 = reactive({
+  exposicao_alta[,c("Setores",(paste0("valor.",input$ano3)),(paste0("Percentual.",input$ano3)))]
+})
+renderTable(
+  tcfd3()
+)
+```
+
+
+
+### Chart Moderada
+
+```{r}
+tcfd4 = reactive({
+  exposicao_moderada[,c("Setores",(paste0("valor.",input$ano3)),(paste0("Percentual.",input$ano3)))]
+})
+renderTable(
+  tcfd4()
+)
+```
+
