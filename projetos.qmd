@@ -1,0 +1,8 @@
+---
+title: "Projetos"
+format: html
+---
+
+# Projetos
+
+Aqui estão os projetos em destaque.

@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Igor Procopio"
+  site-url: "https://igorprocopio.github.io"
+  navbar:
+    background: "#e8f5e9"
+    foreground: "#1b5e20"
+    right:
+      - text: "Início"
+        href: index.qmd
+      - text: "Projetos"
+        href: projetos.qmd
+      - text: "Sobre"
+        href: sobre.qmd
+
+format:
+  html:
+    theme:
+      light: flatly
+    css: styles.css
+    toc: false
