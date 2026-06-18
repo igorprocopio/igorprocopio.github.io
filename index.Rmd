@@ -1,0 +1,29 @@
+---
+title: "Igor Vieira Procópio"
+---
+
+Economista do ECONS — Laboratório de Estudos Econômicos da Universidade Federal de Juiz de Fora,
+atuando principalmente nos seguintes temas: economia social e do trabalho, com ênfase nos estudos
+da teoria da origem fetal, primeira infância, mudanças climáticas, mercado de trabalho e economia da saúde.
+
+<div class="tags">
+  <span class="tag">Desenvolvimento Infantil</span>
+  <span class="tag">Economia da Saúde</span>
+  <span class="tag">Mudanças Climáticas</span>
+  <span class="tag">Desigualdades Sociais</span>
+</div>
+
+## Grupos de Pesquisa
+
+<ul class="group-list">
+  <li>ODES <span>&middot; UFJF</span></li>
+  <li>NIETTES <span>&middot; UFJF</span></li>
+</ul>
+
+## Atualizações Recentes
+
+<div class="updates">
+  <div class="update">
+    Adicione aqui novidades recentes — novos papers, apresentações, projetos iniciados, etc.
+  </div>
+</div>

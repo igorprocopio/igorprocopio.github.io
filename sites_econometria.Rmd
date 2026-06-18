@@ -1,0 +1,31 @@
+---
+title: "Sites Econometria"
+output: html_document
+#date: "2023-06-30"
+---
+
+
+
+
+**** Marginal Revolution University
+https://mru.org/
+
+
+*** Seeing Theory - A visual introduction to probability and statistics
+
+https://seeing-theory.brown.edu/index.html
+
+
+**********     Nick Huntington-Jlein    *****
+
+https://theeffectbook.net/index.html     ****  The Effect Book
+
+https://nickchk.com/index.html
+
+https://github.com/NickCH-K/causalgraphs
+
+
+
+**********    Scot Cun
+
+https://www.scunning.com/mixtape.html

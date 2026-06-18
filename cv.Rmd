@@ -1,0 +1,8 @@
+---
+title: "Curriculum Vitae"
+---
+
+<!-- Quando tiver o PDF, substitua o parágrafo abaixo por:
+     [&#8595; Download CV (PDF)](assets/cv.pdf){target="_blank"} -->
+
+Em breve.

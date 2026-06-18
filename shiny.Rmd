@@ -1,0 +1,5 @@
+---
+title: "Aplicações Shiny"
+---
+
+Em breve — esta página reunirá aplicações interativas desenvolvidas em R/Shiny.

@@ -1,0 +1,28 @@
+---
+title: "Modelagem matemática"
+output: html_document
+date: "2025-02-14"
+---
+
+
+Primer of Ecology using R
+
+https://hankstevens.github.io/Primer-of-Ecology/index.html
+
+
+Interspecific competition model
+
+https://www2.nau.edu/lrm22/lessons/competition/competition.html
+
+https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/15%3A_Competition/15.05%3A_Quantifying_Competition_Using_the_Lotka-Volterra_Model
+
+
+https://github.com/hplgit/fdm-book
+https://hplgit.github.io/
+
+Vídeos aula Flávia Bastos
+
+https://www.youtube.com/playlist?list=PLBjsIqt9Y_dA-KTONlPqB3dniwAmldbAL
+
+
+https://insightmaker.com/docs/predatorprey

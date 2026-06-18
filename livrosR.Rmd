@@ -1,0 +1,21 @@
+---
+title: "Livros R"
+output: html_document
+date: "2024-03-22"
+---
+
+
+
+
+## R Programing for Data Science 
+
+https://bookdown.org/rdpeng/rprogdatascience/
+
+
+## Advanced R
+
+https://adv-r.hadley.nz/fp.html
+
+## R for Data Science
+
+https://r4ds.had.co.nz/index.html

@@ -1,0 +1,12 @@
+name: "igorprocopio"
+output_dir: "docs"
+
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: custom.css
+    includes:
+      in_header:    _in_header.html
+      before_body:  _before_body.html
+      after_body:   _after_body.html

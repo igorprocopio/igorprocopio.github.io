@@ -1,0 +1,27 @@
+---
+title: "Working Papers"
+---
+
+<div class="pub-list">
+
+  <!-- ================================================
+       COMO ADICIONAR UM WORKING PAPER:
+       Copie o bloco pub-item abaixo e preencha os campos.
+       ================================================ -->
+  <div class="pub-item">
+    <span class="pub-n">1.</span>
+    <div>
+      <p class="pub-title">Título do working paper</p>
+      <p class="pub-meta">
+        Procópio, I. V.; Coautor A<br>
+        2024
+      </p>
+      <div class="pub-badges">
+        <span class="badge badge-wp">Em revisão</span>
+        <!-- <a href="link-do-pdf" class="pub-link" target="_blank">PDF</a> -->
+        <!-- <a href="link-ssrn" class="pub-link" target="_blank">SSRN</a> -->
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,13 @@
+---
+title: "Revisão de Literatura"
+output: html_document
+date: "2024-05-14"
+---
+
+
+
+
+https://www.connectedpapers.com/
+
+
+https://aarontay.medium.com/3-new-tools-to-try-for-literature-mapping-connected-papers-inciteful-and-litmaps-a399f27622a

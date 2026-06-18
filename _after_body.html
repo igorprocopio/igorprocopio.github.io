@@ -1,0 +1,34 @@
+  </main><!-- /content -->
+</div><!-- /site-body -->
+
+<footer>
+  <p>&copy; 2026 Igor Vieira Procópio</p>
+</footer>
+
+<script>
+  // Destaca link ativo na navbar conforme a página atual
+  (function() {
+    var file = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.navbar-links a').forEach(function(a) {
+      if (a.getAttribute('href') === file) a.classList.add('active');
+    });
+  })();
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('navToggle').classList.toggle('open');
+  }
+
+  function toggleDropdown(e) {
+    e.preventDefault();
+    document.getElementById('dropdownMenu').classList.toggle('open');
+  }
+
+  // Fecha dropdown ao clicar fora
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) {
+      var m = document.getElementById('dropdownMenu');
+      if (m) m.classList.remove('open');
+    }
+  });
+</script>

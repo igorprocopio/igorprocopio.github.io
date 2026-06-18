@@ -1,0 +1,65 @@
+---
+title: "Espacial"
+output: html_document
+#date: "2023-06-30"
+---
+
+
+### Sensoriamento Remoto
+
+https://rspatial.org/raster/rs/
+
+https://ourcodingclub.github.io/tutorials/spatial/
+
+http://www3.inpe.br/unidades/cep/atividadescep/educasere/apostila.htm
+
+https://rpubs.com/daniballari/RSwithR
+
+https://pt.slideshare.net/vitor_vasconcelos/sensoriamento-remoto-em-r-139540822
+
+
+
+### Livros online 
+
+ - Geocomputation with R
+
+https://bookdown.org/robinlovelace/geocompr/
+https://geocompx.org/r
+
+
+
+- Spatial Data Science
+https://r-spatial.org/book/
+
+
+- Geographic Data Science with R: Visualizing and Analyzing Environmental Change
+https://bookdown.org/mcwimberly/gdswr-book/
+
+
+
+- R Programming for Climate Data Analysis and Visualization
+https://shen.sdsu.edu/pdf/R-TextBySamShen2017.pdf
+
+
+
+
+
+https://datacarpentry.org/R-ecology-lesson/
+
+https://www.datacamp.com/tutorial/visualizing-climate-change-data-with-ggplot2
+
+https://michaelminn.net/tutorials/r-climate/index.html
+
+https://nordicesmhub.github.io/climate-data-tutorial/04-visualization-R/
+
+https://geospatial-community.netlify.app/post/2022-09-01-analysing-climate-data-with-r/
+
+
+
+** R Code for Climate Mathematics
+
+https://rpubs.com/joaquinstawsky/927339
+
+https://rpubs.com/joaquinstawsky/927355
+
+

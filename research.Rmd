@@ -1,0 +1,30 @@
+---
+title: "Research"
+---
+
+<div class="pub-list">
+
+  <!-- ================================================
+       COMO ADICIONAR UM ARTIGO:
+       Copie o bloco pub-item abaixo e preencha os campos.
+       ================================================ -->
+  <div class="pub-item">
+    <span class="pub-n">1.</span>
+    <div>
+      <p class="pub-title">
+        <!-- Se tiver DOI: <a href="https://doi.org/..." target="_blank">Título do artigo</a> -->
+        Título do artigo publicado
+      </p>
+      <p class="pub-meta">
+        Procópio, I. V.; Coautor A; Coautor B<br>
+        <em>Nome da Revista</em>, 2024
+      </p>
+      <div class="pub-badges">
+        <span class="badge badge-pub">Publicado</span>
+        <!-- <a href="link-do-pdf" class="pub-link" target="_blank">PDF</a> -->
+        <!-- <a href="https://doi.org/..." class="pub-link" target="_blank">DOI</a> -->
+      </div>
+    </div>
+  </div>
+
+</div>

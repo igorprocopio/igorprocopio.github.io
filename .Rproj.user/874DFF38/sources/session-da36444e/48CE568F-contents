@@ -1,0 +1,31 @@
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "Temas de Pesquisas"
+      menu:
+        - text: "Primeira Infância"
+          href: https://igorprocopio.github.io/infancia/index.html
+        - text:  ""
+          href: 
+    - text: "Fonte de Informações"
+      href: https://igorprocopio.github.io/dados/index.html
+    - text: "Econometria"
+      menu:
+        - text: "Sites interessantes"
+          href: sites_econometria.html
+        - text:  ""
+          href: 
+    - text: "Análise Espacial"
+      href: espacial.html
+    - text: "Livros R"
+      href: livrosR.html
+    - text: "Shiny R"
+      href: shiny.html
+    - text: "Modelagem Matemática"
+      href: modelagem.html
+      
