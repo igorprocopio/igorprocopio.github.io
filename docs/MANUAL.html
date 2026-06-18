@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>MANUAL</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-name">Igor Vieira Procópio</span>
+    <div class="navbar-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="working-papers.html">Working Papers</a>
+      <a href="cv.html">CV</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropdown-toggle" onclick="toggleDropdown(event)">Recursos ▾</a>
+        <div class="nav-dropdown-menu" id="dropdownMenu">
+          <a href="literatura.html">Literatura</a>
+          <a href="climate.html">Clima</a>
+          <a href="sites_econometria.html">Econometria</a>
+          <a href="espacial.html">Espacial</a>
+          <a href="livrosR.html">Livros R</a>
+          <a href="shiny.html">Shiny</a>
+          <a href="modelagem.html">Modelagem</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="site-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-photo">
+      <!-- Para adicionar foto: substitua o span abaixo por:
+           <img src="assets/img/foto.jpg" alt="Igor Vieira Procópio"> -->
+      <span class="sidebar-initials">IP</span>
+    </div>
+    <p class="sidebar-name">Igor Vieira Procópio</p>
+    <p class="sidebar-pos">Pesquisador</p>
+    <p class="sidebar-inst">Universidade Federal de Juiz de Fora (UFJF)</p>
+    <div class="sidebar-links">
+      <!-- <a href="mailto:seuemail@ufjf.br">✉ seuemail@ufjf.br</a> -->
+      <!-- <a href="https://scholar.google.com/..." target="_blank">Google Scholar</a> -->
+      <!-- <a href="http://lattes.cnpq.br/..." target="_blank">Lattes</a> -->
+      <!-- <a href="https://orcid.org/..." target="_blank">ORCID</a> -->
+      <!-- <a href="https://linkedin.com/in/..." target="_blank">LinkedIn</a> -->
+      <a href="https://github.com/igorprocopio" target="_blank">GitHub</a>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO (fechado em _after_body.html) -->
+  <main class="content">
+
+
+
+
+
+<div id="manual-do-site-igor-vieira-procópio" class="section level1">
+<h1>Manual do site — Igor Vieira Procópio</h1>
+<div id="estrutura-de-arquivos" class="section level2">
+<h2>Estrutura de arquivos</h2>
+<pre><code>igorprocopio/
+├── _site.yml          # Configuração do site (output, CSS, includes)
+├── _in_header.html    # Fontes Google (carregado no &lt;head&gt;)
+├── _before_body.html  # Navbar + sidebar — EDITE AQUI para mudar menu ou dados pessoais
+├── _after_body.html   # Rodapé + JavaScript
+├── custom.css         # Todo o estilo visual — EDITE AQUI para mudar cores/layout
+│
+├── index.Rmd          # Página Home
+├── research.Rmd       # Artigos publicados
+├── working-papers.Rmd # Working papers
+├── cv.Rmd             # Curriculum Vitae
+│
+├── literatura.Rmd     # Recursos: literatura
+├── climate.Rmd        # Recursos: clima
+├── sites_econometria.Rmd
+├── espacial.Rmd
+├── livrosR.Rmd
+├── shiny.Rmd
+├── modelagem.Rmd
+│
+├── deploy.R           # Script para renderizar e publicar
+└── docs/              # Site gerado (não edite manualmente)</code></pre>
+<hr />
+</div>
+<div id="tarefas-comuns" class="section level2">
+<h2>Tarefas comuns</h2>
+<div id="publicar-o-site" class="section level3">
+<h3>Publicar o site</h3>
+<p>No console do RStudio:</p>
+<pre class="r"><code>source(&quot;deploy.R&quot;)</code></pre>
+</div>
+<div id="só-renderizar-sem-publicar" class="section level3">
+<h3>Só renderizar (sem publicar)</h3>
+<pre class="r"><code>rmarkdown::render_site()</code></pre>
+<p>O resultado fica em <code>docs/index.html</code> — abra no navegador
+para visualizar.</p>
+<hr />
+</div>
+<div id="adicionar-um-artigo-publicado" class="section level3">
+<h3>Adicionar um artigo publicado</h3>
+<p>Abra <code>research.Rmd</code> e copie o bloco abaixo dentro de
+<code>&lt;div class="pub-list"&gt;</code>:</p>
+<pre class="html"><code>&lt;div class=&quot;pub-item&quot;&gt;
+  &lt;span class=&quot;pub-n&quot;&gt;2.&lt;/span&gt;
+  &lt;div&gt;
+    &lt;p class=&quot;pub-title&quot;&gt;
+      &lt;a href=&quot;https://doi.org/...&quot; target=&quot;_blank&quot;&gt;Título do artigo&lt;/a&gt;
+    &lt;/p&gt;
+    &lt;p class=&quot;pub-meta&quot;&gt;
+      Procópio, I. V.; Coautor A&lt;br&gt;
+      &lt;em&gt;Nome da Revista&lt;/em&gt;, 2025
+    &lt;/p&gt;
+    &lt;div class=&quot;pub-badges&quot;&gt;
+      &lt;span class=&quot;badge badge-pub&quot;&gt;Publicado&lt;/span&gt;
+      &lt;a href=&quot;link-do-pdf&quot; class=&quot;pub-link&quot; target=&quot;_blank&quot;&gt;PDF&lt;/a&gt;
+      &lt;a href=&quot;https://doi.org/...&quot; class=&quot;pub-link&quot; target=&quot;_blank&quot;&gt;DOI&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+<div id="adicionar-um-working-paper" class="section level3">
+<h3>Adicionar um working paper</h3>
+<p>Mesmo processo em <code>working-papers.Rmd</code>, usando
+<code>badge-wp</code> no badge:</p>
+<pre class="html"><code>&lt;span class=&quot;badge badge-wp&quot;&gt;Em revisão&lt;/span&gt;</code></pre>
+<p>Outros status possíveis: <code>Em revisão</code>,
+<code>Submetido</code>, <code>Aceito</code>.</p>
+</div>
+<div id="adicionar-uma-atualização-recente-home" class="section level3">
+<h3>Adicionar uma atualização recente (Home)</h3>
+<p>Em <code>index.Rmd</code>, dentro de
+<code>&lt;div class="updates"&gt;</code>:</p>
+<pre class="html"><code>&lt;div class=&quot;update&quot;&gt;
+  Novo working paper: &lt;a href=&quot;#&quot;&gt;Título&lt;/a&gt;, jan. 2026.
+&lt;/div&gt;</code></pre>
+<hr />
+</div>
+<div id="adicionar-uma-página-nova-ao-menu-principal"
+class="section level3">
+<h3>Adicionar uma página nova ao menu principal</h3>
+<ol style="list-style-type: decimal">
+<li><p>Crie o arquivo <code>nova-pagina.Rmd</code></p></li>
+<li><p>Em <code>_before_body.html</code>, adicione dentro de
+<code>&lt;div class="navbar-links"&gt;</code>:</p>
+<pre class="html"><code>&lt;a href=&quot;nova-pagina.html&quot;&gt;Nome&lt;/a&gt;</code></pre></li>
+</ol>
+</div>
+<div id="adicionar-um-link-ao-submenu-recursos" class="section level3">
+<h3>Adicionar um link ao submenu Recursos</h3>
+<p>Em <code>_before_body.html</code>, dentro de
+<code>&lt;div class="nav-dropdown-menu"&gt;</code>:</p>
+<pre class="html"><code>&lt;a href=&quot;nova-pagina.html&quot;&gt;Nome&lt;/a&gt;</code></pre>
+<hr />
+</div>
+<div id="adicionar-foto-de-perfil" class="section level3">
+<h3>Adicionar foto de perfil</h3>
+<ol style="list-style-type: decimal">
+<li><p>Salve a foto em <code>assets/img/foto.jpg</code></p></li>
+<li><p>Em <code>_before_body.html</code>, substitua:</p>
+<pre class="html"><code>&lt;span class=&quot;sidebar-initials&quot;&gt;IP&lt;/span&gt;</code></pre>
+<p>por:</p>
+<pre class="html"><code>&lt;img src=&quot;assets/img/foto.jpg&quot; alt=&quot;Igor Vieira Procópio&quot;&gt;</code></pre></li>
+</ol>
+</div>
+<div id="adicionar-links-de-contato-na-sidebar" class="section level3">
+<h3>Adicionar links de contato na sidebar</h3>
+<p>Em <code>_before_body.html</code>, descomente as linhas da
+sidebar-links:</p>
+<pre class="html"><code>&lt;a href=&quot;mailto:seuemail@ufjf.br&quot;&gt;✉ seuemail@ufjf.br&lt;/a&gt;
+&lt;a href=&quot;https://scholar.google.com/...&quot; target=&quot;_blank&quot;&gt;Google Scholar&lt;/a&gt;</code></pre>
+</div>
+<div id="adicionar-cv-em-pdf" class="section level3">
+<h3>Adicionar CV em PDF</h3>
+<ol style="list-style-type: decimal">
+<li><p>Salve o PDF em <code>assets/cv.pdf</code></p></li>
+<li><p>Em <code>cv.Rmd</code>, substitua “Em breve.” por:</p>
+<pre class="markdown"><code>[⬇ Download CV (PDF)](assets/cv.pdf){target=&quot;_blank&quot;}</code></pre></li>
+</ol>
+<hr />
+</div>
+<div id="mudar-as-cores-do-site" class="section level3">
+<h3>Mudar as cores do site</h3>
+<p>Abra <code>custom.css</code> e edite as variáveis no topo:</p>
+<pre class="css"><code>:root {
+  --blue:        #1a4d7a;  /* cor principal: navbar, links */
+  --blue-dark:   #0C2F50;  /* títulos */
+  --blue-light:  #E6F1FB;  /* fundos suaves */
+  --blue-mid:    #378ADD;  /* bordas de destaque */
+  --blue-border: #85B7EB;  /* bordas de tags */
+}</code></pre>
+<hr />
+</div>
+</div>
+<div id="configuração-inicial-do-git-feita-uma-vez"
+class="section level2">
+<h2>Configuração inicial do git (feita uma vez)</h2>
+<p>No terminal do RStudio (aba Terminal):</p>
+<pre class="bash"><code>git init
+git remote add origin https://github.com/igorprocopio/igorprocopio.github.io.git
+git add .
+git commit -m &quot;init&quot;
+git push -u origin main</code></pre>
+<p>Depois, no GitHub: <strong>Settings → Pages → Branch: main → Folder:
+/docs → Save</strong></p>
+<p>A partir daí, <code>source("deploy.R")</code> cuida de tudo.</p>
+</div>
+</div>
+
+  </main><!-- /content -->
+</div><!-- /site-body -->
+
+<footer>
+  <p>&copy; 2026 Igor Vieira Procópio</p>
+</footer>
+
+<script>
+  // Destaca link ativo na navbar conforme a página atual
+  (function() {
+    var file = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.navbar-links a').forEach(function(a) {
+      if (a.getAttribute('href') === file) a.classList.add('active');
+    });
+  })();
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('navToggle').classList.toggle('open');
+  }
+
+  function toggleDropdown(e) {
+    e.preventDefault();
+    document.getElementById('dropdownMenu').classList.toggle('open');
+  }
+
+  // Fecha dropdown ao clicar fora
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) {
+      var m = document.getElementById('dropdownMenu');
+      if (m) m.classList.remove('open');
+    }
+  });
+</script>
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

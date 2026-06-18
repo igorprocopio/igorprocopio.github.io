@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Sites Econometria</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-name">Igor Vieira Procópio</span>
+    <div class="navbar-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="working-papers.html">Working Papers</a>
+      <a href="cv.html">CV</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropdown-toggle" onclick="toggleDropdown(event)">Recursos ▾</a>
+        <div class="nav-dropdown-menu" id="dropdownMenu">
+          <a href="literatura.html">Literatura</a>
+          <a href="climate.html">Clima</a>
+          <a href="sites_econometria.html">Econometria</a>
+          <a href="espacial.html">Espacial</a>
+          <a href="livrosR.html">Livros R</a>
+          <a href="shiny.html">Shiny</a>
+          <a href="modelagem.html">Modelagem</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="site-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-photo">
+      <!-- Para adicionar foto: substitua o span abaixo por:
+           <img src="assets/img/foto.jpg" alt="Igor Vieira Procópio"> -->
+      <span class="sidebar-initials">IP</span>
+    </div>
+    <p class="sidebar-name">Igor Vieira Procópio</p>
+    <p class="sidebar-pos">Pesquisador</p>
+    <p class="sidebar-inst">Universidade Federal de Juiz de Fora (UFJF)</p>
+    <div class="sidebar-links">
+      <!-- <a href="mailto:seuemail@ufjf.br">✉ seuemail@ufjf.br</a> -->
+      <!-- <a href="https://scholar.google.com/..." target="_blank">Google Scholar</a> -->
+      <!-- <a href="http://lattes.cnpq.br/..." target="_blank">Lattes</a> -->
+      <!-- <a href="https://orcid.org/..." target="_blank">ORCID</a> -->
+      <!-- <a href="https://linkedin.com/in/..." target="_blank">LinkedIn</a> -->
+      <a href="https://github.com/igorprocopio" target="_blank">GitHub</a>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO (fechado em _after_body.html) -->
+  <main class="content">
+
+
+<h1 class="title toc-ignore">Sites Econometria</h1>
+
+
+
+<p>**** Marginal Revolution University <a href="https://mru.org/"
+class="uri">https://mru.org/</a></p>
+<p>*** Seeing Theory - A visual introduction to probability and
+statistics</p>
+<p><a href="https://seeing-theory.brown.edu/index.html"
+class="uri">https://seeing-theory.brown.edu/index.html</a></p>
+<p>********** Nick Huntington-Jlein *****</p>
+<p><a href="https://theeffectbook.net/index.html"
+class="uri">https://theeffectbook.net/index.html</a> **** The Effect
+Book</p>
+<p><a href="https://nickchk.com/index.html"
+class="uri">https://nickchk.com/index.html</a></p>
+<p><a href="https://github.com/NickCH-K/causalgraphs"
+class="uri">https://github.com/NickCH-K/causalgraphs</a></p>
+<p>********** Scot Cun</p>
+<p><a href="https://www.scunning.com/mixtape.html"
+class="uri">https://www.scunning.com/mixtape.html</a></p>
+
+  </main><!-- /content -->
+</div><!-- /site-body -->
+
+<footer>
+  <p>&copy; 2026 Igor Vieira Procópio</p>
+</footer>
+
+<script>
+  // Destaca link ativo na navbar conforme a página atual
+  (function() {
+    var file = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.navbar-links a').forEach(function(a) {
+      if (a.getAttribute('href') === file) a.classList.add('active');
+    });
+  })();
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('navToggle').classList.toggle('open');
+  }
+
+  function toggleDropdown(e) {
+    e.preventDefault();
+    document.getElementById('dropdownMenu').classList.toggle('open');
+  }
+
+  // Fecha dropdown ao clicar fora
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.nav-dropdown')) {
+      var m = document.getElementById('dropdownMenu');
+      if (m) m.classList.remove('open');
+    }
+  });
+</script>
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
