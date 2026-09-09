@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Textos para Discussão</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="custom.css" type="text/css" />
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="navbar-name">Igor Vieira Procópio</span>
+    <div class="navbar-links" id="navLinks">
+      <a href="index.html">Inicial</a>
+      <a href="publicacoes.html">Publicações</a>
+      <a href="textos-para-discussao.html">Textos para Discussão</a>
+      <a href="projetos.html">Projetos</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="site-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-photo">
+      <!-- Para adicionar foto: substitua o span abaixo por:
+           <img src="assets/img/foto.jpg" alt="Igor Vieira Procópio"> -->
+      <span class="sidebar-initials">IP</span>
+    </div>
+    <p class="sidebar-name">Igor Vieira Procópio</p>
+    <p class="sidebar-pos">Pesquisador</p>
+    <p class="sidebar-inst">Universidade Federal de Juiz de Fora (UFJF)</p>
+    <div class="sidebar-links">
+      <!-- <a href="mailto:seuemail@ufjf.br">✉ seuemail@ufjf.br</a> -->
+      <!-- <a href="https://scholar.google.com/..." target="_blank">Google Scholar</a> -->
+      <!-- <a href="http://lattes.cnpq.br/..." target="_blank">Lattes</a> -->
+      <!-- <a href="https://orcid.org/..." target="_blank">ORCID</a> -->
+      <!-- <a href="https://linkedin.com/in/..." target="_blank">LinkedIn</a> -->
+      <a href="https://github.com/igorprocopio" target="_blank">GitHub</a>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <h1 class="title">Textos para Discussão</h1>
+
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <span class="pub-n">1.</span>
+        <div>
+          <p class="pub-title">Título do working paper</p>
+          <p class="pub-meta">
+            Procópio, I. V.; Coautor A<br>
+            2024
+          </p>
+          <div class="pub-badges">
+            <span class="badge badge-wp">Em revisão</span>
+            <!-- <a href="link-do-pdf" class="pub-link" target="_blank">PDF</a> -->
+            <!-- <a href="link-ssrn" class="pub-link" target="_blank">SSRN</a> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main><!-- /content -->
+</div><!-- /site-body -->
+
+<footer>
+  <p>&copy; 2026 Igor Vieira Procópio</p>
+</footer>
+
+<script>
+  // Destaca link ativo na navbar conforme a página atual
+  (function() {
+    var file = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.navbar-links a').forEach(function(a) {
+      if (a.getAttribute('href') === file) a.classList.add('active');
+    });
+  })();
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('navToggle').classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
