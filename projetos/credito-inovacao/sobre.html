@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobre os dados — Crédito à Inovação em Minas Gerais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16232e;
+    --ink-soft: #4b5a68;
+    --ink-faint: #7c8a93;
+    --paper: #edf1ef;
+    --surface: #ffffff;
+    --line: #d7deda;
+    --accent: #0e6b62;
+    --accent-dark: #0a4f49;
+    --accent-soft: #e3efec;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eef2f0;
+      --ink-soft: #b7c2be;
+      --ink-faint: #8b968f;
+      --paper: #141a18;
+      --surface: #1b2320;
+      --line: #303b36;
+      --accent: #4fb3a5;
+      --accent-dark: #6ecdbf;
+      --accent-soft: #1e2f2b;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--font-body);
+    font-size: 15px; line-height: 1.6;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  header.top {
+    background: linear-gradient(155deg, var(--ink) 0%, #223846 100%);
+    color: #fff; padding: .9rem 1.5rem .7rem; margin-bottom: 1rem;
+  }
+  header.top .inner { max-width: 780px; margin: 0 auto; }
+  header.top .eyebrow {
+    font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: #9fd8cd; margin: 0 0 .15rem;
+  }
+  header.top h1 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    margin: 0 0 .25rem; text-wrap: balance;
+  }
+  header.top nav {
+    margin-top: .6rem; display: flex; gap: 1.4rem;
+    border-top: 1px solid rgba(255,255,255,.14); padding-top: .5rem;
+  }
+  header.top nav a {
+    font-size: .78rem; font-weight: 600; color: #a9c2bc; text-decoration: none;
+    padding-bottom: .2rem; border-bottom: 2px solid transparent;
+  }
+  header.top nav a:hover { color: #fff; }
+  header.top nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+    margin: 2.25rem 0 1rem; color: var(--ink);
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  .lede { font-size: .95rem; color: var(--ink-soft); max-width: 640px; }
+
+  .fontes-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;
+  }
+  .fonte-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+  }
+  .fonte-card h3 { font-size: .95rem; font-weight: 700; margin: 0 0 .3rem; color: var(--ink); }
+  .fonte-card .badges { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .6rem; }
+  .badge {
+    font-size: .68rem; font-weight: 600; letter-spacing: .02em; text-transform: uppercase;
+    color: var(--accent-dark); background: var(--accent-soft); border-radius: 5px;
+    padding: .18rem .5rem; white-space: nowrap;
+  }
+  .fonte-card p { font-size: .87rem; color: var(--ink-soft); margin: 0 0 .5rem; }
+  .fonte-card p:last-child { margin-bottom: 0; }
+  .fonte-card ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+  .fonte-card li { font-size: .87rem; color: var(--ink-soft); margin-bottom: .45rem; }
+  .fonte-card li:last-child { margin-bottom: 0; }
+  .fonte-card li strong { color: var(--ink); font-weight: 600; }
+
+  .metodologia p { font-size: .9rem; color: var(--ink-soft); max-width: 640px; }
+
+  footer.nota {
+    margin-top: 2.5rem; font-size: .78rem; color: var(--ink-faint);
+    border-top: 1px solid var(--line); padding-top: 1.1rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <p class="eyebrow">Painel de resultados</p>
+    <h1>Sobre os dados</h1>
+    <nav>
+      <a href="sobre.html" class="active">Sobre os dados</a>
+      <a href="index.html">Mapas</a>
+      <a href="setores.html">Setores</a>
+      <a href="graficos.html">Gráficos</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h2>O que o painel reúne</h2>
+  <p class="lede">O painel reúne operações de crédito e fomento à inovação concedidas a empresas de Minas Gerais por quatro instituições, entre 2004 e 2023. Cada operação está associada à empresa beneficiária e a atributos dela — setor de atividade, porte e município — obtidos do cadastro RAIS. Todos os valores estão em reais de dezembro de 2023.</p>
+
+  <h2>As quatro fontes</h2>
+  <div class="fontes-grid">
+    <div class="fonte-card">
+      <h3>BDMG</h3>
+      <div class="badges"><span class="badge">Estadual</span><span class="badge">Reembolsável</span></div>
+      <p>Banco de Desenvolvimento de Minas Gerais — crédito bancário estadual, com repasse a empresas privadas mineiras para financiar projetos de inovação. É empréstimo (recurso reembolsável), operacionalizado pelo banco de desenvolvimento do próprio estado.</p>
+    </div>
+    <div class="fonte-card">
+      <h3>FAPEMIG</h3>
+      <div class="badges"><span class="badge">Estadual</span><span class="badge">Fomento</span></div>
+      <p>Fundação de Amparo à Pesquisa de Minas Gerais — recurso público de fomento a projetos de pesquisa e inovação, na linha voltada especificamente a empresas privadas com fins lucrativos. Não é o fomento acadêmico geral da fundação, que também financia universidade e bolsa — aqui é só a fatia dirigida à empresa.</p>
+    </div>
+    <div class="fonte-card">
+      <h3>BNDES</h3>
+      <div class="badges"><span class="badge">Federal</span><span class="badge">Duas modalidades</span></div>
+      <p>Banco nacional de desenvolvimento, com crédito em duas modalidades bem diferentes:</p>
+      <ul>
+        <li><strong>Indireto automático</strong> — empréstimo repassado por bancos comerciais credenciados, sem análise individual do BNDES. Linha padronizada, geralmente para financiar equipamento ou capital de giro de menor porte.</li>
+        <li><strong>Direto</strong> (e indireto não-automático) — financiamento negociado e analisado caso a caso diretamente pelo BNDES. Linha de maior porte, para projetos maiores.</li>
+      </ul>
+    </div>
+    <div class="fonte-card">
+      <h3>FINEP</h3>
+      <div class="badges"><span class="badge">Federal</span><span class="badge">Duas modalidades</span></div>
+      <p>Financiadora de Estudos e Projetos, federal — também em duas modalidades:</p>
+      <ul>
+        <li><strong>Operação direta</strong> — financiamento federal concedido diretamente à empresa, misturando crédito reembolsável (empréstimo) e subvenção não-reembolsável, a depender do instrumento do projeto.</li>
+        <li><strong>Crédito descentralizado</strong> — recurso da FINEP repassado via agente financeiro parceiro (banco de desenvolvimento regional), reembolsável. Mecanismo parecido com o indireto automático do BNDES, mas com funding federal da FINEP.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="nota">
+    Fonte: BDMG, BNDES, FAPEMIG e FINEP. Valores em reais de dezembro de 2023.
+  </footer>
+
+</div>
+</body>
+</html>

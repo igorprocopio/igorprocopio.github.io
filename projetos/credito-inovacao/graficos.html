@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gráficos — Crédito à Inovação em Minas Gerais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16232e;
+    --ink-soft: #4b5a68;
+    --ink-faint: #7c8a93;
+    --paper: #edf1ef;
+    --surface: #ffffff;
+    --line: #d7deda;
+    --accent: #0e6b62;
+    --accent-dark: #0a4f49;
+    --accent-soft: #e3efec;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eef2f0;
+      --ink-soft: #b7c2be;
+      --ink-faint: #8b968f;
+      --paper: #141a18;
+      --surface: #1b2320;
+      --line: #303b36;
+      --accent: #4fb3a5;
+      --accent-dark: #6ecdbf;
+      --accent-soft: #1e2f2b;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--font-body);
+    font-size: 15px; line-height: 1.55;
+  }
+  img { max-width: 100%; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  header.top {
+    background: linear-gradient(155deg, var(--ink) 0%, #223846 100%);
+    color: #fff; padding: .9rem 1.5rem .7rem; margin-bottom: 1rem;
+  }
+  header.top .inner { max-width: 1080px; margin: 0 auto; }
+  header.top .eyebrow {
+    font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: #9fd8cd; margin: 0 0 .15rem;
+  }
+  header.top h1 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    margin: 0 0 .25rem; text-wrap: balance;
+  }
+  header.top p {
+    margin: 0; max-width: 620px; color: #cdd8d4; font-size: .8rem;
+  }
+  header.top nav {
+    margin-top: .6rem; display: flex; gap: 1.4rem;
+    border-top: 1px solid rgba(255,255,255,.14); padding-top: .5rem;
+  }
+  header.top nav a {
+    font-size: .78rem; font-weight: 600; color: #a9c2bc; text-decoration: none;
+    padding-bottom: .2rem; border-bottom: 2px solid transparent;
+  }
+  header.top nav a:hover { color: #fff; }
+  header.top nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem; }
+  .painel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+  .painel h3 { font-size: .88rem; font-weight: 600; margin: 0 0 .8rem; color: var(--ink); }
+  .painel img { width: 100%; border-radius: 8px; display: block; }
+
+  .painel-largo { margin-bottom: 1.25rem; }
+  .painel-largo .painel-head {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+    gap: .75rem; margin-bottom: .8rem;
+  }
+  .toolbar-inline { display: flex; align-items: center; gap: .6rem; }
+  .segmented {
+    display: inline-flex; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 9px; padding: 3px; gap: 2px;
+  }
+  .segmented button {
+    font-family: var(--font-body); font-size: .82rem; font-weight: 500;
+    padding: .42rem .85rem; border-radius: 7px; border: none; background: transparent;
+    color: var(--ink-soft); cursor: pointer; transition: background .12s, color .12s;
+  }
+  .segmented button:hover { color: var(--ink); }
+  .segmented button.active { background: var(--surface); color: var(--accent-dark); box-shadow: 0 1px 2px rgba(0,0,0,.08); font-weight: 600; }
+
+  .ano-control { display: flex; align-items: center; gap: .6rem; }
+  .ano-control label {
+    font-size: .72rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .ano-control select {
+    font-family: var(--font-body); font-size: .85rem; font-weight: 500; padding: .4rem .6rem;
+    border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer.nota {
+    margin-top: 2.5rem; font-size: .78rem; color: var(--ink-faint);
+    border-top: 1px solid var(--line); padding-top: 1.1rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <p class="eyebrow">Painel de resultados</p>
+    <h1>Evolução e distribuição do crédito</h1>
+    <p>Como o crédito à inovação em Minas Gerais evoluiu ano a ano, e como ele se distribui entre municípios e entre empresas.</p>
+    <nav>
+      <a href="sobre.html">Sobre os dados</a>
+      <a href="index.html">Mapas</a>
+      <a href="setores.html">Setores</a>
+      <a href="graficos.html" class="active">Gráficos</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="graficos-grid">
+    <div class="painel">
+      <h3>Valor desembolsado por ano, por fonte</h3>
+      <img src="imagens/graficos/credito_mg.png" alt="Evolução do crédito por ano e fonte">
+    </div>
+    <div class="painel">
+      <h3>Valor total por município, por ano (todas as fontes)</h3>
+      <img src="imagens/graficos/boxplot_valor_municipio.png" alt="Boxplot do valor por município e ano">
+    </div>
+    <div class="painel">
+      <h3>Número de empresas atendidas por município, por ano</h3>
+      <img src="imagens/graficos/boxplot_empresas_municipio.png" alt="Boxplot do número de empresas por município e ano">
+    </div>
+  </div>
+
+  <div class="painel painel-largo">
+    <div class="painel-head">
+      <h3>Crédito por setor de atividade</h3>
+      <div class="toolbar-inline">
+        <div class="segmented" id="setor-tabs">
+          <button data-f="bdmg" class="active">BDMG</button>
+          <button data-f="bndes">BNDES</button>
+          <button data-f="fapemig">FAPEMIG</button>
+          <button data-f="finep">FINEP</button>
+          <button data-f="total">Total</button>
+        </div>
+        <div class="ano-control">
+          <label for="setor-ano">Ano</label>
+          <select id="setor-ano"></select>
+        </div>
+      </div>
+    </div>
+    <img id="grafico-setor" src="imagens/graficos/setor_bdmg.png" alt="Crédito por setor de atividade — BDMG">
+  </div>
+
+  <footer class="nota">
+    Fonte: BDMG, BNDES, FAPEMIG e FINEP. Valores em reais de dezembro de 2023.
+  </footer>
+
+</div>
+
+<script>
+  var anosPorFonteSetor = {
+    bdmg:    [2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
+    bndes:   [2004,2006,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
+    fapemig: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2019,2020,2021,2022,2023],
+    finep:   [2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
+    total:   [2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023]
+  };
+
+  var fonteAtualSetor = "bdmg";
+
+  function popularAnosSetor() {
+    var select = document.getElementById("setor-ano");
+    var anos = anosPorFonteSetor[fonteAtualSetor];
+    var valorAtual = select.value;
+
+    select.innerHTML = "";
+    var optAgregado = document.createElement("option");
+    optAgregado.value = "agregado";
+    optAgregado.textContent = "Agregado (2004-2023)";
+    select.appendChild(optAgregado);
+
+    anos.forEach(function (ano) {
+      var opt = document.createElement("option");
+      opt.value = ano;
+      opt.textContent = ano;
+      select.appendChild(opt);
+    });
+
+    if (valorAtual && (valorAtual === "agregado" || anos.indexOf(parseInt(valorAtual)) !== -1)) {
+      select.value = valorAtual;
+    } else {
+      select.value = "agregado";
+    }
+  }
+
+  function atualizarGraficoSetor() {
+    var select = document.getElementById("setor-ano");
+    var valor = select.value;
+    var sufixo = valor === "agregado" ? "" : "_" + valor;
+    var tituloFonte = document.querySelector('#setor-tabs button.active').textContent;
+
+    var img = document.getElementById("grafico-setor");
+    img.src = "imagens/graficos/setor_" + fonteAtualSetor + sufixo + ".png";
+    img.alt = "Crédito por setor de atividade — " + tituloFonte + " — " + valor;
+  }
+
+  document.querySelectorAll("#setor-tabs button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#setor-tabs button").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      fonteAtualSetor = btn.dataset.f;
+      popularAnosSetor();
+      atualizarGraficoSetor();
+    });
+  });
+
+  document.getElementById("setor-ano").addEventListener("change", atualizarGraficoSetor);
+
+  popularAnosSetor();
+  atualizarGraficoSetor();
+</script>
+</body>
+</html>
