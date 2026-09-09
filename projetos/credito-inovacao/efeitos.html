@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Efeitos no Emprego — Crédito à Inovação em Minas Gerais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16232e;
+    --ink-soft: #4b5a68;
+    --ink-faint: #7c8a93;
+    --paper: #edf1ef;
+    --surface: #ffffff;
+    --line: #d7deda;
+    --accent: #0e6b62;
+    --accent-dark: #0a4f49;
+    --accent-soft: #e3efec;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eef2f0;
+      --ink-soft: #b7c2be;
+      --ink-faint: #8b968f;
+      --paper: #141a18;
+      --surface: #1b2320;
+      --line: #303b36;
+      --accent: #4fb3a5;
+      --accent-dark: #6ecdbf;
+      --accent-soft: #1e2f2b;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--font-body);
+    font-size: 15px; line-height: 1.6;
+  }
+  img { max-width: 100%; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  header.top {
+    background: linear-gradient(155deg, var(--ink) 0%, #223846 100%);
+    color: #fff; padding: .9rem 1.5rem .7rem; margin-bottom: 1rem;
+  }
+  header.top .inner { max-width: 1080px; margin: 0 auto; }
+  header.top .eyebrow {
+    font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: #9fd8cd; margin: 0 0 .15rem;
+  }
+  header.top h1 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    margin: 0 0 .25rem; text-wrap: balance;
+  }
+  header.top p {
+    margin: 0; max-width: 620px; color: #cdd8d4; font-size: .8rem;
+  }
+  header.top nav {
+    margin-top: .6rem; display: flex; gap: 1.4rem; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,.14); padding-top: .5rem;
+  }
+  header.top nav a {
+    font-size: .78rem; font-weight: 600; color: #a9c2bc; text-decoration: none;
+    padding-bottom: .2rem; border-bottom: 2px solid transparent;
+  }
+  header.top nav a:hover { color: #fff; }
+  header.top nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .grupo-tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .6rem; }
+  .grupo-tabs button {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 500; padding: .45rem .85rem;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .grupo-tabs button:hover { color: var(--ink); }
+  .grupo-tabs button.active { background: var(--ink); color: #fff; border-color: var(--ink); font-weight: 600; }
+
+  .abas-resultado { margin-bottom: 1.25rem; }
+  .abas { display: none; flex-wrap: wrap; gap: .4rem; }
+  .abas.ativo { display: flex; }
+  .abas button {
+    font-family: var(--font-body); font-size: .8rem; font-weight: 500; padding: .5rem .9rem;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .abas button:hover { color: var(--ink); }
+  .abas button.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+  .intro {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.25rem; font-size: .92rem; color: var(--ink-soft);
+  }
+  .intro strong { color: var(--ink); }
+
+  .legenda-leitura {
+    display: flex; gap: 1.25rem; margin-top: .8rem; flex-wrap: wrap;
+    font-size: .78rem; color: var(--ink-faint);
+  }
+  .legenda-leitura span { display: inline-flex; align-items: center; gap: .4rem; }
+  .ponto { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .ponto.pre { background: #f28e7b; }
+  .ponto.post { background: #4ab3a8; }
+
+  .painel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1rem 1.1rem 1.2rem;
+  }
+  .painel h3 { font-size: .92rem; font-weight: 600; margin: 0 0 .3rem; color: var(--ink); }
+  .painel .contexto { font-size: .78rem; color: var(--ink-faint); margin: 0 0 .8rem; }
+  .painel img { max-width: 640px; width: 100%; border-radius: 8px; display: block; background: #fff; margin: 0 auto; }
+
+  p.analise { font-size: 1rem; color: var(--ink-soft); margin: 1rem 0 0; line-height: 1.65; }
+
+  [data-painel] { display: none; }
+  [data-painel].ativo { display: block; }
+
+  footer.nota {
+    margin-top: 2.5rem; font-size: .78rem; color: var(--ink-faint);
+    border-top: 1px solid var(--line); padding-top: 1.1rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <p class="eyebrow">Painel de resultados</p>
+    <h1>Efeitos no emprego</h1>
+    <p>O que acontece com o emprego e a remuneração das empresas depois que elas recebem crédito à inovação — comparando com empresas parecidas que não receberam.</p>
+    <nav>
+      <a href="sobre-projeto.html">Sobre</a>
+      <a href="sobre.html">Dados</a>
+      <a href="graficos.html">Evolução Temporal</a>
+      <a href="index.html">Distribuição Espacial</a>
+      <a href="setores.html">Setores de Atividades</a>
+      <a href="efeitos.html" class="active">Efeitos no Emprego</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="grupo-tabs">
+    <button data-grupo="como-ler" class="active">Como ler</button>
+    <button data-grupo="geral">Resultado geral (todas as fontes)</button>
+    <button data-grupo="estadual">Crédito estadual (BDMG e Fapemig)</button>
+    <button data-grupo="setor">Por setor de atividade</button>
+  </div>
+
+  <div class="abas-resultado">
+    <div class="abas ativo" data-grupo="como-ler">
+      <button data-p="intro" class="active">Como interpretar</button>
+    </div>
+    <div class="abas" data-grupo="geral">
+      <button data-p="ensino_superior_geral" class="active">Ensino superior</button>
+      <button data-p="ensino_medio_geral">Ensino médio</button>
+      <button data-p="remuneracao_mulheres_geral">Remuneração das mulheres</button>
+    </div>
+    <div class="abas" data-grupo="estadual">
+      <button data-p="ensino_superior_estadual" class="active">Ensino superior</button>
+      <button data-p="remuneracao_mulheres_estadual">Remuneração das mulheres</button>
+    </div>
+    <div class="abas" data-grupo="setor">
+      <button data-p="ensino_superior_industria" class="active">Ensino superior — Indústria</button>
+      <button data-p="total_trabalhadores_info_comunicacao">Total de trabalhadores — Info./Comunicação</button>
+    </div>
+  </div>
+
+  <div data-painel="intro" class="ativo">
+    <div class="intro">
+      <p>Os gráficos nas outras abas mostram o efeito estimado do recebimento de crédito à inovação sobre diferentes características das empresas beneficiárias, ano a ano, comparando com empresas que não receberam crédito. A técnica usada (diferença em diferenças) segue a lógica de um experimento: compara a diferença entre os dois grupos de empresas antes e depois do crédito.</p>
+      <p>Em cada gráfico, o eixo horizontal marca os anos antes (negativo) e depois (positivo) do primeiro crédito recebido — o zero é o próprio ano do recebimento. Os pontos <strong>vermelhos</strong> (antes do crédito) devem ficar perto de zero e sem tendência clara — isso garante que a comparação é válida. Os pontos <strong>verdes</strong> (depois do crédito) mostram o efeito estimado: quando a barra vertical (intervalo de confiança) não cruza a linha pontilhada do zero, o efeito é estatisticamente significativo.</p>
+      <div class="legenda-leitura">
+        <span><i class="ponto pre"></i> Antes do crédito</span>
+        <span><i class="ponto post"></i> Depois do crédito</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-painel="ensino_superior_geral">
+    <div class="painel">
+      <h3>Percentual de trabalhadores com ensino superior completo</h3>
+      <p class="contexto">Resultado geral — todas as empresas beneficiárias, das 4 fontes juntas.</p>
+      <img src="imagens/efeitos/ensino_superior_geral.png" alt="Efeito sobre o percentual de trabalhadores com ensino superior completo">
+    </div>
+    <p class="analise">Depois de receber o crédito, as empresas passam a ter uma proporção maior de trabalhadores com ensino superior completo. O efeito cresce com o tempo e se torna significativo a partir do 4º ano, chegando a cerca de 5 pontos percentuais.</p>
+  </div>
+
+  <div data-painel="ensino_medio_geral">
+    <div class="painel">
+      <h3>Percentual de trabalhadores com ensino médio completo</h3>
+      <p class="contexto">Resultado geral — todas as empresas beneficiárias, das 4 fontes juntas.</p>
+      <img src="imagens/efeitos/ensino_medio_geral.png" alt="Efeito sobre o percentual de trabalhadores com ensino médio completo">
+    </div>
+    <p class="analise">Essa mudança de perfil vem principalmente da redução dos trabalhadores com ensino médio completo — o grupo que mais perde espaço, com queda de até 10 pontos percentuais no 5º ano.</p>
+  </div>
+
+  <div data-painel="remuneracao_mulheres_geral">
+    <div class="painel">
+      <h3>Remuneração média das mulheres</h3>
+      <p class="contexto">Resultado geral — todas as empresas beneficiárias, das 4 fontes juntas.</p>
+      <img src="imagens/efeitos/remuneracao_mulheres_geral.png" alt="Efeito sobre a remuneração média das mulheres">
+    </div>
+    <p class="analise">As mulheres nas empresas beneficiadas passam a ganhar, em média, cerca de R$ 500 mais que as mulheres em empresas parecidas sem crédito — efeito que aparece a partir do 3º ano.</p>
+  </div>
+
+  <div data-painel="ensino_superior_estadual">
+    <div class="painel">
+      <h3>Percentual de trabalhadores com ensino superior completo</h3>
+      <p class="contexto">Só as empresas que receberam crédito das duas instituições mineiras — pra comparar com o resultado geral.</p>
+      <img src="imagens/efeitos/ensino_superior_estadual.png" alt="Efeito sobre o percentual de trabalhadores com ensino superior completo — crédito estadual">
+    </div>
+    <p class="analise">Quando olhamos só o crédito estadual, o efeito sobre a qualificação é ainda mais forte — cerca de 10 pontos percentuais, o dobro do resultado geral.</p>
+  </div>
+
+  <div data-painel="remuneracao_mulheres_estadual">
+    <div class="painel">
+      <h3>Remuneração média das mulheres</h3>
+      <p class="contexto">Só as empresas que receberam crédito das duas instituições mineiras — pra comparar com o resultado geral.</p>
+      <img src="imagens/efeitos/remuneracao_mulheres_estadual.png" alt="Efeito sobre a remuneração média das mulheres — crédito estadual">
+    </div>
+    <p class="analise">O aumento salarial das mulheres também é maior no crédito estadual — em torno de R$ 1.000, o dobro do efeito médio geral. No crédito federal isolado, esse efeito não aparece com força.</p>
+  </div>
+
+  <div data-painel="ensino_superior_industria">
+    <div class="painel">
+      <h3>Percentual de trabalhadores com ensino superior — Indústria de Transformação</h3>
+      <p class="contexto">Os dois setores que mais recebem crédito reagem de formas diferentes.</p>
+      <img src="imagens/efeitos/ensino_superior_industria.png" alt="Efeito sobre o percentual de trabalhadores com ensino superior — Indústria de Transformação">
+    </div>
+    <p class="analise">No setor de Indústria de Transformação — o maior receptor de crédito — o ganho de qualificação vem por substituição: a empresa troca parte dos trabalhadores menos qualificados por gente com ensino superior, sem aumentar o total de funcionários.</p>
+  </div>
+
+  <div data-painel="total_trabalhadores_info_comunicacao">
+    <div class="painel">
+      <h3>Total de trabalhadores — Informação e Comunicação</h3>
+      <p class="contexto">Os dois setores que mais recebem crédito reagem de formas diferentes.</p>
+      <img src="imagens/efeitos/total_trabalhadores_info_comunicacao.png" alt="Efeito sobre o total de trabalhadores — Informação e Comunicação">
+    </div>
+    <p class="analise">Já no setor de Informação e Comunicação, o padrão é outro: a empresa contrata mais gente qualificada sem demitir ninguém — o efeito aparece no aumento do número total de trabalhadores, chegando a mais de 30 contratações adicionais.</p>
+  </div>
+
+  <footer class="nota">
+    Fonte: RAIS, BNDES, FINEP, FAPEMIG, BDMG (2003-2023). Estimativas por diferença em diferenças escalonado (Callaway &amp; Sant'Anna, 2021), intervalo de confiança de 90%.
+  </footer>
+
+</div>
+
+<script>
+  function mostrarPainel(slug) {
+    document.querySelectorAll("[data-painel]").forEach(function (p) { p.classList.remove("ativo"); });
+    document.querySelector('[data-painel="' + slug + '"]').classList.add("ativo");
+  }
+
+  // Nível 1: grupo — troca qual linha de botões (nível 2) aparece, e
+  // mostra o painel do primeiro (ou já ativo) botão daquele grupo.
+  document.querySelectorAll(".grupo-tabs button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".grupo-tabs button").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+
+      document.querySelectorAll(".abas").forEach(function (a) { a.classList.remove("ativo"); });
+      var abasDoGrupo = document.querySelector('.abas[data-grupo="' + btn.dataset.grupo + '"]');
+      abasDoGrupo.classList.add("ativo");
+
+      var botaoAtivo = abasDoGrupo.querySelector("button.active") || abasDoGrupo.querySelector("button");
+      mostrarPainel(botaoAtivo.dataset.p);
+    });
+  });
+
+  // Nível 2: resultado específico dentro do grupo atual.
+  document.querySelectorAll(".abas button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var grupo = btn.closest(".abas");
+      grupo.querySelectorAll("button").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      mostrarPainel(btn.dataset.p);
+    });
+  });
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evolução Temporal — Crédito à Inovação em Minas Gerais</title>
+<title>Sobre — Crédito à Inovação em Minas Gerais</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,17 +40,16 @@
   html, body { margin: 0; }
   body {
     background: var(--paper); color: var(--ink); font-family: var(--font-body);
-    font-size: 15px; line-height: 1.55;
+    font-size: 15px; line-height: 1.6;
   }
-  img { max-width: 100%; }
 
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 1.5rem 4rem; }
 
   header.top {
     background: linear-gradient(155deg, var(--ink) 0%, #223846 100%);
     color: #fff; padding: .9rem 1.5rem .7rem; margin-bottom: 1rem;
   }
-  header.top .inner { max-width: 1080px; margin: 0 auto; }
+  header.top .inner { max-width: 780px; margin: 0 auto; }
   header.top .eyebrow {
     font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
     color: #9fd8cd; margin: 0 0 .15rem;
@@ -59,11 +58,8 @@
     font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 1.8vw, 1.3rem);
     margin: 0 0 .25rem; text-wrap: balance;
   }
-  header.top p {
-    margin: 0; max-width: 620px; color: #cdd8d4; font-size: .8rem;
-  }
   header.top nav {
-    margin-top: .6rem; display: flex; gap: 1.4rem;
+    margin-top: .6rem; display: flex; gap: 1.4rem; flex-wrap: wrap;
     border-top: 1px solid rgba(255,255,255,.14); padding-top: .5rem;
   }
   header.top nav a {
@@ -73,12 +69,29 @@
   header.top nav a:hover { color: #fff; }
   header.top nav a.active { color: #fff; border-bottom-color: var(--accent); }
 
-  .painel {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
-    padding: 1.1rem 1.2rem 1.3rem; max-width: 760px; margin: 0 auto;
+  h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+    margin: 2.25rem 0 1rem; color: var(--ink);
   }
-  .painel h3 { font-size: .88rem; font-weight: 600; margin: 0 0 .8rem; color: var(--ink); }
-  .painel img { width: 100%; border-radius: 8px; display: block; }
+  h2:first-of-type { margin-top: 0; }
+
+  p { font-size: .95rem; color: var(--ink-soft); }
+
+  .ficha {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+  }
+  .ficha dt { font-size: .72rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 .15rem; }
+  .ficha dd { font-size: .92rem; color: var(--ink); margin: 0 0 1rem; }
+  .ficha dd:last-child { margin-bottom: 0; }
+
+  .equipe { display: flex; flex-direction: column; gap: .9rem; }
+  .pessoa {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: .9rem 1.1rem;
+  }
+  .pessoa .nome { font-size: .92rem; font-weight: 700; color: var(--ink); margin: 0 0 .2rem; }
+  .pessoa .vinculo { font-size: .82rem; color: var(--ink-faint); margin: 0; }
 
   footer.nota {
     margin-top: 2.5rem; font-size: .78rem; color: var(--ink-faint);
@@ -91,12 +104,11 @@
 <header class="top">
   <div class="inner">
     <p class="eyebrow">Painel de resultados</p>
-    <h1>Evolução temporal do crédito</h1>
-    <p>Como o crédito à inovação em Minas Gerais evoluiu ano a ano, por fonte de financiamento.</p>
+    <h1>Sobre este painel</h1>
     <nav>
-      <a href="sobre-projeto.html">Sobre</a>
+      <a href="sobre-projeto.html" class="active">Sobre</a>
       <a href="sobre.html">Dados</a>
-      <a href="graficos.html" class="active">Evolução Temporal</a>
+      <a href="graficos.html">Evolução Temporal</a>
       <a href="index.html">Distribuição Espacial</a>
       <a href="setores.html">Setores de Atividades</a>
       <a href="efeitos.html">Efeitos no Emprego</a>
@@ -106,9 +118,31 @@
 
 <div class="wrap">
 
-  <div class="painel">
-    <h3>Valor desembolsado por ano, por fonte</h3>
-    <img src="imagens/graficos/credito_mg.png" alt="Evolução do crédito por ano e fonte">
+  <h2>O que é este painel</h2>
+  <p>Este painel reúne os resultados de um estudo sobre o crédito público à inovação em Minas Gerais e seus efeitos. A primeira parte descreve como esse crédito — concedido pelo BNDES, FINEP, FAPEMIG e BDMG — se distribuiu entre 2004 e 2023: por município, por ano, por fonte e por setor de atividade das empresas beneficiárias. A segunda parte investiga o efeito desse crédito sobre o emprego e a remuneração dos trabalhadores nas empresas que o receberam.</p>
+
+  <h2>Financiamento</h2>
+  <div class="ficha">
+    <dl>
+      <dt>Projeto</dt>
+      <dd>Como mensurar o impacto dos investimentos governamentais em Ciência, Tecnologia e Inovação na economia do Estado de Minas Gerais?</dd>
+      <dt>Número do projeto</dt>
+      <dd>043334</dd>
+      <dt>Edital</dt>
+      <dd>FAPEMIG</dd>
+    </dl>
+  </div>
+
+  <h2>Equipe</h2>
+  <div class="equipe">
+    <div class="pessoa">
+      <p class="nome">Igor Vieira Procópio</p>
+      <p class="vinculo">ECONS/UFJF — Universidade Federal de Juiz de Fora</p>
+    </div>
+    <div class="pessoa">
+      <p class="nome">Ester Carneiro do Couto Santos</p>
+      <p class="vinculo">FJP — Fundação João Pinheiro</p>
+    </div>
   </div>
 
   <footer class="nota">

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="light">
-<title>Setores — Crédito à Inovação em Minas Gerais</title>
+<title>Setores de Atividades — Crédito à Inovação em Minas Gerais</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; }
   body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+  img { max-width: 100%; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 4rem; }
   header.top { background: linear-gradient(155deg, var(--ink) 0%, #223846 100%); color: #fff; padding: .9rem 1.5rem .7rem; margin-bottom: 1rem; }
   header.top .inner { max-width: 1080px; margin: 0 auto; }
@@ -30,10 +31,20 @@
   header.top nav { margin-top: .6rem; display: flex; gap: 1.4rem; border-top: 1px solid rgba(255,255,255,.14); padding-top: .5rem; }
   header.top nav a { font-size: .78rem; font-weight: 600; color: #a9c2bc; text-decoration: none; padding-bottom: .2rem; border-bottom: 2px solid transparent; }
   header.top nav a.active { color: #fff; border-bottom-color: var(--accent); }
+  .modo-tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+  .modo-tabs button {
+    font-family: var(--font-body); font-size: .82rem; font-weight: 600; padding: .55rem 1.1rem;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .modo-tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
   .toolbar { display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .85rem 1.1rem; margin-bottom: 1.5rem; }
   .segmented { display: inline-flex; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 2px; }
   .segmented button { font-family: var(--font-body); font-size: .82rem; font-weight: 500; padding: .42rem .85rem; border-radius: 7px; border: none; background: transparent; color: var(--ink-soft); cursor: pointer; }
   .segmented button.active { background: var(--surface); color: var(--accent-dark); box-shadow: 0 1px 2px rgba(0,0,0,.08); font-weight: 600; }
+  .ano-control { display: flex; align-items: center; gap: .6rem; margin-left: auto; }
+  .ano-control label { font-size: .72rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-faint); }
+  .ano-control select { font-family: var(--font-body); font-size: .85rem; font-weight: 500; padding: .4rem .6rem; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
   .mapas { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
   .painel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; }
   .painel-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; margin-bottom: .8rem; }
@@ -45,6 +56,7 @@
   .mapa-legenda-compacta .titulo { font-weight: 600; margin-bottom: 3px; font-size: 10.5px; }
   .leaflet-container .mapa-legenda-compacta i { width: 10px; height: 10px; margin-right: 5px; float: left; opacity: 1; }
   .mapa-legenda-compacta div.linha { clear: both; }
+  #modo-mapa { display: none; }
 </style>
 </head>
 <body>
@@ -52,36 +64,64 @@
 <header class="top">
   <div class="inner">
     <p class="eyebrow">Painel de resultados</p>
-    <h1>Crédito à inovação em Minas Gerais</h1>
-    <p>Os 5 setores de atividade que mais receberam crédito, somando as 4 fontes entre 2004 e 2023 — distribuição espacial do crédito dentro de cada setor.</p>
+    <h1>Setores de atividade</h1>
+    <p>Como o crédito à inovação em Minas Gerais se distribui entre os setores de atividade das empresas beneficiárias — e onde, no estado, cada setor está concentrado.</p>
     <nav>
-      <a href="sobre.html">Sobre os dados</a>
-      <a href="index.html">Mapas</a>
-      <a href="setores.html" class="active">Setores</a>
-      <a href="graficos.html">Gráficos</a>
+      <a href="sobre-projeto.html">Sobre</a>
+      <a href="sobre.html">Dados</a>
+      <a href="graficos.html">Evolução Temporal</a>
+      <a href="index.html">Distribuição Espacial</a>
+      <a href="setores.html" class="active">Setores de Atividades</a>
+      <a href="efeitos.html">Efeitos no Emprego</a>
     </nav>
   </div>
 </header>
 
 <div class="wrap">
-  <div class="toolbar">
-    <div class="segmented" id="setor-tabs">
+
+  <div class="modo-tabs" id="modo-tabs">
+    <button data-modo="grafico" class="active">Distribuição por Setor</button>
+    <button data-modo="mapa">Distribuição Espacial</button>
+  </div>
+
+  <div id="modo-grafico">
+    <div class="toolbar">
+      <div class="segmented" id="fonte-tabs-grafico">
+        <button data-f="bdmg" class="active">BDMG</button>
+        <button data-f="bndes">BNDES</button>
+        <button data-f="fapemig">FAPEMIG</button>
+        <button data-f="finep">FINEP</button>
+        <button data-f="total">Total</button>
+      </div>
+      <div class="ano-control">
+        <label for="grafico-ano">Ano</label>
+        <select id="grafico-ano"></select>
+      </div>
+    </div>
+    <div class="painel">
+      <img id="grafico-setor" src="imagens/graficos/setor_bdmg.png" alt="Crédito por setor de atividade — BDMG">
+    </div>
+  </div>
+
+  <div id="modo-mapa">
+    <div class="toolbar">
+      <div class="segmented" id="setor-tabs">
       <button data-s="industria_transformacao" class="active">Indústria de transformação</button>
       <button data-s="informacao_comunicacao">Informação e comunicação</button>
       <button data-s="atividades_financeiras">Atividades financeiras</button>
       <button data-s="comercio">Comércio</button>
       <button data-s="atividades_profissionais">Atividades profissionais</button>
       <button data-s="dominante">Setor dominante</button>
-    </div>
-  </div>
-
-  <div class="mapas">
-    <div class="painel">
-      <div class="painel-head">
-        <h3 id="setor-titulo">Crédito por município</h3>
-        <span>R$ de dez/2023, agregado 2004-2023</span>
       </div>
-      <div class="mapa-caixa" id="mapa-setor"></div>
+    </div>
+    <div class="mapas">
+      <div class="painel">
+        <div class="painel-head">
+          <h3 id="setor-titulo">Crédito por município</h3>
+          <span>R$ de dez/2023, agregado 2004-2023</span>
+        </div>
+        <div class="mapa-caixa" id="mapa-setor"></div>
+      </div>
     </div>
   </div>
 
@@ -89,9 +129,62 @@
 </div>
 
 <script>
+  var anosPorFonteGrafico = {"bdmg":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"bndes":[2004,2006,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"fapemig":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2019,2020,2021,2022,2023],"finep":[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"total":[2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023]};
+  var fonteAtualGrafico = "bdmg";
+
+  var selectGraficoAno = document.getElementById("grafico-ano");
+
+  function popularAnosGrafico() {
+    var anos = anosPorFonteGrafico[fonteAtualGrafico];
+    var valorAtual = selectGraficoAno.value;
+    selectGraficoAno.innerHTML = "";
+    var optAgregado = document.createElement("option");
+    optAgregado.value = "agregado";
+    optAgregado.textContent = "Agregado (2004-2023)";
+    selectGraficoAno.appendChild(optAgregado);
+    anos.forEach(function (ano) {
+      var opt = document.createElement("option");
+      opt.value = ano;
+      opt.textContent = ano;
+      selectGraficoAno.appendChild(opt);
+    });
+    if (valorAtual && (valorAtual === "agregado" || anos.indexOf(parseInt(valorAtual)) !== -1)) {
+      selectGraficoAno.value = valorAtual;
+    } else {
+      selectGraficoAno.value = "agregado";
+    }
+  }
+
+  function atualizarGrafico() {
+    var valor = selectGraficoAno.value;
+    var sufixo = valor === "agregado" ? "" : "_" + valor;
+    var tituloFonte = document.querySelector("#fonte-tabs-grafico button.active").textContent;
+    var img = document.getElementById("grafico-setor");
+    img.src = "imagens/graficos/setor_" + fonteAtualGrafico + sufixo + ".png";
+    img.alt = "Crédito por setor de atividade — " + tituloFonte + " — " + valor;
+  }
+
+  document.querySelectorAll("#fonte-tabs-grafico button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#fonte-tabs-grafico button").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      fonteAtualGrafico = btn.dataset.f;
+      popularAnosGrafico();
+      atualizarGrafico();
+    });
+  });
+
+  selectGraficoAno.addEventListener("change", atualizarGrafico);
+
+  popularAnosGrafico();
+  atualizarGrafico();
+
+  // ---- Mapa de setor (init tardio, só no primeiro clique em
+  // "Distribuição Espacial") ----
+
   var geoData = {
 "type": "FeatureCollection",
-"name": "file2e301692c2",
+"name": "file84465ff7a2a",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "Group.1": 310010, "NM_MUN": "Abadia dos Dourados" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.453415999999898, -18.467320996999899 ], [ -47.450275, -18.512077996999899 ], [ -47.415056, -18.532269997 ], [ -47.411476999999898, -18.556149997 ], [ -47.372137, -18.536201997 ], [ -47.341208, -18.560565997 ], [ -47.33189, -18.588395997 ], [ -47.311282999999897, -18.584962996999899 ], [ -47.29672, -18.5531959969999 ], [ -47.329603, -18.535477996999902 ], [ -47.332625, -18.504818997 ], [ -47.314754999999899, -18.462135997 ], [ -47.312927, -18.422710997 ], [ -47.359752, -18.346485996999899 ], [ -47.347004, -18.317481997 ], [ -47.381164, -18.261660997 ], [ -47.347135, -18.248328996999899 ], [ -47.370612, -18.223982997 ], [ -47.410768, -18.220750997 ], [ -47.42975885, -18.16522451 ], [ -47.451088469999902, -18.159495732 ], [ -47.496965108, -18.199017131999899 ], [ -47.539452204, -18.216916271999899 ], [ -47.567451319, -18.2111364259999 ], [ -47.605917227, -18.243724945999901 ], [ -47.601823552, -18.257724691 ], [ -47.632767535, -18.291620055 ], [ -47.6105819859999, -18.316480684999899 ], [ -47.67974835, -18.356094441 ], [ -47.647123, -18.352423997 ], [ -47.57819, -18.408021996999899 ], [ -47.511602, -18.397569996999898 ], [ -47.488485, -18.419182997 ], [ -47.481241, -18.455777996999899 ], [ -47.453415999999898, -18.467320996999899 ] ] ] } },
@@ -954,63 +1047,81 @@
   var titulosSetor = {"industria_transformacao":"Indústrias de transformação","informacao_comunicacao":"Informação e comunicação","atividades_financeiras":"Atividades financeiras, de seguros e serviços relacionados","comercio":"Comércio; reparação de veículos automotores e motocicletas","atividades_profissionais":"Atividades profissionais, científicas e técnicas","dominante":"Setor dominante"};
   var setorAtual = "industria_transformacao";
 
-  var mapa = L.map("mapa-setor", { preferCanvas: true, zoomSnap: 0.1 });
+  var mapaSetor = null;
 
-  function corMunicipio(feature) {
-    var id = String(feature.properties["Group.1"]);
-    var cor = dadosPorSetor[setorAtual].cores[id];
-    return { fillColor: cor || "#E5E5E5", fillOpacity: 1, color: "#4D4D4D", weight: 0.6 };
-  }
+  function criarMapaSetor() {
+    var mapa = L.map("mapa-setor", { preferCanvas: true, zoomSnap: 0.1 });
 
-  var camada = L.geoJSON(geoData, {
-    style: corMunicipio,
-    onEachFeature: function (feature, layer) {
+    function corMunicipio(feature) {
       var id = String(feature.properties["Group.1"]);
-      layer.bindTooltip(dadosPorSetor[setorAtual].rotulos[id] || feature.properties.NM_MUN, { sticky: true });
+      var cor = dadosPorSetor[setorAtual].cores[id];
+      return { fillColor: cor || "#E5E5E5", fillOpacity: 1, color: "#4D4D4D", weight: 0.6 };
     }
-  }).addTo(mapa);
 
-  mapa.fitBounds(camada.getBounds());
+    var camada = L.geoJSON(geoData, {
+      style: corMunicipio,
+      onEachFeature: function (feature, layer) {
+        var id = String(feature.properties["Group.1"]);
+        layer.bindTooltip(dadosPorSetor[setorAtual].rotulos[id] || feature.properties.NM_MUN, { sticky: true });
+      }
+    }).addTo(mapa);
 
-  function montarLegendaHTML() {
-    var l = legendaPorSetor[setorAtual];
-    var html = "<div class=\"titulo\">Crédito — " + titulosSetor[setorAtual] + "</div>";
-    for (var i = 0; i < l.labels.length; i++) {
-      html += "<div class=\"linha\"><i style=\"background:" + l.cores[i] + "\"></i>" + l.labels[i] + "</div>";
+    mapa.fitBounds(camada.getBounds());
+
+    function montarLegendaHTML() {
+      var l = legendaPorSetor[setorAtual];
+      var html = "<div class=\"titulo\">Crédito — " + titulosSetor[setorAtual] + "</div>";
+      for (var i = 0; i < l.labels.length; i++) {
+        html += "<div class=\"linha\"><i style=\"background:" + l.cores[i] + "\"></i>" + l.labels[i] + "</div>";
+      }
+      return html;
     }
-    return html;
-  }
 
-  var divLegenda;
-  var legenda = L.control({ position: "bottomleft" });
-  legenda.onAdd = function () {
-    divLegenda = L.DomUtil.create("div", "mapa-legenda-compacta");
-    divLegenda.innerHTML = montarLegendaHTML();
-    return divLegenda;
-  };
-  legenda.addTo(mapa);
+    var divLegenda;
+    var legenda = L.control({ position: "bottomleft" });
+    legenda.onAdd = function () {
+      divLegenda = L.DomUtil.create("div", "mapa-legenda-compacta");
+      divLegenda.innerHTML = montarLegendaHTML();
+      return divLegenda;
+    };
+    legenda.addTo(mapa);
 
-  function trocarSetor(novoSetor) {
-    setorAtual = novoSetor;
-    camada.eachLayer(function (layer) {
-      var id = String(layer.feature.properties["Group.1"]);
-      var cor = dadosPorSetor[setorAtual].cores[id] || "#E5E5E5";
-      layer.setStyle({ fillColor: cor });
-      layer.setTooltipContent(dadosPorSetor[setorAtual].rotulos[id] || layer.feature.properties.NM_MUN);
-    });
-    divLegenda.innerHTML = montarLegendaHTML();
-    document.getElementById("setor-titulo").textContent = "Crédito por município — " + titulosSetor[setorAtual];
+    return {
+      trocar: function (novoSetor) {
+        setorAtual = novoSetor;
+        camada.eachLayer(function (layer) {
+          var id = String(layer.feature.properties["Group.1"]);
+          var cor = dadosPorSetor[setorAtual].cores[id] || "#E5E5E5";
+          layer.setStyle({ fillColor: cor });
+          layer.setTooltipContent(dadosPorSetor[setorAtual].rotulos[id] || layer.feature.properties.NM_MUN);
+        });
+        divLegenda.innerHTML = montarLegendaHTML();
+        document.getElementById("setor-titulo").textContent = "Crédito por município — " + titulosSetor[setorAtual];
+      }
+    };
   }
 
   document.querySelectorAll("#setor-tabs button").forEach(function (btn) {
     btn.addEventListener("click", function () {
       document.querySelectorAll("#setor-tabs button").forEach(function (b) { b.classList.remove("active"); });
       btn.classList.add("active");
-      trocarSetor(btn.dataset.s);
+      mapaSetor.trocar(btn.dataset.s);
     });
   });
 
-  document.getElementById("setor-titulo").textContent = "Crédito por município — " + titulosSetor[setorAtual];
+  document.querySelectorAll("#modo-tabs button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#modo-tabs button").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var modo = btn.dataset.modo;
+      document.getElementById("modo-grafico").style.display = modo === "grafico" ? "block" : "none";
+      document.getElementById("modo-mapa").style.display = modo === "mapa" ? "block" : "none";
+      if (modo === "mapa" && !mapaSetor) {
+        mapaSetor = criarMapaSetor();
+        document.getElementById("setor-titulo").textContent = "Crédito por município — " + titulosSetor[setorAtual];
+      }
+    });
+  });
 </script>
 </body>
 </html>
